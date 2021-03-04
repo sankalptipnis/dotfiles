@@ -1,1 +1,10 @@
-/Users/sankalptipnis/.path
+#!/usr/bin/env bash
+
+# Add `~/bin` to the `$PATH`
+# export PATH="$HOME/bin:$PATH";
+
+# Add to PATH for coreutils and llvm/clang
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/sbin:/usr/local/opt/llvm/bin:$PATH"
+
+# Add to PATH for Anaconda
+# export PATH=/Users/sankalptipnis/opt/anaconda3/bin:/usr/local/sbin:"$PATH"

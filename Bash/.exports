@@ -1,1 +1,30 @@
-/Users/sankalptipnis/.exports
+#!/usr/bin/env bash
+
+# CERN stuff
+export ATLAS_LOCAL_ROOT_BASE=/cvmfs/atlas.cern.ch/repo/ATLASLocalRootBase
+export RUCIO_ACCOUNT=stipnis
+export ALRB_TutorialData=/cvmfs/atlas.cern.ch/repo/tutorials/asg/cern-feb2021
+
+# Programming stuff
+export LIBRARY_PATH="/usr/local/lib"
+export CPLUS_INCLUDE_PATH="/usr/local/include"
+export C_INCLUDE_PATH="/usr/local/include"
+
+# Make Sublime Text the default editor.
+export EDITOR='subl';
+
+# Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
+export PYTHONIOENCODING='UTF-8';
+
+# Increase Bash history size. Allow 32³ entries; the default is 500.
+export HISTSIZE='32768';
+export HISTFILESIZE="${HISTSIZE}";
+
+# Omit duplicates and commands that begin with a space from history.
+export HISTCONTROL='ignoreboth';
+
+# Don’t clear the screen after quitting a manual page.
+export MANPAGER='less -X';
+
+# Highlight section titles in manual pages.
+export LESS_TERMCAP_md="${brightyellow}";

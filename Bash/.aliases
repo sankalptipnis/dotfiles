@@ -1,1 +1,176 @@
-/Users/sankalptipnis/.aliases
+#!/usr/bin/env bash
+
+alias reset="source ~/.bash_profile"
+
+# CERN stuff
+alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
+alias afs="cd /afs/cern.ch/user/s/stipnis"
+alias cvmfs="cd /cvmfs"
+
+# C++ stuff
+# alias g++='g++-10'
+# alias gcc='gcc-10'
+
+# git stuff
+alias gs="git status "
+alias gm="git merge "
+alias gf="git fetch "
+alias gpull="git pull "
+alias gpush="git push "
+alias ga="git add "
+alias gb="git branch "
+alias gc="git commit "
+alias gd="git diff "
+alias gco="git checkout "
+alias gu="git restore --staged "
+
+alias gl1="git log --graph --abbrev-commit --decorate --format=format:'%C(bold brightblue)%h%C(reset) - %C(bold brightgreen)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' "
+alias gl2="git log --graph --abbrev-commit --decorate --format=format:'%C(bold brightblue)%h%C(reset) - %C(bold brightcyan)%aD%C(reset) %C(bold brightgreen)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' "
+alias gl3="git log --graph --abbrev-commit --decorate --format=format:'%C(bold brightblue)%h%C(reset) - %C(bold brightcyan)%aD%C(reset) %C(bold brightgreen)(%ar)%C(reset) %C(white)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)' "
+alias gl="gl1 -10"
+
+
+alias gh1="gl1 --all"
+alias gh1="gl2 --all"
+alias gh2="gl3 --all"
+alias gh="gh1 -10"
+
+alias got="git "
+alias get="git "
+
+# Easier navigation: .., ..., ...., ....., ~ and -
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ~="cd ~" # `cd` is probably faster to type though
+alias -- -="cd -"
+
+# Shortcuts
+alias d="cd ~/Google\ Drive"
+alias dl="cd ~/Downloads"
+alias dt="cd ~/Desktop"
+alias notes="cd ~/Google\ Drive/Notes"
+
+
+# Detect which `ls` flavor is in use
+if ls --color > /dev/null 2>&1; then # GNU `ls`
+	colorflag="--color"
+	export LS_COLORS='no=00:fi=00:di=01;91:ln=01;96:ex=01;92:su=01;97:sg=01;97:or=01;97;41:mi=01;93;41:tw=1;92;100:ow=01;94:st=01;94:bd=01;97;44:cd=01;97;44:so=00;32:pi=1;93;44:do=1;92;44:*.pdf=00;96:*.xlsx=00;96:*.xls=00;96:*.doc=00;96:*.docx=00;96:*.md=00;96:*.txt=00;96:*.djvu=00;96:*.py=00;92:*.c=00;92:*.cpp=00;92:*.h=00;92:*.rar=00;33:*.tar=00;33:*.tgz=00;33:*.arj=00;33:*.taz=00;33:*.lzh=00;33:*.zip=00;33:*.z=00;33:*.Z=00;33:*.gz=00;33:*.bz2=00;33:*.deb=00;33:*.rpm=00;33:*.jar=00;33:*.jpg=00;94:*.jpeg=00;94:*.gif=00;94:*.bmp=00;94:*.pbm=00;94:*.pgm=00;94:*.ppm=00;94:*.tga=00;94:*.xbm=00;94:*.xpm=00;94:*.tif=00;94:*.tiff=00;94:*.png=00;94:*.mp4=00;95:*.mov=00;95:*.mpg=00;95:*.mpeg=00;95:*.avi=00;95:*.ogg=00;91:*.mp3=00;91:*.wav=00;91:'
+else # macOS `ls`
+	colorflag="-G"
+	export LSCOLORS='BxGxFxFxCxDxDxCxCxbxbx'
+fi
+
+#Test above colors:
+# dircolors -b >/dev/null
+#    IFS=:
+#    for ls_color in ${LS_COLORS[@]}; do # For all colors
+#        color=${ls_color##*=}
+#        ext=${ls_color%%=*}
+#        echo -en "\E[${color}m${ext}\E[0m " # echo color and extension
+# 		 echo	
+#    done
+#    echo
+
+#All colour possibilities:
+# for colour in 3{0..7} 9{0..7}
+# 	do for background in 4{0..7} 10{0..7}
+# 		do for bold in 0 1
+# 			do echo -e "$bold;$colour;$background \e[$bold;${colour};${background}mSubdermatoglyphic text\e[00m"
+# 			echo
+# 		done
+# 	done
+# done
+
+
+# List all files colorized in long format
+alias l="ls -lF ${colorflag}"
+
+# List all files colorized in long format, including dot files
+alias la="ls -laF ${colorflag}"
+
+# List only directories
+alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"
+
+# Always use color output for `ls`
+alias ls="command ls ${colorflag}"
+
+# Always enable colored `grep` output
+# Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+# Enable aliases to be sudo’ed
+alias sudo='sudo '
+
+# Get macOS Software Updates, and update installed Ruby gems, Homebrew, npm, and their installed packages
+alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup'
+
+# Google Chrome
+alias chrome='/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
+
+# Clean up LaunchServices to remove duplicates in the “Open With” menu
+alias lscleanup="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
+
+# Trim new lines and copy to clipboard
+alias c="tr -d '\n' | pbcopy"
+
+# Recursively delete `.DS_Store` files
+alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
+
+# Empty the Trash on all mounted volumes and the main HDD.
+# Also, clear Apple’s System Logs to improve shell startup speed.
+# Finally, clear download history from quarantine. https://mths.be/bum
+alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl; sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
+
+# Show/hide hidden files in Finder
+alias show="defaults write com.apple.finder AppleShowAllFiles -bool true && killall Finder"
+alias hide="defaults write com.apple.finder AppleShowAllFiles -bool false && killall Finder"
+
+# Hide/show all desktop icons (useful when presenting)
+alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
+alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+
+# URL-encode strings
+alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
+
+# Merge PDF files
+# Usage: `mergepdf -o output.pdf input{1,2,3}.pdf`
+alias mergepdf='/System/Library/Automator/Combine\ PDF\ Pages.action/Contents/Resources/join.py'
+
+# Disable Spotlight
+alias spotoff="sudo mdutil -a -i off"
+# Enable Spotlight
+alias spoton="sudo mdutil -a -i on"
+
+# Intuitive map function
+# For example, to list all directories that contain a certain file:
+# find . -name .gitattributes | map dirname
+alias map="xargs -n1"
+
+# One of @janmoesen’s ProTip™s
+for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
+	alias "${method}"="lwp-request -m '${method}'"
+done
+
+# Make Grunt print stack traces by default
+command -v grunt > /dev/null && alias grunt="grunt --stack"
+
+# Stuff I never really use but cannot delete either because of http://xkcd.com/530/
+alias stfu="osascript -e 'set volume output muted true'"
+alias pumpitup="osascript -e 'set volume output volume 100'"
+
+# Kill all the tabs in Chrome to free up memory
+# [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
+alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
+
+# Lock the screen (when going AFK)
+alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
+
+# Reload the shell (i.e. invoke as a login shell)
+alias reload="exec ${SHELL} -l"
+
+# Print each PATH entry on a separate line
+alias path='echo -e ${PATH//:/\\n}'

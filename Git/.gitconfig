@@ -1,1 +1,35 @@
-/Users/sankalptipnis/.gitconfig
+[user]
+	name = Sankalp Tipnis
+	email = 35152001+sankalptipnis@users.noreply.github.com
+[core]
+	autocrlf = input
+	editor = subl -n -w
+[init]
+	defaultBranch = main
+[alias]
+	co = checkout
+	ci = commit
+	st = status
+	br = branch
+	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+	type = cat-file -t
+	dump = cat-file -p
+[push]
+	default = upstream
+[color]
+	ui = auto
+[color "status"]
+	added = brightgreen bold
+	changed = brightred bold
+	untracked = brightmagenta bold
+	deleted = brightblue bold
+[color "diff"]
+    meta = brightblue dim
+    old = brightred bold strike
+    new = brightgreen bold
+    context = brightwhite
+[color "decorate"]
+    head = brightcyan bold
+    branch = brightgreen bold
+    remoteBranch=brightred bold
+
