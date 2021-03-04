@@ -1,0 +1,107 @@
+## REVISE BEFORE USING ##
+
+
+# Configure where our applications go
+cask_args appdir: '/Applications'
+
+
+# Taps
+tap 'caskroom/cask'
+tap 'caskroom/fonts'
+tap 'caskroom/homebrew-drivers'
+tap 'homebrew/dupes'
+tap 'buo/cask-upgrade'
+
+
+# Install ZSH
+brew 'zsh'
+brew 'zsh-completions'
+
+
+# Install GNU core utilities (those that come with macOS are outdated)
+# export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH" #
+brew 'coreutils'
+
+
+# Install GNU `find`, `locate`, `updatedb`, and `xargs`, g-prefixed
+brew 'findutils'
+
+
+# Install other useful utils
+brew 'binutils'
+brew 'diffutils'
+brew 'ed', args: ['with-default-names']
+brew 'gawk'
+brew 'gnu-indent', args: ['with-default-names']
+brew 'gnu-sed', args: ['with-default-names']
+brew 'gnu-tar', args: ['with-default-names']
+brew 'gnu-which', args: ['with-default-names']
+brew 'gnutls'
+brew 'grep', args: ['with-default-names']
+brew 'gzip'
+brew 'screen'
+brew 'watch'
+brew 'wdiff', args: ['with-gettext']
+
+
+# Install Bash 4
+# Note: don’t forget to add `/usr/local/bin/bash` to `/etc/shells` before running `chsh`.
+brew 'bash'
+brew 'bash-completion2'
+
+
+# Install Binaries
+brew 'git'
+brew 'hub'
+brew 'tree'
+brew 'mackup'
+brew 'mas'
+brew 'trash'
+brew 'wget'
+brew 'ghostscript'
+brew 'vim', args: ['with-override-system-vi']
+brew 'imagemagick'
+brew 'tmux'
+brew 'neovim'
+
+
+# Install Apps
+cask '1password'
+# Need to run installer Creative Cloud Installer.app in /usr/local/CaskRoom/adobe-creative-cloud/latest
+# cask 'adobe-creative-cloud'
+cask 'aerial'
+cask 'android-platform-tools'
+cask 'alfred'
+cask 'atom'
+cask 'bettertouchtool'
+cask 'calibre'
+cask 'evernote'
+cask 'garmin-express'
+cask 'google-backup-and-sync'
+cask 'google-chrome'
+cask 'intellij-idea-ce'
+cask 'iterm2'
+cask 'java'
+cask 'mactex-no-ghostscript'
+cask 'pycharm-ce'
+cask 'steermouse'
+cask 'skype'
+cask 'sublime-text'
+cask 'transmission'
+cask 'the-unarchiver'
+cask 'yacreader'
+
+
+# Quicklook
+cask 'qlcolorcode'
+cask 'qlmarkdown'
+cask 'quicklook-json'
+cask 'quicklook-csv'
+cask 'qlstephen'
+
+
+# Fonts
+cask 'font-source-code-pro-for-powerline'
+cask 'font-source-code-pro'
+cask 'font-source-sans-pro'
+cask 'font-source-serif-pro'
