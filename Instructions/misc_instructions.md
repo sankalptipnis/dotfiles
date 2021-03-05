@@ -31,16 +31,16 @@
   * To change the theme, you need to extend the *Merge Dark* theme appropriately:
       - Create `Merge Dark.sublime-theme` is the folder containing `MK.sublime-color-scheme` and add the following to it:
       ```json
-        {
-            "extends": "Merge.sublime-theme",
-            "variables":
-            {
-                "dark_gray-lightest": "rgb(23, 23, 20)", // commits
-                "dark_gray-light": "rgb(35, 35, 33)", // locations
-                "dark_gray-medium": "rgb(12, 12, 10)", // header
-                "repository_tab_bar_bg": "rgb(35, 35, 33)", // tabs
-            },
-        }
+      {
+          "extends": "Merge.sublime-theme",
+          "variables":
+          {
+              "dark_gray-lightest": "rgb(23, 23, 20)", // commits
+              "dark_gray-light": "rgb(35, 35, 33)", // locations
+              "dark_gray-medium": "rgb(12, 12, 10)", // header
+              "repository_tab_bar_bg": "rgb(35, 35, 33)", // tabs
+          },
+      }
       ```
       This appropriately changes the UI elements of Sublime Merge.
 
