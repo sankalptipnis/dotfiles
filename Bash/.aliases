@@ -50,6 +50,7 @@ alias -- -="cd -"
 alias d="cd ~/Google\ Drive"
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
+alias dot="cd ~/Google\ Drive/Dotfiles"
 alias notes="cd ~/Google\ Drive/Notes"
 
 
