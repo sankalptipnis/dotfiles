@@ -43,3 +43,12 @@
         }
       ```
       This appropriately changes the UI elements of Sublime Merge.
+
+
+## Terminal Colours
+### iTerm2
+* Colour presets: Smoooooth, Harper
+* Custom colour profile : Pastel (based on Harper) localted at `../iTerm/colour_profiles/pastel.json`
+
+### VSCode and Sublime Text
+* Use the [iTerm Colour Export Script](../Scripts/iterm_colour_export.py) to convert your iTerm colour profile into a VScode or Sublime Text colour configuration. More details can be found in the script.
