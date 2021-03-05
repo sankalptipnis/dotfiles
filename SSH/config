@@ -1,0 +1,17 @@
+Host lxplus
+	HostName lxplus.cern.ch
+	User stipnis
+	ForwardX11 yes
+	ForwardX11Trusted yes
+	GSSAPITrustDns yes
+	GSSAPIAuthentication yes
+	GSSAPIDelegateCredentials yes
+	RemoteForward 52698 localhost:52698
+
+Host *
+  IgnoreUnknown UseKeychain, AddKeysToAgent
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_ed25519
+
+
