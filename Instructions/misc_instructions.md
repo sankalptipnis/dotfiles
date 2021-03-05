@@ -52,3 +52,7 @@
 
 ### VSCode and Sublime Text
 * Use the [iTerm Colour Export Script](../Scripts/iterm_colour_export.py) to convert your iTerm colour profile into a VScode or Sublime Text colour configuration. More details can be found in the script.
+
+## Math Support
+$x^2 + y^2 = z^2$
+
