@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 
-alias reset="source ~/.bash_profile"
+# conda stuff
+alias base="conda activate base"
+alias ml="conda activate MLenv"
+
+# open the 'idea pad'
+alias idea="subl '/Users/sankalptipnis/Google Drive/Notes/ideas.md'"
 
 # CERN stuff
 alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
@@ -171,7 +176,7 @@ alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v exten
 alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resources/CGSession -suspend"
 
 # Reload the shell (i.e. invoke as a login shell)
-alias reload="exec ${SHELL} -l"
+alias reload='unset PATH;exec -l "$SHELL"'
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
