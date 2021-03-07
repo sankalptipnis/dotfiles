@@ -4,8 +4,9 @@
 alias base="conda activate base"
 alias ml="conda activate MLenv"
 
-# open the 'idea pad'
+# shortcuts
 alias idea="subl '/Users/sankalptipnis/Google Drive/Notes/ideas.md'"
+alias play="code ~/Desktop/Playground"
 
 # CERN stuff
 alias setupATLAS='source ${ATLAS_LOCAL_ROOT_BASE}/user/atlasLocalSetup.sh'
