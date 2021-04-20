@@ -8,6 +8,16 @@ Host lxplus
 	GSSAPIDelegateCredentials yes
 	RemoteForward 52698 localhost:52698
 
+Host hep1
+	HostName plus1.hep.ucl.ac.uk
+	User stipnis
+	RemoteForward 52698 localhost:52698
+
+Host hep2
+	HostName plus2.hep.ucl.ac.uk
+	User stipnis
+	RemoteForward 52698 localhost:52698
+
 Host *
   IgnoreUnknown UseKeychain,AddKeysToAgent
   AddKeysToAgent yes
