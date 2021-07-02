@@ -32,4 +32,18 @@
     head = brightcyan bold
     branch = brightgreen bold
     remoteBranch=brightred bold
+# [color "decorate"]
+#     head = bold "#00ffff"
+#     branch = bold "#5fffaf"
+#     remoteBranch = bold "#ff8787"
+# [color "status"]
+# 	added = bold "#5fffaf"
+# 	changed = bold "#ff8787"
+# 	untracked = bold "#ff00ff"
+# 	deleted = bold "#afafff"
+# [color "diff"]
+#     meta = dim "#afafff"
+#     old = bold strike "#ff8787"
+#     new = bold "#5fffaf"
+#     context = bold "#ffffff"
 

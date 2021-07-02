@@ -35,6 +35,10 @@ alias gl2="git log --graph --abbrev-commit --decorate --format=format:'%C(bold b
 alias gl3="git log --graph --abbrev-commit --decorate --format=format:'%C(bold brightblue)%h%C(reset) - %C(bold brightcyan)%aD%C(reset) %C(bold brightgreen)(%ar)%C(reset) %C(white)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)' "
 alias gl="gl1 -10"
 
+# alias gl1="git log --graph --abbrev-commit --decorate --format=format:'%C(bold #afafff)%h%C(reset) - %C(bold #5fffaf)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)' "
+# alias gl2="git log --graph --abbrev-commit --decorate --format=format:'%C(bold #afafff)%h%C(reset) - %C(bold #00ffff)%aD%C(reset) %C(bold #5fffaf)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)' "
+# alias gl3="git log --graph --abbrev-commit --decorate --format=format:'%C(bold #afafff)%h%C(reset) - %C(bold #00ffff)%aD%C(reset) %C(bold #5fffaf)(%ar)%C(reset) %C(white)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)' "
+# alias gl="gl1 -10"
 
 alias gh1="gl1 --all"
 alias gh1="gl2 --all"
