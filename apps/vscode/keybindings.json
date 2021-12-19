@@ -1,0 +1,51 @@
+// Place your key bindings in this file to override the defaultsauto[]
+[
+    {
+        "key": "ctrl+shift+d",
+        "command": "workbench.view.debug"
+    },
+    {
+        "key": "shift+cmd+d",
+        "command": "-workbench.view.debug"
+    },
+    {
+        "key": "ctrl+right",
+        "command": "markdowntable.nextCell",
+        "when": "editorTextFocus && !editorReadonly && !editorTabMovesFocus && !inSnippetMode && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && editorLangId == 'markdown'"
+    },
+    {
+        "key": "tab",
+        "command": "-markdowntable.nextCell",
+        "when": "editorTextFocus && !editorReadonly && !editorTabMovesFocus && !inSnippetMode && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && editorLangId == 'markdown'"
+    },
+    {
+        "key": "ctrl+right",
+        "command": "markdowntable.nextCell",
+        "when": "editorTextFocus && !editorReadonly && !editorTabMovesFocus && !inSnippetMode && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && editorLangId == 'mdx'"
+    },
+    {
+        "key": "tab",
+        "command": "-markdowntable.nextCell",
+        "when": "editorTextFocus && !editorReadonly && !editorTabMovesFocus && !inSnippetMode && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && editorLangId == 'mdx'"
+    },
+    {
+        "key": "ctrl+left",
+        "command": "markdowntable.prevCell",
+        "when": "editorTextFocus && !editorReadonly && !editorTabMovesFocus && !inSnippetMode && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && editorLangId == 'markdown'"
+    },
+    {
+        "key": "shift+tab",
+        "command": "-markdowntable.prevCell",
+        "when": "editorTextFocus && !editorReadonly && !editorTabMovesFocus && !inSnippetMode && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && editorLangId == 'markdown'"
+    },
+    {
+        "key": "ctrl+left",
+        "command": "markdowntable.prevCell",
+        "when": "editorTextFocus && !editorReadonly && !editorTabMovesFocus && !inSnippetMode && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && editorLangId == 'mdx'"
+    },
+    {
+        "key": "shift+tab",
+        "command": "-markdowntable.prevCell",
+        "when": "editorTextFocus && !editorReadonly && !editorTabMovesFocus && !inSnippetMode && !suggestWidgetMultipleSuggestions && !suggestWidgetVisible && editorLangId == 'mdx'"
+    }
+]

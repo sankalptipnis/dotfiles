@@ -1,0 +1,90 @@
+tap 'rdp/homebrew-openssh-gssapi'
+tap 'mopidy/mopidy'
+tap 'homebrew/services'
+
+# Install GNU alternatives to FreeBSD utils
+# If you need to use these commands with their normal names, amend your PATH as follows:
+# export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
+# export PATH="$(brew --prefix)/opt/findutils/libexec/gnubin:$PATH"
+# export PATH="$(brew --prefix)/opt/gnu-indent/libexec/gnubin:$PATH"
+# export PATH="$(brew --prefix)/opt/gnu-sed/libexec/gnubin:$PATH"
+# export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
+# export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
+# export PATH="$(brew --prefix)/opt/grep/libexec/gnubin:$PATH"
+brew 'coreutils'
+brew 'findutils'
+brew 'gnu-indent'
+brew 'gnu-sed'
+brew 'gnu-tar'
+brew 'gnu-which'
+brew 'grep'
+
+# Install other useful GNU utils
+brew 'binutils'
+brew 'diffutils'
+brew 'gawk'
+brew 'gnutls'
+brew 'gzip'
+brew 'screen'
+brew 'wdiff'
+
+# Install Bash
+brew 'bash'
+brew 'bash-completion@2'
+
+# Install binaries
+brew 'ack'
+brew 'bat'
+brew 'cmake'
+brew 'diff-so-fancy'
+brew 'dockutil'
+brew 'duti'
+brew 'fasd'
+brew 'fd'
+brew 'ffmpeg'
+brew 'fzf'
+brew 'gh'
+brew 'ghostscript'
+brew 'git'
+brew 'highlight'
+brew 'hub'
+brew 'imagemagick'
+brew 'lbzip2'
+brew 'lzip'
+brew 'mackup'
+brew 'mas'
+brew 'mopidy'
+brew 'mopidy-mpd'
+brew 'mopidy-spotify'
+brew 'ncmpcpp'
+brew 'neofetch'
+brew 'neovim'
+brew 'pandoc'
+brew 'pigz'
+brew 'pbzip2'
+brew 'pygments'
+brew 'ripgrep'
+brew 'root'
+brew 'ssh-copy-id'
+brew 'stow'
+brew 'svn'
+brew 'thefuck'
+brew 'tmux'
+brew 'tmux'
+brew 'trash'
+brew 'tree'
+brew 'unar'
+brew 'vim'
+brew 'watch'
+brew 'wget'
+brew 'zopfli'
+
+# Install OpenSSH with GSSAPI support
+brew 'rdp/homebrew-openssh-gssapi/openssh-patched', args: ['with-gssapi-support']
+
+
+
+
+
+
+

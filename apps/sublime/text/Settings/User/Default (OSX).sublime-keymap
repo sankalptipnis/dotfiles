@@ -1,0 +1,3 @@
+[
+	{ "keys": ["alt+shift+m"], "command": "sublime_merge_open_repo" },
+]

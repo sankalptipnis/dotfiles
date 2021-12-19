@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# Extend the PATH variable
+
+# Get Homebrew prefix
+HOMEBREW_PREFIX=/usr/local
+if [[ "$(uname -m)" == "arm64" ]]; then HOMEBREW_PREFIX=/opt/homebrew; fi
+export HOMEBREW_PREFIX
+
+# Add GNU Utils
+prepend-path "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
+prepend-path "$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin"
+prepend-path "$HOMEBREW_PREFIX/opt/gnu-indent/libexec/gnubin"
+prepend-path "$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin"
+prepend-path "$HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin"
+prepend-path "$HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin"
+prepend-path "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"
+
+# Make own utilities available
+prepend-path "$DOTFILES_DIR/bin"
+
+# Remove duplicates
+# Source: http://unix.stackexchange.com/a/40755
+PATH=$(echo -n $PATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}')
+
+export PATH

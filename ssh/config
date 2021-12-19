@@ -1,0 +1,44 @@
+Host hep1
+	HostName plus1.hep.ucl.ac.uk
+	User stipnis
+
+Host hep2
+	HostName plus2.hep.ucl.ac.uk
+	User stipnis
+
+Host 211
+	HostName pc211.hep.ucl.ac.uk
+	User stipnis
+  ProxyJump hep1
+
+Host 215
+	HostName pc215.hep.ucl.ac.uk
+	User stipnis
+	ProxyJump hep1
+
+Host 2112
+	HostName pc211.hep.ucl.ac.uk
+	User stipnis
+	ProxyJump hep2
+
+Host 2152
+	HostName pc215.hep.ucl.ac.uk
+	User stipnis
+	ProxyJump hep2
+
+Host lxplus
+	HostName lxplus.cern.ch
+	User stipnis
+	GSSAPITrustDns yes
+	GSSAPIAuthentication yes
+	GSSAPIDelegateCredentials yes
+
+Host *
+  IdentityFile ~/.ssh/id_ed25519
+  IgnoreUnknown AddKeysToAgent,UseKeychain
+  AddKeysToAgent yes
+  UseKeychain yes
+	ForwardX11 yes
+	ForwardX11Trusted yes
+	RemoteForward 52698 localhost:52698
+  LocalForward 8889 localhost:8889

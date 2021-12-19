@@ -1,0 +1,26 @@
+[user]
+	name = Sankalp Tipnis
+	email = 35152001+sankalptipnis@users.noreply.github.com
+[core]
+	editor = subl -n -w
+[init]
+	defaultBranch = main
+[push]
+	default = current
+[color]
+	ui = auto
+[color "status"]
+	added = brightgreen bold
+	changed = brightred bold
+	untracked = brightmagenta bold
+	deleted = brightblue bold
+[color "diff"]
+    meta = brightblue dim
+    old = brightred bold strike
+    new = brightgreen bold
+    context = brightwhite
+[color "decorate"]
+    head = brightcyan bold
+    branch = brightgreen bold
+    remoteBranch=brightred bold
+

@@ -1,0 +1,23 @@
+{
+	"theme": "user",
+	"user_theme_colors": {
+        "background": "#14191e",
+        "foreground": "#dbdbdb",
+        "black": "#14191e",
+        "red": "#b43c29",
+        "green": "#00c200",
+        "yellow": "#c7c400",
+        "blue": "#2743c7",
+        "magenta": "#bf3fbd",
+        "cyan": "#00c5c7",
+        "white": "#c7c7c7",
+        "light_black": "#676767",
+        "light_red": "#dc7974",
+        "light_green": "#57e690",
+        "light_brown": "#ece100",
+        "light_blue": "#a6aaf1",
+        "light_magenta": "#e07de0",
+        "light_cyan": "#5ffdff",
+        "light_white": "#feffff"
+    }
+}

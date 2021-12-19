@@ -1,0 +1,25 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"AdvancedNewFile",
+		"Anaconda",
+		"GitSavvy",
+		"LaTeXTools",
+		"LaTeXYZ",
+		"Markdown Extended",
+		"MarkdownEditing",
+		"MarkdownPreview",
+		"MarkdownTOC",
+		"Monokai Extended",
+		"Package Control",
+		"PackageResourceViewer",
+		"RemoteSubl",
+		"SideBarEnhancements",
+		"Sublime Tutor",
+		"Terminus",
+	],
+}

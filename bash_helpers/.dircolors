@@ -1,0 +1,266 @@
+#!/usr/bin/env bash
+
+COLOR tty
+
+TERM alacritty
+TERM alacritty-direct
+TERM ansi
+TERM *color*
+TERM con[0-9]*x[0-9]*
+TERM cons25
+TERM console
+TERM cygwin
+TERM dtterm
+TERM dvtm
+TERM dvtm-256color
+TERM Eterm
+TERM eterm-color
+TERM fbterm
+TERM gnome
+TERM gnome-256color
+TERM hurd
+TERM jfbterm
+TERM konsole
+TERM konsole-256color
+TERM kterm
+TERM linux
+TERM linux-c
+TERM mlterm
+TERM putty
+TERM putty-256color
+TERM rxvt*
+TERM rxvt-unicode
+TERM rxvt-256color
+TERM rxvt-unicode256
+TERM screen*
+TERM screen-256color
+TERM st
+TERM st-256color
+TERM terminator
+TERM tmux*
+TERM tmux-256color
+TERM vt100
+TERM xterm*
+TERM xterm-color
+TERM xterm-88color
+TERM xterm-256color
+TERM xterm-kitty
+
+#+-----------------+
+#+ Global Defaults +
+#+-----------------+
+NORMAL 00
+RESET 0
+
+FILE 00
+DIR 01;91
+LINK 01;96
+MULTIHARDLINK 01;96
+
+FIFO 1;93;44
+SOCK 00;32
+DOOR 1;92;44
+BLK 01;97;44
+CHR 01;97;44
+
+ORPHAN 01;97;41
+MISSING 01;93;41
+
+EXEC 01;92
+
+SETUID 01;97
+SETGID 01;97
+CAPABILITY 01;37
+
+STICKY_OTHER_WRITABLE 1;92;100
+OTHER_WRITABLE 01;94
+STICKY 01;94
+
+#+-------------------+
+#+ Extension Pattern +
+#+-------------------+
+#+--- Archives ---+
+.7z 1;33
+.ace 1;33
+.alz 1;33
+.arc 1;33
+.arj 1;33
+.bz 1;33
+.bz2 1;33
+.cab 1;33
+.cpio 1;33
+.deb 1;33
+.dz 1;33
+.ear 1;33
+.gz 1;33
+.jar 1;33
+.lha 1;33
+.lrz 1;33
+.lz 1;33
+.lz4 1;33
+.lzh 1;33
+.lzma 1;33
+.lzo 1;33
+.rar 1;33
+.rpm 1;33
+.rz 1;33
+.sar 1;33
+.t7z 1;33
+.tar 1;33
+.taz 1;33
+.tbz 1;33
+.tbz2 1;33
+.tgz 1;33
+.tlz 1;33
+.txz 1;33
+.tz 1;33
+.tzo 1;33
+.tzst 1;33
+.war 1;33
+.xz 1;33
+.z 1;33
+.Z 1;33
+.zip 1;33
+.zoo 1;33
+.zst 1;33
+
+#+--- Audio ---+
+.aac 00;91
+.au 00;91
+.flac 00;91
+.m4a 00;91
+.mid 00;91
+.midi 00;91
+.mka 00;91
+.mp3 00;91
+.mpa 00;91
+.mpeg 00;91
+.mpg 00;91
+.ogg 00;91
+.opus 00;91
+.ra 00;91
+.wav 00;91
+
+#+--- Code ---+
+.md 1;32;40   
+.sh 1;32;40   
+.xml 1;32;40  
+.json 1;32;40 
+.py 1;32;40   
+.cpp 1;32;40  
+.hpp 1;32;40  
+.tex 1;32;40  
+.bib 1;32;40  
+.lua 1;32;40  
+.js 1;32;40   
+.c 1;32;40    
+.h 1;32;40    
+.cs 1;32;40   
+.java 1;32;40 
+.php 1;32;40  
+.rb 1;32;40  
+
+#+--- Data ---+
+.json 1;95
+.csv 1;95
+.yaml 1;95
+.h5 1;95
+
+#+--- Documents ---+
+.djvu 00;96
+.doc 00;96
+.docx 00;96
+.dot 00;96
+.odg 00;96
+.odp 00;96
+.ods 00;96
+.odt 00;96
+.otg 00;96
+.otp 00;96
+.ots 00;96
+.ott 00;96
+.pdf 00;96
+.ppt 00;96
+.pptx 00;96
+.xls 00;96
+.xlsx 00;96
+
+#+--- Executables ---+
+.app 01;92
+.bat 01;92
+.cmd 01;92
+.exe 01;92
+
+#+--- Ignores ---+
+.bak 2;97;40
+.BAK 2;97;40
+.log 2;97;40
+.log 2;97;40
+.old 2;97;40
+.OLD 2;97;40
+.orig 2;97;40
+.ORIG 2;97;40
+.swo 2;97;40
+.swp 2;97;40
+
+#+--- Images ---+
+.bmp 0;92;40
+.cgm 0;92;40
+.dl 0;92;40
+.dvi 0;92;40
+.emf 0;92;40
+.eps 0;92;40
+.gif 0;92;40
+.jpeg 0;92;40
+.jpg 0;92;40
+.JPG 0;92;40
+.mng 0;92;40
+.pbm 0;92;40
+.pcx 0;92;40
+.pgm 0;92;40
+.png 0;92;40
+.PNG 0;92;40
+.ppm 0;92;40
+.pps 0;92;40
+.ppsx 0;92;40
+.ps 0;92;40
+.svg 0;92;40
+.svgz 0;92;40
+.tga 0;92;40
+.tif 0;92;40
+.tiff 0;92;40
+.xbm 0;92;40
+.xcf 0;92;40
+.xpm 0;92;40
+.xwd 0;92;40
+.xwd 0;92;40
+.yuv 0;92;40
+
+#+--- Video ---+
+.anx 00;91
+.asf 00;91
+.avi 00;91
+.axv 00;91
+.flc 00;91
+.fli 00;91
+.flv 00;91
+.gl 00;91
+.m2v 00;91
+.m4v 00;91
+.mkv 00;91
+.mov 00;91
+.MOV 00;91
+.mp4 00;91
+.mpeg 00;91
+.mpg 00;91
+.nuv 00;91
+.ogm 00;91
+.ogv 00;91
+.ogx 00;91
+.qt 00;91
+.rm 00;91
+.rmvb 00;91
+.swf 00;91
+.vob 00;91
+.webm 00;91
+.wmv 00;91

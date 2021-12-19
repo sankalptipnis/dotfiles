@@ -1,0 +1,87 @@
+# `duti` is a command-line utility capable of setting default applications for
+# various document types on macOS, using Apple's Uniform Type Identifiers (UTI).
+#
+# Documentation at `man duti` or http://duti.org/documentation.html
+#
+# List of Uniform Type Identifiers in OS X:
+# https://developer.apple.com/library/mac/#documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html
+#
+# Bundle ID      UTI/ext/MIME Type      Role
+#
+# Remember to include a carriage return at the end of the last line of the file; 
+# otherwise, duti will complain that the last line is too long.
+
+# Text
+com.sublimetext.4           md            editor
+com.sublimetext.4           sh            editor
+com.sublimetext.4           txt           editor
+com.sublimetext.4           xml           editor
+com.sublimetext.4           json          editor
+com.sublimetext.4           py            editor
+com.sublimetext.4           cpp           editor
+com.sublimetext.4           hpp           editor
+com.sublimetext.4           tex           editor
+com.sublimetext.4           bib           editor
+com.sublimetext.4           lua           editor
+com.sublimetext.4           js            editor
+com.sublimetext.4           csv           editor
+com.sublimetext.4           c             editor
+com.sublimetext.4           h             editor
+com.sublimetext.4           cs            editor
+com.sublimetext.4           java          editor
+com.sublimetext.4           php           editor
+com.sublimetext.4           rb            editor
+com.sublimetext.4           log           editor
+com.sublimetext.4           conf          editor
+com.sublimetext.4           bak           editor
+
+# com.microsoft.VSCode          md            editor
+# com.microsoft.VSCode          sh            editor
+# com.microsoft.VSCode          txt           editor
+# com.microsoft.VSCode          xml           editor
+# com.microsoft.VSCode          json          editor
+# com.microsoft.VSCode          py            editor
+# com.microsoft.VSCode          cpp           editor
+# com.microsoft.VSCode          hpp           editor
+# com.microsoft.VSCode          tex           editor
+# com.microsoft.VSCode          bib           editor
+# com.microsoft.VSCode          lua           editor
+# com.microsoft.VSCode          js            editor
+# com.microsoft.VSCode          csv           editor
+# com.microsoft.VSCode          c             editor
+# com.microsoft.VSCode          h             editor
+# com.microsoft.VSCode          cs            editor
+# com.microsoft.VSCode          java          editor
+# com.microsoft.VSCode          php           editor
+# com.microsoft.VSCode          rb            editor
+# com.microsoft.VSCode          log           editor
+# com.microsoft.VSCode          conf          editor
+# com.microsoft.VSCode          bak           editor
+
+# Images & PDFs
+com.apple.Preview           jpeg            editor
+com.apple.Preview           jpg             editor
+com.apple.Preview           png             editor
+com.apple.Preview           gif             editor
+com.apple.Preview           ico             editor
+com.apple.Preview           tif             editor
+com.apple.Preview           tif             editor
+com.apple.Preview           svg             editor
+com.apple.Preview           pdf             editor
+
+# # Videos
+com.movist.Movist           avi         all
+com.movist.Movist           m4v         all
+com.movist.Movist           mkv         all
+com.movist.Movist           mov         all
+com.movist.Movist           mp4         all
+com.movist.Movist           mpg         all
+com.movist.Movist           mpeg        all
+com.movist.Movist           wmv         all
+
+# # Audio
+com.movist.Movist           mp3         all
+com.movist.Movist           mpa         all
+com.movist.Movist           ogg         all
+com.movist.Movist           wav         all
+com.movist.Movist           wma         all

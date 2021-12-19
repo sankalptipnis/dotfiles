@@ -1,0 +1,7 @@
+1. Set column view to default + configure side bar in Finder
+2. Set Trackpad options
+3. Enable three finger drag
+4. Set battery settings
+5. Add battery percentage to menu bar
+6. Set software auto-update options
+7. Set Safari settings if required 
