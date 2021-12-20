@@ -83,7 +83,7 @@ xquartz: sudo
 	brew install xquartz
 ####################################
 
-link: stow
+link: sudo stow
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Backing up old dotfiles and linking new dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	find $(DOTFILES_DIR) -name '.DS_Store' -type f -delete
