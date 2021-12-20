@@ -38,24 +38,6 @@ packages: brew-packages cask-apps mas-apps
 cleanup:
 	find $(DOTFILES_DIR) -name '.DS_Store' -type f -delete
 
-macos-defaults: sudo
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting sensible macOS defaults"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	. $(DOTFILES_DIR)/macos/defaults.sh
-endif
-
-dock:
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Organising the dock"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	. $(DOTFILES_DIR)/macos/dock.sh
-endif
-
-stow: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing GNU Stow"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	is-executable stow || brew install stow
-endif
-
 sudo:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Making sudo passwordless"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
@@ -70,6 +52,36 @@ ifndef DEBUG
 	if [ -f /etc/sudoers.d/sankalptipnis ]; then \
 		sudo rm -f /etc/sudoers.d/sankalptipnis; \
 	fi
+endif
+
+brew:
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew if it does not exist"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	is-executable brew || curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash
+endif
+
+bash: BASH := $(HOMEBREW_PREFIX)/bin/bash
+bash: SHELLS := /private/etc/shells
+bash: sudo brew
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing bash"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	if ! grep -q $(BASH) $(SHELLS); then \
+		brew install bash bash-completion@2 && \
+		echo $(BASH) | sudo tee -a $(SHELLS) && \
+		sudo chsh -s $(BASH) $$(id -un); \
+	fi
+endif
+
+git: brew
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing git"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	brew install git
+endif
+
+stow: brew
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing GNU Stow"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	is-executable stow || brew install stow
 endif
 
 ########### TEST TARGETS ###########
@@ -182,28 +194,10 @@ ifndef DEBUG
 		mv -v $(NCMPCPP_DIR)/$$FILE.bak $(NCMPCPP_DIR)/$${FILE%%.bak}; fi; done
 endif
 
-brew:
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew if it does not exist"$(GREEN_ECHO_SUFFIX)
+macos-defaults: sudo
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting sensible macOS defaults"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	is-executable brew || curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash
-endif
-
-bash: BASH := $(HOMEBREW_PREFIX)/bin/bash
-bash: SHELLS := /private/etc/shells
-bash: sudo brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing bash"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	if ! grep -q $(BASH) $(SHELLS); then \
-		brew install bash bash-completion@2 && \
-		echo $(BASH) | sudo tee -a $(SHELLS) && \
-		sudo chsh -s $(BASH) $$(id -un); \
-	fi
-endif
-
-git: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing git"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	brew install git
+	. $(DOTFILES_DIR)/macos/defaults.sh
 endif
 
 brew-packages: brew
@@ -222,6 +216,12 @@ mas-apps: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing macOS App Store apps"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	is-executable mas && brew bundle --file=$(DOTFILES_DIR)/homebrew/Masfile || echo-color red " Failed to install all the macOS App Store apps" && true
+endif
+
+dock:
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Organising the dock"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	. $(DOTFILES_DIR)/macos/dock.sh
 endif
 
 app-setup: vscode sublime iterm hammerspoon conda mopidy
