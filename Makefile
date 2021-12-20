@@ -18,9 +18,10 @@ GREEN_ECHO_PREFIX = '\033[92m'
 GREEN_ECHO_SUFFIX = '\033[0m'
 
 .PHONY: all sudo core brew bash git brew-packages packages cask-apps mas-apps \
-        link macos-defaults dock link app-setup vscode sublime iterm hammerspoon \
+        link macos-defaults dock unlink app-setup vscode sublime iterm hammerspoon \
 	mopidy default-apps mamba clt sudo sudo-revert cleanup keytab duti \
-	miniforge mopidy-install vscode-install iterm-install sublime-install mas
+	miniforge mopidy-install vscode-install iterm-install sublime-install mas \
+	print stow dockutil
 
 
 print:
