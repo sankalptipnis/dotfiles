@@ -89,7 +89,7 @@ endif
 git: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing git if it does not exist"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	is-executable stow || echo-color yellow "Installing git" && brew install git
+	is-executable git || echo-color yellow "Installing git" && brew install git
 endif
 
 
@@ -238,7 +238,7 @@ ifndef DEBUG
 endif
 
 
-mas-apps: brew
+mas-apps: brew mas
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing macOS App Store apps"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	brew bundle --file=$(DOTFILES_DIR)/homebrew/Masfile || echo-color red "Failed to install all the macOS App Store apps" && true
