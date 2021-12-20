@@ -17,7 +17,7 @@ GREEN_ECHO_PREFIX = '\033[92m'
 GREEN_ECHO_SUFFIX = '\033[0m'
 
 .PHONY: all sudo core brew bash git brew-packages packages cask-apps mas-apps \
-        link macos-defaults dock link app-setup vscode sublime iterm hammerspoon conda \
+        link macos-defaults dock link app-setup vscode sublime iterm hammerspoon \
 	mopidy default-apps mamba clt sudo sudo-revert cleanup keytab
 
 print:
@@ -55,7 +55,7 @@ ifndef DEBUG
 	fi
 endif
 
-brew:
+brew: sudo
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew if it does not exist"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	is-executable brew || curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash
@@ -225,29 +225,29 @@ ifndef DEBUG
 	. $(DOTFILES_DIR)/macos/dock.sh
 endif
 
-app-setup: vscode sublime iterm hammerspoon conda mopidy
+app-setup: vscode sublime iterm hammerspoon mamba mopidy
 
-vscode:
+vscode: cask-apps
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up VSCode"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	is-executable code || ln -s '/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code' /usr/local/bin/ || echo-color red " Failed to symlink code" && true
 	cat $(DOTFILES_DIR)/apps/vscode/vscode-extensions.list | xargs -L1 code --install-extension || echo-color red " Failed to install all the VSCode extensions" && true
 endif
 
-sublime:
+sublime: cask-apps
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up Sublime Text"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	is-executable subl || ln -s '/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl' /usr/local/bin/ || echo-color red " Failed to symlink subl" && true
 endif
 
-iterm:
+iterm: cask-apps
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Importing iTerm color schemes"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	. $(DOTFILES_DIR)/apps/iterm/import-color-schemes.sh || echo-color red " Failed to import iTerm color schemes" && true
 endif
 
 hammerspoon: HAMMERSPOON_DIR := $(HOME)/.hammerspoon
-hammerspoon:
+hammerspoon: cask-apps
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up Hammerspoon"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	mkdir -p $(HAMMERSPOON_DIR)
@@ -256,28 +256,22 @@ ifndef DEBUG
 	cd $(DOTFILES_DIR)/apps/hammerspoon; stow -t $(HAMMERSPOON_DIR) .
 endif
 
-conda:
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up conda"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	conda init bash
-endif
-
-mopidy:
+mopidy: brew-packages
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Starting up mopidy as a servce"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	is-executable mopidy && brew services start mopidy || echo-color red " Failed to start mopidy as a service" && true
 endif
 
-default-apps:
+default-apps: brew-packages
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up default apps for various filetypes"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	is-executable duti && duti -v $(DOTFILES_DIR)/duti/Dutifile || echo-color red " Failed to set default apps" && true
 endif
 
-mamba:
+mamba: cask-apps
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mamba in the base conda environment"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	is-executable conda && conda install mamba -n base -c conda-forge || echo-color red " Failed to install mamba" && true
+	is-executable conda && conda install -y mamba -n base -c conda-forge || echo-color red " Failed to install mamba" && true
 endif
 
 clt:
