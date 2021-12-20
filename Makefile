@@ -18,7 +18,7 @@ GREEN_ECHO_SUFFIX = '\033[0m'
 
 .PHONY: all sudo core brew bash git brew-packages packages cask-apps mas-apps \
         link macos-defaults dock link app-setup vscode sublime iterm hammerspoon conda \
-	mopidy default-apps mamba clt sudo sudo-revert cleanup
+	mopidy default-apps mamba clt sudo sudo-revert cleanup keytab
 
 print:
 ifndef DEBUG
@@ -284,4 +284,10 @@ clt:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing XCode Command Line Tools"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	xcode-select --install
+endif
+
+keytab:
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Generating keytab for lxplus access"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	ktutil -k ~/.ssh/keytab add -p stipnis@CERN.CH -e arcfour-hmac-md5 -V 3
 endif
