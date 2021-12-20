@@ -1,0 +1,3 @@
+1. if passwordless chsh works
+2. which casks ask for a password: karabiner-elements, mactex-no-gui, miniforge, xquartz
+3. does mas-cli work for all apps
