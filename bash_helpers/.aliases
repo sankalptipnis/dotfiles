@@ -18,7 +18,7 @@ alias path='echo -e ${PATH//:/\\n}'
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias goog="cd ~/Google\ Drive/"
-alias dot="cd ~/Google\ Drive/Dotfiles"
+alias dot="cd $DOTFILES_DIR"
 alias notes="cd ~/Google\ Drive/Notes"
 
 # Conda environment activation
