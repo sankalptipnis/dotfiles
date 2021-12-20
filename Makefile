@@ -281,14 +281,14 @@ ifndef DEBUG
 endif
 
 
-sublime-install:
+sublime-install: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Sublime Text if it does not exist"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if ! (ls /Applications | grep "Sublime Text.app"); then echo-color yellow "Installing Sublime Text" && brew install sublime-text; fi
 endif
 
 
-sublime:
+sublime: sublime-install
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up Sublime Text"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if ! is-executable subl; then \
@@ -297,7 +297,7 @@ ifndef DEBUG
 endif
 
 
-iterm-install:
+iterm-install: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing iTerm if it does not exist"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if ! (ls /Applications | grep "iTerm.app"); then echo-color yellow "Installing iTerm" && brew install iterm; fi
