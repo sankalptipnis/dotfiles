@@ -85,20 +85,6 @@ ifndef DEBUG
 	is-executable stow || brew install stow
 endif
 
-########### TEST TARGETS ###########
-karabiner: sudo
-	brew install karabiner-elements
-
-mactex: sudo
-	brew install mactex-no-gui
-
-miniforge: sudo
-	brew install miniforge
-
-xquartz: sudo
-	brew install xquartz
-####################################
-
 link: sudo stow cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Backing up old dotfiles and linking new dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
