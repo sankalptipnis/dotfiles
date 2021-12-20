@@ -18,7 +18,7 @@ GREEN_ECHO_SUFFIX = '\033[0m'
 
 .PHONY: all sudo core brew bash chsh git brew-packages packages cask-apps mas-apps \
         link macos-defaults dock link app-setup vscode sublime iterm hammerspoon conda \
-	mopidy default-apps clt
+	mopidy default-apps clt sudo sudo-revert cleanup
 
 print:
 ifndef DEBUG
@@ -29,11 +29,14 @@ endif
 
 default: all
 
-all: sudo core link macos-defaults packages dock app-setup default-apps
+all: sudo core cleanup link macos-defaults packages dock app-setup default-apps
 
 core: brew bash git stow
 
 packages: brew-packages cask-apps mas-apps
+
+cleanup:
+	find $(DOTFILES_DIR) -name '.DS_Store' -type f -delete
 
 macos-defaults: sudo
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting sensible macOS defaults"$(GREEN_ECHO_SUFFIX)
@@ -83,7 +86,7 @@ xquartz: sudo
 	brew install xquartz
 ####################################
 
-link: sudo stow
+link: sudo stow cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Backing up old dotfiles and linking new dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	find $(DOTFILES_DIR) -name '.DS_Store' -type f -delete
