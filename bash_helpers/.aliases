@@ -11,6 +11,9 @@ alias -- -="cd -"
 # Unix command shortcuts
 alias rr="rm -rf"
 
+# Shortcut for colorful echo
+alias echoc="echo-color"
+
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
 
