@@ -1,0 +1,3 @@
+# This allows root to change user shell without being
+# prompted for a password
+auth        sufficient  pam_rootok.so
