@@ -41,15 +41,15 @@ cleanup:
 sudo:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Making sudo passwordless"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if [ ! -f /etc/sudoers.d/sankalptipnis ]; then \
-		sudo cp $(DOTFILES_DIR)/macos/sudo/sankalptipnis /etc/sudoers.d; \
+	if sudo [ ! -f /etc/sudoers.d/sankalptipnis ]; then \
+		echo "$$(id -un) ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/sankalptipnis; \
 	fi
 endif
 
 sudo-revert:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Making sudo require password"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if [ -f /etc/sudoers.d/sankalptipnis ]; then \
+	if sudo [ -f /etc/sudoers.d/sankalptipnis ]; then \
 		sudo rm -f /etc/sudoers.d/sankalptipnis; \
 	fi
 endif
