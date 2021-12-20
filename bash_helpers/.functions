@@ -2,7 +2,7 @@
 
 # Activate cern conda environment and get kerberos ticket for lxplus access
 function cern() {
-	kinit -kt ~/keytab stipnis@CERN.CH
+	kinit -kt ~/.ssh/keytab stipnis@CERN.CH
 	conda activate cern
 }
 
