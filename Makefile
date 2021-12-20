@@ -31,7 +31,7 @@ default: all
 
 all: sudo core link macos-defaults packages dock app-setup default-apps
 
-core: brew bash chsh git stow
+core: brew bash git stow
 
 packages: brew-packages cask-apps mas-apps
 
@@ -54,10 +54,19 @@ ifndef DEBUG
 endif
 
 sudo:
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Keeping sudo alive"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Making sudo passwordless"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	sudo -v
-	while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
+	if [ ! -f /etc/sudoers.d/sankalptipnis ]; then \
+		sudo cp $(DOTFILES_DIR)/macos/sudo/sankalptipnis /etc/sudoers.d; \
+	fi
+endif
+
+sudo-revert:
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Making sudo require password"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	if [ -f /etc/sudoers.d/sankalptipnis ]; then \
+		sudo rm -f /etc/sudoers.d/sankalptipnis; \
+	fi
 endif
 
 ########### TEST TARGETS ###########
@@ -183,16 +192,9 @@ bash: sudo brew
 ifndef DEBUG
 	if ! grep -q $(BASH) $(SHELLS); then \
 		brew install bash bash-completion@2 && \
-		echo $(BASH) | sudo tee -a $(SHELLS); \
+		echo $(BASH) | sudo tee -a $(SHELLS) && \
+		sudo chsh -s $(BASH) $$(id -un); \
 	fi
-endif
-
-chsh: BASH := $(HOMEBREW_PREFIX)/bin/bash
-chsh: sudo bash
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting newly installed bash as the default shell"$(GREEN_ECHO_SUFFIX)	
-ifndef DEBUG
-	sudo cp $(DOTFILES_DIR)/chsh/chsh /etc/pam.d/
-	sudo chsh -s $(BASH) $$(id -un)
 endif
 
 git: brew
