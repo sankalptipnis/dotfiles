@@ -9,7 +9,6 @@ dockutil --no-restart --add "/System/Applications/System Preferences.app"
 dockutil --no-restart --add "/Applications/Sublime Text.app"
 dockutil --no-restart --add "/Applications/Microsoft Outlook.app"
 dockutil --no-restart --add "/Applications/Visual Studio Code.app"
-dockutil --no-restart --add "~/Google Drive" --view grid --display folder --sort name
 dockutil --no-restart --add "/Applications" --view grid --display folder --sort name
 
 killall Dock
