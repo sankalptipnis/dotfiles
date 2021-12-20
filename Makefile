@@ -16,9 +16,9 @@ KERBEROS_DIR := /etc
 GREEN_ECHO_PREFIX = '\033[92m'
 GREEN_ECHO_SUFFIX = '\033[0m'
 
-.PHONY: all sudo core brew bash chsh git brew-packages packages cask-apps mas-apps \
+.PHONY: all sudo core brew bash git brew-packages packages cask-apps mas-apps \
         link macos-defaults dock link app-setup vscode sublime iterm hammerspoon conda \
-	mopidy default-apps clt sudo sudo-revert cleanup
+	mopidy default-apps mamba clt sudo sudo-revert cleanup
 
 print:
 ifndef DEBUG
