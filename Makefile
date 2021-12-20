@@ -1,5 +1,5 @@
 # Debug mode only prints to console, and does not run any commands
-DEBUG = TRUE
+# DEBUG = TRUE
 
 SHELL := /bin/bash
 
@@ -29,9 +29,9 @@ endif
 
 default: all
 
-all: sudo core packages link macos-defaults dock app-setup default-apps
+all: sudo core link macos-defaults packages dock app-setup default-apps
 
-core: brew bash chsh git 
+core: brew bash chsh git stow
 
 packages: brew-packages cask-apps mas-apps
 
@@ -59,6 +59,20 @@ ifndef DEBUG
 	sudo -v
 	while true; do sudo -n true; sleep 60; kill -0 "$$" || exit; done 2>/dev/null &
 endif
+
+########### TEST TARGETS ###########
+karabiner: sudo
+	brew install karabiner-elements
+
+mactex: sudo
+	brew install mactex-no-gui
+
+miniforge: sudo
+	brew install miniforge
+
+xquartz: sudo
+	brew install xquartz
+####################################
 
 link: stow
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Backing up old dotfiles and linking new dotfiles"$(GREEN_ECHO_SUFFIX)
@@ -156,7 +170,7 @@ ifndef DEBUG
 		mv -v $(NCMPCPP_DIR)/$$FILE.bak $(NCMPCPP_DIR)/$${FILE%%.bak}; fi; done
 endif
 
-brew: sudo
+brew:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew if it does not exist"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	is-executable brew || curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash
