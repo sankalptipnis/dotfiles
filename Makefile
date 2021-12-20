@@ -209,19 +209,19 @@ endif
 brew-packages: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew packages"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	brew bundle --file=$(DOTFILES_DIR)/homebrew/Brewfile || echo-colour red " Failed to install all the Homebrew packages" && true
+	brew bundle --file=$(DOTFILES_DIR)/homebrew/Brewfile || echo-color red " Failed to install all the Homebrew packages" && true
 endif
 
 cask-apps: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew Cask apps"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	brew bundle --file=$(DOTFILES_DIR)/homebrew/Caskfile || echo-colour red " Failed to install all the Homebrew Cask apps" && true
+	brew bundle --file=$(DOTFILES_DIR)/homebrew/Caskfile || echo-color red " Failed to install all the Homebrew Cask apps" && true
 endif
 
 mas-apps: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing macOS App Store apps"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	is-executable mas && brew bundle --file=$(DOTFILES_DIR)/homebrew/Masfile || echo-colour red " Failed to install all the macOS App Store apps" && true
+	is-executable mas && brew bundle --file=$(DOTFILES_DIR)/homebrew/Masfile || echo-color red " Failed to install all the macOS App Store apps" && true
 endif
 
 app-setup: vscode sublime iterm hammerspoon conda mopidy
@@ -229,20 +229,20 @@ app-setup: vscode sublime iterm hammerspoon conda mopidy
 vscode:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up VSCode"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	is-executable code || ln -s '/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code' /usr/local/bin/
-	cat $(DOTFILES_DIR)/apps/vscode/vscode-extensions.list | xargs -L1 code --install-extension
+	is-executable code || ln -s '/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code' /usr/local/bin/ || echo-color red " Failed to symlink code" && true
+	cat $(DOTFILES_DIR)/apps/vscode/vscode-extensions.list | xargs -L1 code --install-extension || echo-color red " Failed to install all the VSCode extensions" && true
 endif
 
 sublime:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up Sublime Text"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	is-executable subl || ln -s '/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl' /usr/local/bin/
+	is-executable subl || ln -s '/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl' /usr/local/bin/ || echo-color red " Failed to symlink subl" && true
 endif
 
 iterm:
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up iTerm"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Importing iTerm color schemes"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	. $(DOTFILES_DIR)/apps/iterm/import-color-schemes.sh
+	. $(DOTFILES_DIR)/apps/iterm/import-color-schemes.sh || echo-color red " Failed to import iTerm color schemes" && true
 endif
 
 hammerspoon: HAMMERSPOON_DIR := $(HOME)/.hammerspoon
@@ -264,19 +264,19 @@ endif
 mopidy:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Starting up mopidy as a servce"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	is-executable mopidy && brew services start mopidy || echo-colour red " Failed to start mopidy as a service" && true
+	is-executable mopidy && brew services start mopidy || echo-color red " Failed to start mopidy as a service" && true
 endif
 
 default-apps:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up default apps for various filetypes"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	is-executable duti && duti -v $(DOTFILES_DIR)/duti/Dutifile || echo-colour red " Failed to set default apps" && true
+	is-executable duti && duti -v $(DOTFILES_DIR)/duti/Dutifile || echo-color red " Failed to set default apps" && true
 endif
 
 mamba:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mamba in the base conda environment"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	is-executable conda && conda install mamba -n base -c conda-forge || echo-colour red " Failed to install mamba" && true
+	is-executable conda && conda install mamba -n base -c conda-forge || echo-color red " Failed to install mamba" && true
 endif
 
 clt:
