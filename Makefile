@@ -36,6 +36,7 @@ core: brew bash git stow
 packages: brew-packages cask-apps mas-apps
 
 cleanup:
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Recursively deleting .DS_Store files"$(GREEN_ECHO_SUFFIX)
 	find $(DOTFILES_DIR) -name '.DS_Store' -type f -delete
 
 sudo:
