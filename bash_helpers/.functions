@@ -117,6 +117,9 @@ function colors256(){
 		    printf "\e[$bold;38;5;%sm  %3s  \e[0m" $color $color
 		    if [ $(($color % 8)) == 7 ]; then echo; fi
 		done
+
+		echo
+
 	done
 }
 
