@@ -405,7 +405,7 @@ endif
 mamba: miniforge
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mamba in the base conda environment"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	is-executable conda && conda install -y mamba -n base -c conda-forge || echo-color red "Failed to install mamba" && true
+	conda install -y mamba -n base -c conda-forge || echo-color red "Failed to install mamba" && true
 endif
 
 
