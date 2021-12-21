@@ -26,6 +26,9 @@ GREEN_ECHO_SUFFIX = '\033[0m'
 .PHONY: $(shell sed -n -e '/^$$/ { n ; /^[^ .\#][^ ]*:/ { s/:.*$$// ; p ; } ; }' $(MAKEFILE_LIST))
 
 
+default: all
+
+
 print:
 ifndef DEBUG
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ NOT DEBUG MODE"$(GREEN_ECHO_SUFFIX)
