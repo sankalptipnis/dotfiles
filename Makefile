@@ -7,6 +7,7 @@ SHELL := /bin/bash
 DOTFILES_DIR := $(strip $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))))
 HOMEBREW_PREFIX := $(shell bin/is-evaluable bin/is-arm64 /opt/homebrew /usr/local)
 PATH := $(DOTFILES_DIR)/bin:$(PATH)
+
 CONFIG_DIR := $(HOME)/.config
 MOPIDY_DIR := $(CONFIG_DIR)/mopidy
 NCMPCPP_DIR := $(CONFIG_DIR)/ncmpcpp
@@ -36,6 +37,10 @@ endif
 all: sudo core cleanup link macos-defaults packages dock app-setup default-apps
 
 
+###############################################################################
+# Sudo 			                                                              #
+###############################################################################
+
 sudo:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Making sudo passwordless"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
@@ -53,6 +58,10 @@ ifndef DEBUG
 	fi
 endif
 
+
+###############################################################################
+# Core utils: brew, bash, git & stow			      					      #
+###############################################################################
 
 core: brew bash git stow
 
@@ -91,12 +100,20 @@ ifndef DEBUG
 endif
 
 
+###############################################################################
+# Deletion of .DS_Store files					      					      #
+###############################################################################
+
 cleanup:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Recursively deleting .DS_Store files"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	find $(DOTFILES_DIR) -name '.DS_Store' -type f -delete
 endif
 
+
+###############################################################################
+# Linking of dotfiles							      					      #
+###############################################################################
 
 link: link-config link-bash link-git link-xquartz link-kerberos link-ssh link-mopidy link-ncmpcpp link-hammerspoon
 
@@ -188,6 +205,10 @@ ifndef DEBUG
 endif
 
 
+###############################################################################
+# Unlinking of dotfiles							      					      #
+###############################################################################
+
 unlink: unlink-bash unlink-git unlink-xquartz unlink-kerberos unlink-ssh unlink-mopidy unlink-ncmpcpp unlink-hammerspoon
 
 
@@ -266,12 +287,20 @@ ifndef DEBUG
 endif
 
 
+###############################################################################
+# macOS defaults       							      					      #
+###############################################################################
+
 macos-defaults: sudo
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting sensible macOS defaults"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	. $(DOTFILES_DIR)/macos/defaults.sh || echo-color red "Failed to set macOS defaults" && true
 endif
 
+
+###############################################################################
+# Package and app installations	 				      					      #
+###############################################################################
 
 packages: brew-packages cask-apps mas-apps
 
@@ -304,6 +333,10 @@ ifndef DEBUG
 endif
 
 
+###############################################################################
+# Dock setup 				      					 					      #
+###############################################################################
+
 dock: dockutil
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Organising the dock"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
@@ -317,6 +350,10 @@ ifndef DEBUG
 	is-executable dockutil || echo-color yellow "Installing dockutil" && brew install dockutil
 endif
 
+
+###############################################################################
+# App setup 				      					 					      #
+###############################################################################
 
 app-setup: vscode sublime iterm mamba mopidy
 
@@ -362,6 +399,20 @@ ifndef DEBUG
 endif
 
 
+mamba: miniforge
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mamba in the base conda environment"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	is-executable conda && conda install -y mamba -n base -c conda-forge || echo-color red "Failed to install mamba" && true
+endif
+
+
+miniforge: brew
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing miniforge if it does not exist"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	is-executable conda || echo-color yellow "Installing miniforge" && brew install miniforge
+endif
+
+
 iterm-install: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing iTerm if it does not exist"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
@@ -384,6 +435,10 @@ ifndef DEBUG
 endif
 
 
+###############################################################################
+# Default apps 				      					 					      #
+###############################################################################
+
 default-apps: duti
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up default apps for various filetypes"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
@@ -398,19 +453,9 @@ ifndef DEBUG
 endif
 
 
-mamba: miniforge
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mamba in the base conda environment"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	is-executable conda && conda install -y mamba -n base -c conda-forge || echo-color red "Failed to install mamba" && true
-endif
-
-
-miniforge: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing miniforge if it does not exist"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	is-executable conda || echo-color yellow "Installing miniforge" && brew install miniforge
-endif
-
+###############################################################################
+# XCode Command Line Tools installation				 					      #
+###############################################################################
 
 clt:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing XCode Command Line Tools"$(GREEN_ECHO_SUFFIX)
@@ -418,6 +463,9 @@ ifndef DEBUG
 	xcode-select --install
 endif
 
+###############################################################################
+# Keytab generation									 					      #
+###############################################################################
 
 keytab:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Generating keytab for lxplus access"$(GREEN_ECHO_SUFFIX)
