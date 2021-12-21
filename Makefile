@@ -17,8 +17,8 @@ HAMMERSPOON_DIR := $(HOME)/.hammerspoon
 GREEN_ECHO_PREFIX = '\033[92m'
 GREEN_ECHO_SUFFIX = '\033[0m'
 
-# .PHONY: target_list
-# target_list:
+# .PHONY: list
+# list:
 #     @LC_ALL=C $(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
 
 
@@ -36,18 +36,6 @@ endif
 all: sudo core cleanup link macos-defaults packages dock app-setup default-apps
 
 
-core: brew bash git stow
-
-
-packages: brew-packages cask-apps mas-apps
-
-
-cleanup:
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Recursively deleting .DS_Store files"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	find $(DOTFILES_DIR) -name '.DS_Store' -type f -delete
-endif
-
 sudo:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Making sudo passwordless"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
@@ -64,6 +52,9 @@ ifndef DEBUG
 		sudo rm -f /etc/sudoers.d/sankalptipnis; \
 	fi
 endif
+
+
+core: brew bash git stow
 
 
 brew: sudo
@@ -97,6 +88,13 @@ stow: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing GNU Stow if it does not exist"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	is-executable stow || echo-color yellow "Installing GNU Stow" && brew install stow
+endif
+
+
+cleanup:
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Recursively deleting .DS_Store files"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	find $(DOTFILES_DIR) -name '.DS_Store' -type f -delete
 endif
 
 
@@ -273,6 +271,9 @@ macos-defaults: sudo
 ifndef DEBUG
 	. $(DOTFILES_DIR)/macos/defaults.sh || echo-color red "Failed to set macOS defaults" && true
 endif
+
+
+packages: brew-packages cask-apps mas-apps
 
 
 brew-packages: brew
