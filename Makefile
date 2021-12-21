@@ -21,7 +21,10 @@ GREEN_ECHO_SUFFIX = '\033[0m'
         link macos-defaults dock unlink app-setup vscode sublime iterm hammerspoon \
 	mopidy default-apps mamba clt sudo sudo-revert cleanup keytab duti \
 	miniforge mopidy-install vscode-install iterm-install sublime-install mas \
-	print stow dockutil
+	print stow dockutil link-config link-bash link-git link-xquartz link-kerberos \
+	link-ssh link-mopidy link-ncmpcpp link-hammerspoon unlink-bash unlink-git \
+	unlink-xquartz unlink-kerberos unlink-ssh unlink-mopidy unlink-ncmpcpp \
+	unlink-hammerspoon
 
 
 print:
@@ -101,12 +104,19 @@ ifndef DEBUG
 endif
 
 
-link: sudo stow cleanup
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Backing up old dotfiles and linking new dotfiles"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	find $(DOTFILES_DIR) -name '.DS_Store' -type f -delete
+link: link-config link-bash link-git link-xquartz link-kerberos link-ssh link-mopidy link-ncmpcpp link-hammerspoon
 
-	@echo -e $(GREEN_ECHO_PREFIX)"* Setting up bash dotfiles"$(GREEN_ECHO_SUFFIX)
+
+link-config:
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Creating config directory"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	mkdir -p $(CONFIG_DIR)
+endif
+
+
+link-bash: stow cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking bash dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/bash); do if [ -f $(HOME)/$$FILE -a ! -h $(HOME)/$$FILE ]; then \
 		mv -v $(HOME)/$$FILE{,.bak}; fi; done
 	cd $(DOTFILES_DIR)/bash; stow -t $(HOME) .
@@ -114,43 +124,69 @@ ifndef DEBUG
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/bash_helpers); do if [ -f $(HOME)/$$FILE -a ! -h $(HOME)/$$FILE ]; then \
 		mv -v $(HOME)/$$FILE{,.bak}; fi; done
 	cd $(DOTFILES_DIR)/bash_helpers; stow -t $(HOME) .
+endif
 
-	@echo -e $(GREEN_ECHO_PREFIX)"* Setting up git dotfiles"$(GREEN_ECHO_SUFFIX)
+
+link-git: stow cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking git dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/git); do if [ -f $(HOME)/$$FILE -a ! -h $(HOME)/$$FILE ]; then \
 		mv -v $(HOME)/$$FILE{,.bak}; fi; done
 	cd $(DOTFILES_DIR)/git; stow -t $(HOME) .
+endif
 
-	@echo -e $(GREEN_ECHO_PREFIX)"* Setting up XQuartz dotfiles"$(GREEN_ECHO_SUFFIX)
+
+link-xquartz: stow cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking xquartz dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/xquartz); do if [ -f $(HOME)/$$FILE -a ! -h $(HOME)/$$FILE ]; then \
 		mv -v $(HOME)/$$FILE{,.bak}; fi; done
 	cd $(DOTFILES_DIR)/xquartz; stow -t $(HOME) .
+endif
 
-	@echo -e $(GREEN_ECHO_PREFIX)"* Setting up Kerberos config"$(GREEN_ECHO_SUFFIX)
+
+link-kerberos: sudo stow cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking kerberos dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/kerberos); do if [ -f $(KERBEROS_DIR)/$$FILE -a ! -h $(KERBEROS_DIR)/$$FILE ]; then \
 		sudo mv -v $(KERBEROS_DIR)/$$FILE{,.bak}; fi; done
-	cd $(DOTFILES_DIR)/kerberos; sudo stow -t $(KERBEROS_DIR) .
-	
-	@echo -e $(GREEN_ECHO_PREFIX)"* Setting up SSH config"$(GREEN_ECHO_SUFFIX)
+	sudo cp -v $(DOTFILES_DIR)/kerberos/* $(KERBEROS_DIR)
+endif
+
+
+link-ssh: stow cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking ssh dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
 	mkdir -p $(SSH_DIR)
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/ssh); do if [ -f $(SSH_DIR)/$$FILE -a ! -h $(SSH_DIR)/$$FILE ]; then \
 		mv -v $(SSH_DIR)/$$FILE{,.bak}; fi; done
 	cd $(DOTFILES_DIR)/ssh; stow -t $(SSH_DIR) .
+endif
 
-	mkdir -p $(CONFIG_DIR)
-	
-	@echo -e $(GREEN_ECHO_PREFIX)"* Setting up mopidy config"$(GREEN_ECHO_SUFFIX)
+
+link-mopidy: stow cleanup link-config
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking mopidy dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
 	mkdir -p $(MOPIDY_DIR)
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/mopidy); do if [ -f $(MOPIDY_DIR)/$$FILE -a ! -h $(MOPIDY_DIR)/$$FILE ]; then \
 		mv -v $(MOPIDY_DIR)/$$FILE{,.bak}; fi; done
-	cp $(DOTFILES_DIR)/mopidy/* $(MOPIDY_DIR)
+	cp -v $(DOTFILES_DIR)/mopidy/* $(MOPIDY_DIR)
+endif
 
-	@echo -e $(GREEN_ECHO_PREFIX)"* Setting up ncmpcpp config"$(GREEN_ECHO_SUFFIX)
+
+link-ncmpcpp: stow cleanup link-config
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking ncmpcpp dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
 	mkdir -p $(NCMPCPP_DIR)
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/ncmpcpp); do if [ -f $(NCMPCPP_DIR)/$$FILE -a ! -h $(NCMPCPP_DIR)/$$FILE ]; then \
 		mv -v $(NCMPCPP_DIR)/$$FILE{,.bak}; fi; done
 	cd $(DOTFILES_DIR)/ncmpcpp; stow -t $(NCMPCPP_DIR) .
+endif
 
-	@echo -e $(GREEN_ECHO_PREFIX)"* Setting up hammerspoon config"$(GREEN_ECHO_SUFFIX)
+
+link-hammerspoon: stow cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking hammerspoon dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
 	mkdir -p $(HAMMERSPOON_DIR)
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/apps/hammerspoon); do if [ -f $(HAMMERSPOON_DIR)/$$FILE -a ! -h $(HAMMERSPOON_DIR)/$$FILE ]; then \
 		mv -v $(HAMMERSPOON_DIR)/$$FILE{,.bak}; fi; done
@@ -158,54 +194,79 @@ ifndef DEBUG
 endif
 
 
-unlink: stow
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Unlinking dotfiles and restoring backups if they exist"$(GREEN_ECHO_SUFFIX)
+unlink: unlink-bash unlink-git unlink-xquartz unlink-kerberos unlink-ssh unlink-mopidy unlink-ncmpcpp unlink-hammerspoon
+
+
+unlink-bash: stow cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Unlinking bash dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	
 	cd $(DOTFILES_DIR)/bash; stow --delete -t $(HOME) .
-	
 	cd $(DOTFILES_DIR)/bash_helpers; stow --delete -t $(HOME) .
-	
-	cd $(DOTFILES_DIR)/git; stow --delete -t $(HOME) .
 
-	cd $(DOTFILES_DIR)/xquartz; stow --delete -t $(HOME) .
-
-	cd $(DOTFILES_DIR)/ssh; stow --delete -t $(SSH_DIR) .
-
-	rm -rf $(MOPIDY_DIR)/*
-
-	cd $(DOTFILES_DIR)/ncmpcpp; stow --delete -t $(NCMPCPP_DIR) .
-
-	cd $(DOTFILES_DIR)/apps/hammerspoon; stow --delete -t $(HAMMERSPOON_DIR) .
-	
-	@echo -e $(GREEN_ECHO_PREFIX)"* Unlinking bash dotfiles"$(GREEN_ECHO_SUFFIX)
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/bash); do if [ -f $(HOME)/$$FILE.bak ]; then \
 		mv -v $(HOME)/$$FILE.bak $(HOME)/$${FILE%%.bak}; fi; done
 
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/bash_helpers); do if [ -f $(HOME)/$$FILE.bak ]; then \
 		mv -v $(HOME)/$$FILE.bak $(HOME)/$${FILE%%.bak}; fi; done
+endif
 
-	@echo -e $(GREEN_ECHO_PREFIX)"* Unlinking git dotfiles"$(GREEN_ECHO_SUFFIX)
+
+unlink-git: stow cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Unlinking git dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	cd $(DOTFILES_DIR)/git; stow --delete -t $(HOME) .
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/git); do if [ -f $(HOME)/$$FILE.bak ]; then \
 		mv -v $(HOME)/$$FILE.bak $(HOME)/$${FILE%%.bak}; fi; done
+endif
 
-	@echo -e $(GREEN_ECHO_PREFIX)"* Unlinking XQuartz dotfiles"$(GREEN_ECHO_SUFFIX)
+
+unlink-xquartz: stow cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Unlinking xquartz dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	cd $(DOTFILES_DIR)/xquartz; stow --delete -t $(HOME) .
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/xquartz); do if [ -f $(HOME)/$$FILE.bak ]; then \
 		mv -v $(HOME)/$$FILE.bak $(HOME)/$${FILE%%.bak}; fi; done
+endif
 
-	@echo -e $(GREEN_ECHO_PREFIX)"* Unlinking SSH config"$(GREEN_ECHO_SUFFIX)
+
+unlink-kerberos: sudo stow cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Unlinking kerberos dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	for FILE in $$(\ls -A $(DOTFILES_DIR)/kerberos); do if [ -f $(KERBEROS_DIR)/$$FILE.bak ]; then \
+		mv -v $(KERBEROS_DIR)/$$FILE.bak $(KERBEROS_DIR)/$${FILE%%.bak}; fi; done
+endif
+
+
+unlink-ssh: stow cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Unlinking ssh dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	cd $(DOTFILES_DIR)/ssh; stow --delete -t $(SSH_DIR) .
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/ssh); do if [ -f $(SSH_DIR)/$$FILE.bak ]; then \
 		mv -v $(SSH_DIR)/$$FILE.bak $(SSH_DIR)/$${FILE%%.bak}; fi; done
+endif
 
-	@echo -e $(GREEN_ECHO_PREFIX)"* Unlinking mopidy config"$(GREEN_ECHO_SUFFIX)
+
+unlink-mopidy: stow cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Unlinking mopidy dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/mopidy); do if [ -f $(MOPIDY_DIR)/$$FILE.bak ]; then \
 		mv -v $(MOPIDY_DIR)/$$FILE.bak $(MOPIDY_DIR)/$${FILE%%.bak}; fi; done
+endif
 
-	@echo -e $(GREEN_ECHO_PREFIX)"* Unlinking ncmpcpp config"$(GREEN_ECHO_SUFFIX)
+
+unlink-ncmpcpp: stow cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Unlinking ncmpcpp dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	cd $(DOTFILES_DIR)/ncmpcpp; stow --delete -t $(NCMPCPP_DIR) .
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/ncmpcpp); do if [ -f $(NCMPCPP_DIR)/$$FILE.bak ]; then \
 		mv -v $(NCMPCPP_DIR)/$$FILE.bak $(NCMPCPP_DIR)/$${FILE%%.bak}; fi; done
+endif
 
-	@echo -e $(GREEN_ECHO_PREFIX)"* Unlinking hammerspoon config"$(GREEN_ECHO_SUFFIX)
+
+unlink-hammerspoon: stow cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Unlinking hammerspoon dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	cd $(DOTFILES_DIR)/apps/hammerspoon; stow --delete -t $(HAMMERSPOON_DIR) .
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/apps/hammerspoon); do if [ -f $(HAMMERSPOON_DIR)/$$FILE.bak ]; then \
 		mv -v $(HAMMERSPOON_DIR)/$$FILE.bak $(HAMMERSPOON_DIR)/$${FILE%%.bak}; fi; done
 endif
@@ -232,13 +293,6 @@ ifndef DEBUG
 endif
 
 
-mas: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mas-cli is it does not exist"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG	
-	is-executable mas || echo-color yellow "Installing mas" && brew install mas
-endif
-
-
 mas-apps: brew mas
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing macOS App Store apps"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
@@ -246,10 +300,10 @@ ifndef DEBUG
 endif
 
 
-dockutil: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing dockutil is it does not exist"$(GREEN_ECHO_SUFFIX)
+mas: brew
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mas-cli is it does not exist"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG	
-	is-executable dockutil || echo-color yellow "Installing dockutil" && brew install dockutil
+	is-executable mas || echo-color yellow "Installing mas" && brew install mas
 endif
 
 
@@ -260,14 +314,14 @@ ifndef DEBUG
 endif
 
 
-app-setup: vscode sublime iterm hammerspoon mamba mopidy
-
-
-vscode-install: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing VSCode if it does not exist"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	if ! (ls /Applications | grep "Visual Studio Code.app"); then echo-color yellow "Installing VSCode" && brew install vscode; fi
+dockutil: brew
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing dockutil is it does not exist"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG	
+	is-executable dockutil || echo-color yellow "Installing dockutil" && brew install dockutil
 endif
+
+
+app-setup: vscode sublime iterm hammerspoon mamba mopidy
 
 
 vscode: vscode-install
@@ -281,10 +335,10 @@ ifndef DEBUG
 endif
 
 
-sublime-install: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Sublime Text if it does not exist"$(GREEN_ECHO_SUFFIX)
+vscode-install: brew
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing VSCode if it does not exist"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if ! (ls /Applications | grep "Sublime Text.app"); then echo-color yellow "Installing Sublime Text" && brew install sublime-text; fi
+	if ! (ls /Applications | grep "Visual Studio Code.app"); then echo-color yellow "Installing VSCode" && brew install vscode; fi
 endif
 
 
@@ -297,10 +351,10 @@ ifndef DEBUG
 endif
 
 
-iterm-install: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing iTerm if it does not exist"$(GREEN_ECHO_SUFFIX)
+sublime-install: brew
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Sublime Text if it does not exist"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if ! (ls /Applications | grep "iTerm.app"); then echo-color yellow "Installing iTerm" && brew install iterm; fi
+	if ! (ls /Applications | grep "Sublime Text.app"); then echo-color yellow "Installing Sublime Text" && brew install sublime-text; fi
 endif
 
 
@@ -308,6 +362,20 @@ iterm: iterm-install
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Importing iTerm color schemes"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	. $(DOTFILES_DIR)/apps/iterm/import-color-schemes.sh || echo-color red "Failed to import iTerm color schemes" && true
+endif
+
+
+iterm-install: brew
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing iTerm if it does not exist"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	if ! (ls /Applications | grep "iTerm.app"); then echo-color yellow "Installing iTerm" && brew install iterm; fi
+endif
+
+
+mopidy: mopidy-install
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Starting up mopidy as a servce"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	brew services start mopidy || echo-color red "Failed to start mopidy as a service" && true
 endif
 
 
@@ -319,10 +387,10 @@ ifndef DEBUG
 endif
 
 
-mopidy: mopidy-install
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Starting up mopidy as a servce"$(GREEN_ECHO_SUFFIX)
+default-apps: duti
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up default apps for various filetypes"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	brew services start mopidy || echo-color red "Failed to start mopidy as a service" && true
+	duti -v $(DOTFILES_DIR)/duti/Dutifile || echo-color red "Failed to set default apps" && true
 endif
 
 
@@ -333,10 +401,10 @@ ifndef DEBUG
 endif
 
 
-default-apps: duti
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up default apps for various filetypes"$(GREEN_ECHO_SUFFIX)
+mamba: miniforge
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mamba in the base conda environment"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	duti -v $(DOTFILES_DIR)/duti/Dutifile || echo-color red "Failed to set default apps" && true
+	is-executable conda && conda install -y mamba -n base -c conda-forge || echo-color red "Failed to install mamba" && true
 endif
 
 
@@ -344,13 +412,6 @@ miniforge: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing miniforge if it does not exist"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	is-executable conda || echo-color yellow "Installing miniforge" && brew install miniforge
-endif
-
-
-mamba: miniforge
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mamba in the base conda environment"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	is-executable conda && conda install -y mamba -n base -c conda-forge || echo-color red "Failed to install mamba" && true
 endif
 
 
