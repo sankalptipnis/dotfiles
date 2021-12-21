@@ -133,11 +133,11 @@ link-bash: stow cleanup
 ifndef DEBUG
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/bash); do if [ -f $(HOME)/$$FILE -a ! -h $(HOME)/$$FILE ]; then \
 		mv -v $(HOME)/$$FILE{,.bak}; fi; done
-	cd $(DOTFILES_DIR)/bash; stow -t $(HOME) .
+	cd $(DOTFILES_DIR)/bash; stow -vv -t $(HOME) .
 
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/bash_helpers); do if [ -f $(HOME)/$$FILE -a ! -h $(HOME)/$$FILE ]; then \
 		mv -v $(HOME)/$$FILE{,.bak}; fi; done
-	cd $(DOTFILES_DIR)/bash_helpers; stow -t $(HOME) .
+	cd $(DOTFILES_DIR)/bash_helpers; stow -vv -t $(HOME) .
 endif
 
 
@@ -146,7 +146,7 @@ link-git: stow cleanup
 ifndef DEBUG
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/git); do if [ -f $(HOME)/$$FILE -a ! -h $(HOME)/$$FILE ]; then \
 		mv -v $(HOME)/$$FILE{,.bak}; fi; done
-	cd $(DOTFILES_DIR)/git; stow -t $(HOME) .
+	cd $(DOTFILES_DIR)/git; stow -vv -t $(HOME) .
 endif
 
 
@@ -155,7 +155,7 @@ link-xquartz: stow cleanup
 ifndef DEBUG
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/xquartz); do if [ -f $(HOME)/$$FILE -a ! -h $(HOME)/$$FILE ]; then \
 		mv -v $(HOME)/$$FILE{,.bak}; fi; done
-	cd $(DOTFILES_DIR)/xquartz; stow -t $(HOME) .
+	cd $(DOTFILES_DIR)/xquartz; stow -vv -t $(HOME) .
 endif
 
 
@@ -174,7 +174,7 @@ ifndef DEBUG
 	mkdir -p $(SSH_DIR)
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/ssh); do if [ -f $(SSH_DIR)/$$FILE -a ! -h $(SSH_DIR)/$$FILE ]; then \
 		mv -v $(SSH_DIR)/$$FILE{,.bak}; fi; done
-	cd $(DOTFILES_DIR)/ssh; stow -t $(SSH_DIR) .
+	cd $(DOTFILES_DIR)/ssh; stow -vv -t $(SSH_DIR) .
 endif
 
 
@@ -194,7 +194,7 @@ ifndef DEBUG
 	mkdir -p $(NCMPCPP_DIR)
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/ncmpcpp); do if [ -f $(NCMPCPP_DIR)/$$FILE -a ! -h $(NCMPCPP_DIR)/$$FILE ]; then \
 		mv -v $(NCMPCPP_DIR)/$$FILE{,.bak}; fi; done
-	cd $(DOTFILES_DIR)/ncmpcpp; stow -t $(NCMPCPP_DIR) .
+	cd $(DOTFILES_DIR)/ncmpcpp; stow -vv -t $(NCMPCPP_DIR) .
 endif
 
 
@@ -204,7 +204,7 @@ ifndef DEBUG
 	mkdir -p $(HAMMERSPOON_DIR)
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/apps/hammerspoon); do if [ -f $(HAMMERSPOON_DIR)/$$FILE -a ! -h $(HAMMERSPOON_DIR)/$$FILE ]; then \
 		mv -v $(HAMMERSPOON_DIR)/$$FILE{,.bak}; fi; done
-	cd $(DOTFILES_DIR)/apps/hammerspoon; stow -t $(HAMMERSPOON_DIR) .
+	cd $(DOTFILES_DIR)/apps/hammerspoon; stow -vv -t $(HAMMERSPOON_DIR) .
 endif
 
 
@@ -218,8 +218,8 @@ unlink: unlink-bash unlink-git unlink-xquartz unlink-kerberos unlink-ssh unlink-
 unlink-bash: stow cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Unlinking bash dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	cd $(DOTFILES_DIR)/bash; stow --delete -t $(HOME) .
-	cd $(DOTFILES_DIR)/bash_helpers; stow --delete -t $(HOME) .
+	cd $(DOTFILES_DIR)/bash; stow --delete -vv -t $(HOME) .
+	cd $(DOTFILES_DIR)/bash_helpers; stow --delete -vv -t $(HOME) .
 
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/bash); do if [ -f $(HOME)/$$FILE.bak ]; then \
 		mv -v $(HOME)/$$FILE.bak $(HOME)/$${FILE%%.bak}; fi; done
@@ -232,7 +232,7 @@ endif
 unlink-git: stow cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Unlinking git dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	cd $(DOTFILES_DIR)/git; stow --delete -t $(HOME) .
+	cd $(DOTFILES_DIR)/git; stow --delete -vv -t $(HOME) .
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/git); do if [ -f $(HOME)/$$FILE.bak ]; then \
 		mv -v $(HOME)/$$FILE.bak $(HOME)/$${FILE%%.bak}; fi; done
 endif
@@ -241,7 +241,7 @@ endif
 unlink-xquartz: stow cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Unlinking xquartz dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	cd $(DOTFILES_DIR)/xquartz; stow --delete -t $(HOME) .
+	cd $(DOTFILES_DIR)/xquartz; stow --delete -vv -t $(HOME) .
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/xquartz); do if [ -f $(HOME)/$$FILE.bak ]; then \
 		mv -v $(HOME)/$$FILE.bak $(HOME)/$${FILE%%.bak}; fi; done
 endif
@@ -258,7 +258,7 @@ endif
 unlink-ssh: stow cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Unlinking ssh dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	cd $(DOTFILES_DIR)/ssh; stow --delete -t $(SSH_DIR) .
+	cd $(DOTFILES_DIR)/ssh; stow --delete -vv -t $(SSH_DIR) .
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/ssh); do if [ -f $(SSH_DIR)/$$FILE.bak ]; then \
 		mv -v $(SSH_DIR)/$$FILE.bak $(SSH_DIR)/$${FILE%%.bak}; fi; done
 endif
@@ -275,7 +275,7 @@ endif
 unlink-ncmpcpp: stow cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Unlinking ncmpcpp dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	cd $(DOTFILES_DIR)/ncmpcpp; stow --delete -t $(NCMPCPP_DIR) .
+	cd $(DOTFILES_DIR)/ncmpcpp; stow --delete -vv -t $(NCMPCPP_DIR) .
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/ncmpcpp); do if [ -f $(NCMPCPP_DIR)/$$FILE.bak ]; then \
 		mv -v $(NCMPCPP_DIR)/$$FILE.bak $(NCMPCPP_DIR)/$${FILE%%.bak}; fi; done
 endif
@@ -284,7 +284,7 @@ endif
 unlink-hammerspoon: stow cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Unlinking hammerspoon dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	cd $(DOTFILES_DIR)/apps/hammerspoon; stow --delete -t $(HAMMERSPOON_DIR) .
+	cd $(DOTFILES_DIR)/apps/hammerspoon; stow --delete -vv -t $(HAMMERSPOON_DIR) .
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/apps/hammerspoon); do if [ -f $(HAMMERSPOON_DIR)/$$FILE.bak ]; then \
 		mv -v $(HAMMERSPOON_DIR)/$$FILE.bak $(HAMMERSPOON_DIR)/$${FILE%%.bak}; fi; done
 endif
