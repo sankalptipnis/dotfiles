@@ -128,3 +128,6 @@ alias cpwd="pwd|tr -d '\n'|pbcopy"
 
 # Launch ncmpcpp
 alias music="ncmpcpp"
+
+# Get weather
+alias weather='curl wttr.in/London'
