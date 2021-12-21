@@ -1,5 +1,5 @@
 # Debug mode only prints to console, and does not run any commands
-# DEBUG = TRUE
+DEBUG = TRUE
 
 SHELL := /bin/bash
 
@@ -17,14 +17,12 @@ HAMMERSPOON_DIR := $(HOME)/.hammerspoon
 GREEN_ECHO_PREFIX = '\033[92m'
 GREEN_ECHO_SUFFIX = '\033[0m'
 
-.PHONY: all sudo core brew bash git brew-packages packages cask-apps mas-apps \
-        link macos-defaults dock unlink app-setup vscode sublime iterm hammerspoon \
-	mopidy default-apps mamba clt sudo sudo-revert cleanup keytab duti \
-	miniforge mopidy-install vscode-install iterm-install sublime-install mas \
-	print stow dockutil link-config link-bash link-git link-xquartz link-kerberos \
-	link-ssh link-mopidy link-ncmpcpp link-hammerspoon unlink-bash unlink-git \
-	unlink-xquartz unlink-kerberos unlink-ssh unlink-mopidy unlink-ncmpcpp \
-	unlink-hammerspoon
+# .PHONY: target_list
+# target_list:
+#     @LC_ALL=C $(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
+
+
+.PHONY: $(shell sed -n -e '/^$$/ { n ; /^[^ .\#][^ ]*:/ { s/:.*$$// ; p ; } ; }' $(MAKEFILE_LIST))
 
 
 print:
@@ -33,9 +31,6 @@ ifndef DEBUG
 else
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ DEBUG MODE"$(GREEN_ECHO_SUFFIX)
 endif
-
-
-default: all
 
 
 all: sudo core cleanup link macos-defaults packages dock app-setup default-apps
@@ -49,8 +44,9 @@ packages: brew-packages cask-apps mas-apps
 
 cleanup:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Recursively deleting .DS_Store files"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
 	find $(DOTFILES_DIR) -name '.DS_Store' -type f -delete
-
+endif
 
 sudo:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Making sudo passwordless"$(GREEN_ECHO_SUFFIX)
@@ -321,7 +317,7 @@ ifndef DEBUG
 endif
 
 
-app-setup: vscode sublime iterm hammerspoon mamba mopidy
+app-setup: vscode sublime iterm mamba mopidy
 
 
 vscode: vscode-install
