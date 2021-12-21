@@ -142,7 +142,7 @@ ifndef DEBUG
 	mkdir -p $(MOPIDY_DIR)
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/mopidy); do if [ -f $(MOPIDY_DIR)/$$FILE -a ! -h $(MOPIDY_DIR)/$$FILE ]; then \
 		mv -v $(MOPIDY_DIR)/$$FILE{,.bak}; fi; done
-	cd $(DOTFILES_DIR)/mopidy; stow -t $(MOPIDY_DIR) .
+	cp $(DOTFILES_DIR)/mopidy/* $(MOPIDY_DIR)
 
 	@echo -e $(GREEN_ECHO_PREFIX)"* Setting up ncmpcpp config"$(GREEN_ECHO_SUFFIX)
 	mkdir -p $(NCMPCPP_DIR)
