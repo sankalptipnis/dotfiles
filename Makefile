@@ -172,7 +172,7 @@ ifndef DEBUG
 
 	cd $(DOTFILES_DIR)/ssh; stow --delete -t $(SSH_DIR) .
 
-	cd $(DOTFILES_DIR)/mopidy; stow --delete -t $(MOPIDY_DIR) .
+	rm -rf $(MOPIDY_DIR)/*
 
 	cd $(DOTFILES_DIR)/ncmpcpp; stow --delete -t $(NCMPCPP_DIR) .
 
