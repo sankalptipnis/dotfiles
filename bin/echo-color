@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-
 # Reset
-Color_Off='\033[0m'       # Text Reset
+COLOR_OFF='\033[0m'       # Text Reset
 
 # Regular Colors
 Black='\033[0;30m'        # Black
@@ -74,49 +73,89 @@ On_IPurple='\033[0;105m'  # Purple
 On_ICyan='\033[0;106m'    # Cyan
 On_IWhite='\033[0;107m'   # White
 
-
-INPUT_COLOUR=$1
-TEXT=$2
-
 function usage {
-    echo "Usage: echo-color [color] [text]"
+    echo "Usage: echo-color [-b] [color] [text]"
     echo "Available colors: black, red, green, yellow, blue, purple, cyan, white"
     exit 1
 }
 
-[ -z "$INPUT_COLOUR" ] && usage
+BOLD=FALSE
+
+while getopts ':b' flag; do
+  case "${flag}" in
+    b) BOLD=TRUE;;
+    *) usage
+  esac
+done
+
+shift $((OPTIND -1))
+
+INPUT_COLOR=$1
+TEXT=$2
+
+[ -z "$INPUT_COLOR" ] && usage
 [ -z "$TEXT" ] && usage
 
+if [ "$BOLD" == FALSE ]; then
+    case $INPUT_COLOR in
+        black)
+            COLOR=$IBlack
+            ;;
+        red)
+            COLOR=$IRed
+            ;;
+        green)
+            COLOR=$IGreen
+            ;;
+        yellow)
+            COLOR=$IYellow
+            ;;
+        blue)
+            COLOR=$IBlue
+            ;;
+        purple)
+            COLOR=$IPurple
+            ;;
+        cyan)
+            COLOR=$ICyan
+            ;;
+        white)
+            COLOR=$IWhite
+            ;;
+        *)
+            usage
+            ;;
+    esac
+else
+    case $INPUT_COLOR in
+        black)
+            COLOR=$BIBlack
+            ;;
+        red)
+            COLOR=$BIRed
+            ;;
+        green)
+            COLOR=$BIGreen
+            ;;
+        yellow)
+            COLOR=$BIYellow
+            ;;
+        blue)
+            COLOR=$BIBlue
+            ;;
+        purple)
+            COLOR=$BIPurple
+            ;;
+        cyan)
+            COLOR=$BICyan
+            ;;
+        white)
+            COLOR=$BIWhite
+            ;;
+        *)
+            usage
+            ;;
+    esac
+fi
 
-case $INPUT_COLOUR in
-black)
-    COLOUR=$IBlack
-    ;;
-red)
-    COLOUR=$IRed
-    ;;
-green)
-    COLOUR=$IGreen
-    ;;
-yellow)
-    COLOUR=$IYellow
-    ;;
-blue)
-    COLOUR=$IBlue
-    ;;
-purple)
-    COLOUR=$IPurple
-    ;;
-cyan)
-    COLOUR=$ICyan
-    ;;
-white)
-    COLOUR=$IWhite
-    ;;
-*)
-  usage
-  ;;
-esac
-
-
-echo -e "$COLOUR$TEXT$Color_Off"
+echo -e "$COLOR$TEXT$COLOR_OFF"
