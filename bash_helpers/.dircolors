@@ -49,32 +49,32 @@ TERM xterm-kitty
 #+-----------------+
 #+ Global Defaults +
 #+-----------------+
-NORMAL 00
-RESET 0
+NORMAL 00 						# no: default
+RESET 0 						# rs: reset to NORMAL
 
-FILE 00
-DIR 01;91
-LINK 01;96
-MULTIHARDLINK 01;96
+FILE 00 					    # fi: regular file	
+DIR 01;91						# di: directory
+LINK 01;96						# ln: symbolic link
+MULTIHARDLINK 01;96 			# mh: hard link
 
-FIFO 1;93;44
-SOCK 00;32
-DOOR 1;92;44
-BLK 01;97;44
-CHR 01;97;44
+FIFO 1;93;44 BLK				# pi: pipe
+SOCK 00;32						# so: socket
+DOOR 1;92;44					# do: door
+BLK 01;97;44 					# bd: block device driver
+CHR 01;97;44 					# cd: character device driver
 
-ORPHAN 01;97;41
-MISSING 01;93;41
+ORPHAN 01;97;41 				# or: symlink to nonexistent file, or non-stat'able file
+MISSING 01;93;41				# mi: non-existent file pointed to by a symbolic link
 
-EXEC 01;92
+EXEC 01;92 						# ex: executable
 
-SETUID 01;97
-SETGID 01;97
-CAPABILITY 01;37
+SETUID 01;97 					# su: file that is setuid (u+s)
+SETGID 01;97					# sg: file that is setgid (g+s)
+CAPABILITY 01;37 				# ca: file with capability
 
-STICKY_OTHER_WRITABLE 1;92;100
-OTHER_WRITABLE 01;94
-STICKY 01;94
+STICKY_OTHER_WRITABLE 1;92;100  # tw: dir that is sticky and other-writable (+t,o+w)
+OTHER_WRITABLE 01;94			# ow: dir that is other-writable (o+w) and not sticky
+STICKY 01;94					# st: dir with the sticky bit set (+t) and not other-writable
 
 #+-------------------+
 #+ Extension Pattern +
