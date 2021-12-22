@@ -1,2 +1,1 @@
 1. mas vs cask: ms office, 1password, unarchiver
-2. raycast vs alfred
