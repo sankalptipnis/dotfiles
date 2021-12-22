@@ -1,12 +1,10 @@
 # Install macOS App Store apps
-mas '1Password', id: 443987910
 mas 'Amphetamine', id: 937984704
 mas 'DjVu Reader Pro', id:895264364
 mas 'Microsoft Excel', id:462058435 
 mas 'Microsoft Outlook', id:985367838 
 mas 'Microsoft Powerpoint', id:462062816 
 mas 'Microsoft Word', id:462054704 
-mas 'Movist', id:461788075 
 mas 'NordVPN', id:1116599239
 mas 'The Unarchiver', id:425424353
 mas 'Trello', id:1278508951 
