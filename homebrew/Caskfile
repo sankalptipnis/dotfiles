@@ -6,6 +6,7 @@ cask_args appdir: "/Applications"
 
 # Install Homebrew Cask apps
 cask 'aerial'
+cask 'alfred'
 cask 'bbc-iplayer-downloads'
 cask 'bettertouchtool'
 cask 'discord'
@@ -34,7 +35,6 @@ cask 'yacreader'
 cask 'zoom'
 
 # Install optional Homebrew Cask apps
-# cask 'alfred'
 # cask 'logseq'
 # cask 'notable'
 # cask 'notion'
