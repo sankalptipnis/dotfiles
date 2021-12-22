@@ -37,7 +37,7 @@ else
 endif
 
 
-all: sudo core cleanup link macos-defaults packages dock app-setup default-apps
+all: sudo core cleanup link macos-defaults packages quicklook dock app-setup default-apps
 
 
 ###############################################################################
@@ -337,6 +337,17 @@ endif
 
 
 ###############################################################################
+# Removing quarantine from quicklook plugins 							      #
+###############################################################################
+
+quicklook:
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Removing quarantine from quicklook plugins"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG	
+	([ -d $$(HOME)/Library/QuickLook ] && xattr -d -r com.apple.quarantine $$(HOME)/Library/QuickLook) || echo-color yellow "  $$(HOME)/Library/QuickLook does not exist"
+endif
+
+
+###############################################################################
 # Dock setup 				      					 					      #
 ###############################################################################
 
@@ -407,7 +418,8 @@ endif
 iterm-install: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing iTerm if it does not exist"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if ! (ls /Applications | grep "iTerm.app"); then echo-color yellow "  Installing iTerm" && brew install iterm; fi
+	if ! (ls /Applications | grep "iTerm.app"); then echo-color yellow "  Installing iTerm" && brew install iterm; \
+	else echo-color yellow "  iTerm is already installed"; fi
 endif
 
 

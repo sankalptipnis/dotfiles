@@ -144,9 +144,6 @@ defaults write com.apple.finder FXInfoPanesExpanded -dict \
 	OpenWith -bool true \
 	Privileges -bool true
 
-# Remove the quarantine attribute from the QuickLook plugins
-xattr -d -r com.apple.quarantine ~/Library/QuickLook
-
 ###############################################################################
 # Dock, Mission Control, and hot corners                                            #
 ###############################################################################
