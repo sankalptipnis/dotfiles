@@ -1,7 +1,7 @@
 # Install macOS App Store apps
 mas '1Password', id: 443987910
+mas 'Amphetamine', id: 937984704
 mas 'DjVu Reader Pro', id:895264364
-mas 'Elmedia', id:937759555 
 mas 'Microsoft Excel', id:462058435 
 mas 'Microsoft Outlook', id:985367838 
 mas 'Microsoft Powerpoint', id:462062816 
