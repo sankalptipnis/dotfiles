@@ -411,19 +411,25 @@ endif
 
 
 sublime: sublime-install
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up Sublime Text"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up Sublime Text & Merge"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if ! is-executable subl; then \
 		ln -s '/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl' /usr/local/bin/ || echo-color red "  Failed to symlink subl"; \
+	fi
+	if ! is-executable smerge; then \
+		ln -s '/Applications/Sublime Merge.app/Contents/SharedSupport/bin/smerge' /usr/local/bin/ || echo-color red "  Failed to symlink smerge"; \
 	fi
 endif
 
 
 sublime-install: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Sublime Text if it does not exist"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Sublime Text & Merge if they do not exist"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if ! (ls /Applications | grep "Sublime Text.app"); then echo-color yellow "  Installing Sublime Text" && brew install sublime-text; \
 	else echo-color yellow "  Sublime Text is already installed"; fi
+
+	if ! (ls /Applications | grep "Sublime Merge.app"); then echo-color yellow "  Installing Sublime Merge" && brew install sublime-merge; \
+	else echo-color yellow "  Sublime Merge is already installed"; fi
 endif
 
 
