@@ -84,6 +84,7 @@ brew 'vim'
 brew 'watch'
 brew 'wget'
 brew 'zopfli'
+brew 'zoxide'
 
 # Install OpenSSH with GSSAPI support
 brew 'rdp/homebrew-openssh-gssapi/openssh-patched', args: ['with-gssapi-support']
