@@ -10,6 +10,7 @@ PATH := $(DOTFILES_DIR)/bin:$(PATH)
 
 CONFIG_DIR := $(HOME)/.config
 MOPIDY_DIR := $(CONFIG_DIR)/mopidy
+SPOTIFYD_DIR := $(CONFIG_DIR)/spotifyd
 NCMPCPP_DIR := $(CONFIG_DIR)/ncmpcpp
 SSH_DIR := $(HOME)/.ssh
 KERBEROS_DIR := /etc
@@ -118,7 +119,7 @@ endif
 # Linking of dotfiles							      					      #
 ###############################################################################
 
-link: link-config link-bash link-git link-xquartz link-kerberos link-ssh link-mopidy link-ncmpcpp link-hammerspoon
+link: link-config link-bash link-git link-xquartz link-kerberos link-ssh link-mopidy link-ncmpcpp link-hammerspoon link-spotifyd
 
 
 link-config:
@@ -198,6 +199,16 @@ ifndef DEBUG
 endif
 
 
+link-spotifyd: stow cleanup link-config
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking spotifyd dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	mkdir -p $(SPOTIFYD_DIR)
+	for FILE in $$(\ls -A $(DOTFILES_DIR)/spotifyd); do if [ -f $(SPOTIFYD_DIR)/$$FILE -a ! -h $(SPOTIFYD_DIR)/$$FILE ]; then \
+		mv -v $(SPOTIFYD_DIR)/$$FILE{,.bak}; fi; done
+	cp -v $(DOTFILES_DIR)/spotifyd/* $(SPOTIFYD_DIR)	
+endif
+
+
 link-hammerspoon: stow cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking hammerspoon dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
@@ -212,7 +223,7 @@ endif
 # Unlinking of dotfiles							      					      #
 ###############################################################################
 
-unlink: unlink-bash unlink-git unlink-xquartz unlink-kerberos unlink-ssh unlink-mopidy unlink-ncmpcpp unlink-hammerspoon
+unlink: unlink-bash unlink-git unlink-xquartz unlink-kerberos unlink-ssh unlink-mopidy unlink-ncmpcpp unlink-hammerspoon unlink-spotifyd
 
 
 unlink-bash: stow cleanup
@@ -278,6 +289,14 @@ ifndef DEBUG
 	cd $(DOTFILES_DIR)/ncmpcpp; stow --delete -vv -t $(NCMPCPP_DIR) .
 	for FILE in $$(\ls -A $(DOTFILES_DIR)/ncmpcpp); do if [ -f $(NCMPCPP_DIR)/$$FILE.bak ]; then \
 		mv -v $(NCMPCPP_DIR)/$$FILE.bak $(NCMPCPP_DIR)/$${FILE%%.bak}; fi; done
+endif
+
+
+unlink-spotifyd: stow cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Unlinking spotifyd dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	for FILE in $$(\ls -A $(DOTFILES_DIR)/spotifyd); do if [ -f $(SPOTIFYD_DIR)/$$FILE.bak ]; then \
+		mv -v $(SPOTIFYD_DIR)/$$FILE.bak $(SPOTIFYD_DIR)/$${FILE%%.bak}; fi; done
 endif
 
 
