@@ -27,6 +27,13 @@ if which brew &> /dev/null && [ -r "$(brew --prefix)/etc/bash_completion.d/git-c
     source "$(brew --prefix)/etc/bash_completion.d/git-completion.bash"
 fi
 
+# Add all other completions
+if which brew &> /dev/null && [ -d "$(brew --prefix)/etc/bash_completion.d" ]; then
+  for file in "$(brew --prefix)/etc/bash_completion.d"/*; do
+    source $file
+  done
+fi
+
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -r "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh
 
