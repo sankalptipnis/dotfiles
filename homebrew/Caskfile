@@ -48,7 +48,6 @@ cask 'zoom'
 # Install Quicklook plugins
 # Might need to run the following to remove the quarantine attribute:
 # xattr -d -r com.apple.quarantine ~/Library/QuickLook
-cask 'apparency'
 cask 'qlcolorcode'
 cask 'qlimagesize'
 cask 'qlmarkdown'
