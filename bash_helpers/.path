@@ -3,8 +3,12 @@
 # Extend the PATH variable
 
 # Get Homebrew prefix
-HOMEBREW_PREFIX=/usr/local
-if [[ "$(uname -m)" == "arm64" ]]; then HOMEBREW_PREFIX=/opt/homebrew; fi
+if [[ "$(uname -m)" == "arm64" ]]; then 
+	HOMEBREW_PREFIX=/opt/homebrew
+else
+	HOMEBREW_PREFIX=/usr/local
+fi
+
 export HOMEBREW_PREFIX
 
 # Add GNU Utils
