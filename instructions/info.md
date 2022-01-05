@@ -8,6 +8,7 @@
   - [Mopidy + ncmpcpp](#mopidy--ncmpcpp)
   - [Spotifyd + Spotify-TUI](#spotifyd--spotify-tui)
   - [XQuartz](#xquartz)
+  - [Duti](#duti)
 
 ## Shell
 1. Get current shell:
@@ -185,7 +186,7 @@
     ```
 
 ## Duti
-Get default application information for e.g. jpg files:
-```bash
-duti -x jpg
-```
+1. Get default application information for e.g. jpg files:
+    ```bash
+    duti -x jpg 
+    ```
