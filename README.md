@@ -13,7 +13,7 @@ Feel free to use at your own risk. Your mileage may vary.
 ## Requirements
 * Xcode Command Line Tools (CLT) : to install run 
     ```bash
-    xcode-select --install
+    $ xcode-select --install
     ```
 
 ## Installation
