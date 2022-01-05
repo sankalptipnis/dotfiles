@@ -169,7 +169,7 @@ Client id and secret can be obtained [here](https://mopidy.com/ext/spotify/) on 
 
 
 ## spotifyd + Spotify TUI
-Set up spotifyd & Spotify TUI as described [here](misc.md#spotifyd--spotify-tui), if required.
+Set up spotifyd & Spotify TUI as described [here](misc.md), if required.
 
 
 ## Remaining Apps Installation
