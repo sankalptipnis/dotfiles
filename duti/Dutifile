@@ -70,18 +70,19 @@ com.apple.Preview           svg             editor
 com.apple.Preview           pdf             editor
 
 # # Videos
-com.movist.Movist           avi         all
-com.movist.Movist           m4v         all
-com.movist.Movist           mkv         all
-com.movist.Movist           mov         all
-com.movist.Movist           mp4         all
-com.movist.Movist           mpg         all
-com.movist.Movist           mpeg        all
-com.movist.Movist           wmv         all
+com.movist.MovistPro           avi         all
+com.movist.MovistPro           m4v         all
+com.movist.MovistPro           mkv         all
+com.movist.MovistPro           mov         all
+com.movist.MovistPro           mp4         all
+com.movist.MovistPro           mpg         all
+com.movist.MovistPro           mpeg        all
+com.movist.MovistPro           wmv         all
 
 # # Audio
-com.movist.Movist           mp3         all
-com.movist.Movist           mpa         all
-com.movist.Movist           ogg         all
-com.movist.Movist           wav         all
-com.movist.Movist           wma         all
+com.movist.MovistPro           mp3         all
+com.movist.MovistPro           m4a         all
+com.movist.MovistPro           mpa         all
+com.movist.MovistPro           ogg         all
+com.movist.MovistPro           wav         all
+com.movist.MovistPro           wma         all
