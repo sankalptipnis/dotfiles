@@ -1,5 +1,14 @@
-# My dotfiles for macOS
-Feel free to use at your own risk. Your mileage may vary.
+
+
+                                                                    
+    ██████   ██████  ████████ ███████ ██ ██      ███████ ███████ 
+    ██   ██ ██    ██    ██    ██      ██ ██      ██      ██      
+    ██   ██ ██    ██    ██    █████   ██ ██      █████   ███████ 
+    ██   ██ ██    ██    ██    ██      ██ ██      ██           ██ 
+    ██ ███   ██████     ██    ██      ██ ███████ ███████ ███████ 
+                                                                
+                                                                
+My dotfiles for macOS. Feel free to use at your own risk. Your mileage may vary.
 
 ## Overview
 * Installs Homebrew
