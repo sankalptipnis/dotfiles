@@ -1,3 +1,0 @@
-```bash
-dscl . -read ~/ UserShell
-```
