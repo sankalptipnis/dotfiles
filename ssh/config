@@ -34,11 +34,11 @@ Host lxplus
 	GSSAPIDelegateCredentials yes
 
 Host *
-  IdentityFile ~/.ssh/id_ed25519
-  IgnoreUnknown AddKeysToAgent,UseKeychain
-  AddKeysToAgent yes
-  UseKeychain yes
+	IdentityFile ~/.ssh/id_ed25519
+	IgnoreUnknown AddKeysToAgent,UseKeychain
+	AddKeysToAgent yes
+	UseKeychain yes
 	ForwardX11 yes
 	ForwardX11Trusted yes
 	RemoteForward 52698 localhost:52698
-  LocalForward 8889 localhost:8889
+	LocalForward 8889 localhost:8889
