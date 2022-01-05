@@ -77,7 +77,8 @@
 
 
 ## Security
-Set up security: **TODO**
+1. Require password immediately after screensaver starts:\
+   System Preferences -> Security & Privacy -> General -> Enable `Require password: Immediately`
 
 ## Chrome and Gmail
 1.  Sign into Chrome
