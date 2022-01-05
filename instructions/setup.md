@@ -3,6 +3,7 @@
 
 ## Table of contents:
   - [Trackpad](#trackpad)
+  - [Security](#security)
   - [Xcode](#xcode)
   - [Automated Installation](#automated-installation)
   - [System](#system)
@@ -44,6 +45,14 @@
 2. Enable three finger drag \
    System Preferences -> Accessibility -> Pointer Control -> Trackpad Options -> Enable `Enable Dragging: Three finger drag`
  
+## Security
+1. Require password immediately after screensaver starts:\
+   System Preferences -> Security & Privacy -> General -> Enable `Require password: Immediately`
+2. Turn on FileVault:\
+   System Preferences -> Security & Privacy -> FileVault -> `Turn On FileVault`
+3. Turn on Firewall:\
+   System Preferences -> Security & Privacy -> FileVault -> `Turn On Firewall`
+
 
 ## Xcode
 1. Sign into Apple account
@@ -76,9 +85,7 @@
    5. Enable `Install system data files and security updates`
 
 
-## Security
-1. Require password immediately after screensaver starts:\
-   System Preferences -> Security & Privacy -> General -> Enable `Require password: Immediately`
+
 
 ## Chrome and Gmail
 1.  Sign into Chrome
