@@ -11,10 +11,17 @@ Feel free to use at your own risk. Your mileage may vary.
 * Sets default apps for select filetypes
 
 ## Requirements
-* Xcode Command Line Tools (CLT) : to install run `xcode-select --install`.
+* Xcode Command Line Tools (CLT) : to install run 
+    ```bash
+    xcode-select --install
+    ```
 
 ## Installation
-Installation is managed by a GNU [Makefile](Makefile). To install everything, run `make all`.
+Installation is managed by a GNU [Makefile](Makefile). To install everything, clone this repository and run 
+```bash
+$ make all
+```
+from within it.
 
 ## What does a full installation actually do?
 1. Makes sudo passwordless for the duration of the installation
@@ -45,7 +52,6 @@ Installation is managed by a GNU [Makefile](Makefile). To install everything, ru
    5. mamba: Installs mamba into the base miniforge environment
    6. mopidy: Starts mopidy as a service
 9.  Sets default apps for select filetypes using [Duti](https://github.com/moretension/duti): defined in [Dutifile](duti/Dutifile)
-
 
 
 
