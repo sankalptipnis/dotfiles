@@ -29,7 +29,7 @@ My dotfiles for macOS. Feel free to use at your own risk. Your mileage may vary.
     ```
 
 ## Installation
-Installation is managed by a GNU [Makefile](Makefile). To install everything, clone this repository and run 
+The automated installation is managed by a GNU [Makefile](Makefile). To install everything, clone this repository and run 
 ```bash
 $ make all
 ```
@@ -44,7 +44,7 @@ from within it.
    3. SSH
    4. XQuartz
    5. Kerberos
-   6. Mopidy and NCMPCPP
+   6. Mopidy and ncmpcpp
    7. Spotifyd
    8. Hammerspoon
 4. Sets sensible macOS defaults: defined [here](macos/defaults.sh)
@@ -65,5 +65,6 @@ from within it.
    6. mopidy: Starts mopidy as a service
 9.  Sets default apps for select filetypes using [Duti](https://github.com/moretension/duti): defined in [Dutifile](duti/Dutifile)
 
-
+ 
+PS : For full instructions (including all the manual steps + the above automated installation) to set up a new macOS system, see [here](instructions/setup.md).
 
