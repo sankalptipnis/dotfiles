@@ -10,7 +10,7 @@ Automate the setting of system preferences, in particular
 
 
 ## Apps
-Automate setup of apps: look into [mackup](https://github.com/lra/mackup)
+Automate setup of apps: look into [mackup](https://github.com/lra/mackup).
 
 In particular, need a way to sync settings (and more) for the following apps:
 1. Alfred
