@@ -3,4 +3,3 @@
 2. Optional Apps
      1. Adobe Creative Cloud
      2. Mathematica
-     3. Remnote 
