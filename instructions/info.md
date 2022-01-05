@@ -183,3 +183,9 @@
     xterm*cursorColor:              white
     xterm*Foreground:               white
     ```
+
+## Duti
+Get default application information for e.g. jpg files:
+```bash
+duti -x jpg
+```
