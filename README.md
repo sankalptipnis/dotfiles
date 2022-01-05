@@ -34,7 +34,7 @@ Installation is managed by a GNU [Makefile](Makefile). To install everything, ru
    2. Apps, fonts & quicklook plugins: defined in [Caskfile](homebrew/Caskfile)
    3. App store apps: defined in [Masfile](homebrew/Masfile) (`mas-cli` is installed as part of this step)
 6. Removes the quarantine attribute from the installed quicklook plugins
-7. Configures the dock using [Dockutil](): configuration is defined [here](macos/dock.sh)
+7. Configures the dock using [Dockutil](https://github.com/kcrawford/dockutil): configuration is defined [here](macos/dock.sh)
 8. Configures select apps:    
    1. VSCode:
       * Installs extensions: defined [here](apps/vscode/vscode-extensions.list) 
