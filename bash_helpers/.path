@@ -23,6 +23,12 @@ prepend-path "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"
 # Make own utilities available
 prepend-path "$DOTFILES_DIR/bin"
 
+# Add Homebrew installation directory
+# prepend-path "$HOMEBREW_PREFIX/bin"
+
+# Add /usr/local/bin
+prepend-path "/usr/local/bin"
+
 # Remove duplicates
 # Source: http://unix.stackexchange.com/a/40755
 PATH=$(echo -n $PATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}')
