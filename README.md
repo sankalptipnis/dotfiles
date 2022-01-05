@@ -2,7 +2,6 @@
 Feel free to use at your own risk. Your mileage may vary.
 
 ## Overview
-------------------------------------------------------------------------------------------------------------------------------------
 * Installs Homebrew
 * Symlinks or copies configuration files
 * Sets sensible macOS defaults
@@ -12,15 +11,12 @@ Feel free to use at your own risk. Your mileage may vary.
 * Sets default apps for select filetypes
 
 ## Requirements
-------------------------------------------------------------------------------------------------------------------------------------
 * Xcode Command Line Tools (CLT) : to install run `xcode-select --install`.
 
 ## Installation
-------------------------------------------------------------------------------------------------------------------------------------
 Installation is managed by a GNU [Makefile](Makefile). To install everything, run `make all`.
 
 ## What does a full installation actually do?
-------------------------------------------------------------------------------------------------------------------------------------
 1. Makes sudo passwordless for the duration of the installation
 2. Installs the core binaries: [Homebrew](https://brew.sh/), [Git](https://git-scm.com/) and [GNU Stow](https://www.gnu.org/software/stow/)
 3. Stows or copies the following configuration files to appropriate locations:
