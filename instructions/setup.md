@@ -1,7 +1,7 @@
 # How to setup your new macOS system
 (instructions are valid as of macOS Monterey)
 
-**Table of contents**:
+## Table of contents:
   - [Trackpad](#trackpad)
   - [Xcode](#xcode)
   - [Automated Installation](#automated-installation)

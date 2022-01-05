@@ -1,7 +1,7 @@
 # Useful information for setting up a macOS system
 (information is valid as of macOS Monterey)
 
-**Table of contents**:
+## Table of contents:
   - [Shell](#shell)
   - [Sudo](#sudo)
   - [Kerberos + Keytab Access to LXPLUS](#kerberos--keytab-access-to-lxplus)
