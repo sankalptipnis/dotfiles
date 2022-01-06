@@ -1,5 +1,6 @@
 # Install macOS App Store apps
 mas 'Amphetamine', id: 937984704
+mas 'Craft', id: 1487937127
 mas 'DjVu Reader Pro', id:895264364
 mas 'Fantastical', id:975937182 
 mas 'Microsoft Excel', id:462058435 
