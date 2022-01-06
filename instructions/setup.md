@@ -183,7 +183,8 @@ Set up spotifyd & Spotify TUI as described [here](info.md#spotifyd--spotify-tui)
 ## Remaining Apps Installation
 Install apps which cannot be installed using Homebrew or mas-cli manually:
 1. Required Apps 
-     1. Roam Research
+     1. [Roam Research](https://roamresearch.com/)
+     2. [Desktop Google Keep](https://chriskol.github.io/Desktop-Google-Keep-OSX/)
 2. Optional Apps
      1. Adobe Creative Cloud
      2. Mathematica
