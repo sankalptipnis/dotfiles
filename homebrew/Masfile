@@ -1,5 +1,6 @@
 # Install macOS App Store apps
 mas 'Amphetamine', id: 937984704
+mas 'Bear', id:1091189122 
 mas 'Craft', id: 1487937127
 mas 'DjVu Reader Pro', id:895264364
 mas 'Fantastical', id:975937182 
@@ -13,7 +14,6 @@ mas 'The Unarchiver', id:425424353
 mas 'Trello', id:1278508951 
 
 # Install optional macOS App Store apps
-# mas 'Bear', id:1091189122 
 # mas 'Dato', id: 1470584107
 # mas 'Evernote', id:406056744
 # mas 'Taskheat', id:1431995750
