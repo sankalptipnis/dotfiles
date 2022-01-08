@@ -132,6 +132,7 @@ defaults write com.apple.finder WarnOnEmptyTrash -bool false
 defaults write com.apple.finder EmptyTrashSecurely -bool true
 
 # Show the ~/Library folder
+xattr -d com.apple.FinderInfo ~/Library 2>/dev/null
 chflags nohidden ~/Library
 
 # Show the /Volumes folder
