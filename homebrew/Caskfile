@@ -7,6 +7,7 @@ cask_args appdir: "/Applications"
 
 # Install Homebrew Cask apps
 cask '1password'
+cask 'adguard'
 cask 'aerial'
 cask 'alfred'
 cask 'bartender'
