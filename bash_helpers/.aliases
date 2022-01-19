@@ -12,7 +12,7 @@ alias -- -="cd -"
 alias rr="rm -rf"
 
 # Shortcut for colorful echo
-alias echoc="echo-color"
+alias ec="echo-color"
 
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
@@ -124,7 +124,7 @@ alias reload="unset PATH;exec -l "$SHELL";clear"
 alias updateall="sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup"
 
 # Update Homebrew
-alias update="brew update; brew upgrade; brew cleanup"
+alias update="brew update; brew upgrade; brew cu; brew cleanup"
 
 # Copy pwd to clipboard
 alias cpwd="pwd|tr -d '\n'|pbcopy"
@@ -134,3 +134,9 @@ alias music="ncmpcpp"
 
 # Get weather
 alias weather='curl wttr.in/London'
+
+# List declared aliases
+alias aliases="alias | sed 's/=.*//'"
+
+# List declared functions
+alias functions="declare -f | grep '^[a-z].* ()' | sed 's/{$//'"
