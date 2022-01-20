@@ -9,6 +9,7 @@
   - [Spotifyd + Spotify-TUI](#spotifyd--spotify-tui)
   - [XQuartz](#xquartz)
   - [Duti](#duti)
+  - [LaTeX](#latex)
 
 ## Shell
 1. Get current shell:
@@ -137,7 +138,7 @@
     ```
 5. To test that spotifyd is working, open the official Spotify client on your phone or laptop, and confirm that there’s a new device in Spotify Connect:
    
-    ![](spotify.png)
+    ![](images/spotify.png)
    
 6. Install Spotify TUI (part of automated installation):
     ```bash
@@ -190,3 +191,18 @@
     ```bash
     duti -x jpg 
     ```
+
+## LaTeX
+1. Compile command:
+	```bash
+	cd build
+	latexmk --output-directory=. -pdflua -shell-escape ../source/hello.tex
+	```
+2. Jump from the pdf to source code:
+   ```
+   Shift + Cmd + Click	
+   ```
+3. Jump from the source code to the pdf (works only for vscode):
+	```
+	Cmd + Option + j	
+	```

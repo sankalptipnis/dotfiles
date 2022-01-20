@@ -85,15 +85,12 @@
    5. Enable `Install system data files and security updates`
 
 
-
-
 ## Chrome and Gmail
 1.  Sign into Chrome
 2.  Set the Gmail website to be the default email app
     1.  Mail.app -> Preferences -> Default email reader -> Google Chrome.app
     2.  Google Chrome.app -> Privacy and Security -> Site Settings -> Additional Permissions -> Protocol Handlers -> Sites can ask to handle protocols
     3.  Go the the [Gmail website](https://mail.google.com/mail/u/0/#inbox) -> Click on diamond icon on the right of the status bar -> Set "Allow mail.google.com to open all email links?" to Allow
-
 
 ## Better Touch Tool
 Set up better touch tool or import settings from [file](../apps/btt/Default.bttpreset).
@@ -102,27 +99,22 @@ Set up better touch tool or import settings from [file](../apps/btt/Default.bttp
 ## Steermouse
 Set up steermouse or import settings from [file](../apps/steermouse/Default.smsetting_app).
 
-
 ## iTerm2
 1. Set up iTerm
 2. Restore [profile](../apps/iterm/Profiles/Default+.json)
-
-
+   
 ## VScode
  1. Set Color Theme to Dark+: Cmd + Shift + P -> Preferences: Color Theme -> Dark+
  2. Update using saved [settings](../apps/vscode/settings.json) and [keybindings](../apps/vscode/keybindings.json) as required
 
-
 ## SSH
 Copy the private keyand the public key to `~/.ssh`.
-
 
 ## Sublime Text
 1.  Set up Sublime Text
     1.  Install extensions from [list](../apps/sublime/text/sublime_text-extensions.list)
     2.  Update using saved [settings](../apps/sublime/text/Settings/User) as required
     3.  Set up remote usage: [RemoteSubl](https://github.com/randy3k/RemoteSubl)
-
 
 ## Sublime Merge
 1. Restore the color scheme:
@@ -158,7 +150,6 @@ Copy the private keyand the public key to `~/.ssh`.
        ```
        This appropriately changes the UI elements of Sublime Merge.
 
-
 ## Kerberos + Keytab Access to LXPLUS
 Make a keytab file with your encrypted password. This step is to create a keytab file containing your password that will be fed to the kinit command in order to obtain a Kerberos ticket. On macOS X (which comes with the Heimdal flavor of Kerberos, and not MIT’s) the command to add a password for CERN’s account is:
 ```bash
@@ -175,30 +166,32 @@ Fill in your Spotify username and password, and the client id and secret in the 
 
 Client id and secret can be obtained [here](https://mopidy.com/ext/spotify/) on validating your Spotify login details.
 
-
 ## spotifyd + Spotify TUI
 Set up spotifyd & Spotify TUI as described [here](info.md#spotifyd--spotify-tui), if required.
-
 
 ## Remaining Apps Installation
 Install apps which cannot be installed using Homebrew or mas-cli manually:
 1. Required Apps 
      1. [Roam Research](https://roamresearch.com/)
-     2. [Desktop Google Keep](https://chriskol.github.io/Desktop-Google-Keep-OSX/)
 2. Optional Apps
      1. Adobe Creative Cloud
      2. Mathematica
 
-
 ## App Setup
 1. Set up Google Drive
-2. Set up Alfred
-3. Set up Raycast
-4. Set up Dato
-5. Set up menu bar using Bartender
-6. Set up Safari
-7. Set up Logseq
-8. Set up Fantastical
+2. Set up Alfred, Raycast, Launchbar
+3. Set up Hook
+4. Set up menu bar using Bartender
+5. Set up Safari
+6. Set up Logseq and Obsidian
+7. Set up Fantastical
+8. Set up Little Snitch
+9. Set up Adguard
+10. Create Google Keep using Unite
+11. Set up Movist Pro
+12. Set up Amazing Marvin
+13. Set up Mimestream 
+14. Set up Zoom
 
 
 
