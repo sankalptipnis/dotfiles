@@ -135,11 +135,9 @@ endif
 
 link-kerberos: KERBEROS_DIR := /etc
 link-kerberos: sudo cleanup
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking kerberos dotfiles"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking kerberos file"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	for FILE in $(DOTFILES_DIR)/kerberos/*; do \
-		if [ "$(DOTFILES_DIR)/kerberos/$$FILE" -ef "" ]
-	sudo cp -v --backup --suffix=.bak $(DOTFILES_DIR)/kerberos/* $(KERBEROS_DIR)
+	sudo stowup $(DOTFILES_DIR)/kerberos $(KERBEROS_DIR)
 endif
 
 
