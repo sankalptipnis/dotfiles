@@ -380,6 +380,7 @@ endif
 ###############################################################################
 
 keytab: SSH_DIR := $(HOME)/.ssh
+keytab:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Generating keytab for lxplus access"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	mkdir -p $(SSH_DIR)
