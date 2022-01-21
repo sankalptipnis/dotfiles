@@ -43,37 +43,36 @@ mkdir -p $TARGET_DIR
 
 cd $TARGET_DIR
 for FILE in *; do
-	if [ ! -e $TARGET_DIR/$FILE -a -h $TARGET_DIR/$FILE ]; then
-		rm -rfv $TARGET_DIR/$FILE
+	if [ ! -e $TARGET_DIR/$FILE -a -h $TARGET_DIR/$FILE ]; then 	# check if file is a beoken link
+		rm -rfv $TARGET_DIR/$FILE									# remove broken link if it exists 
 	fi
 done
 
 cd $SOURCE_DIR
 for FILE in *; do
 	if [ ! -e $TARGET_DIR/$FILE  ]; then
-		rm -rfv $TARGET_DIR/$FILE #removes broken link if it exists
 		if [ "$COPY" == FALSE ]; then
-			ln -sv $SOURCE_DIR/$FILE $TARGET_DIR/$FILE #create symlink
+			ln -sv $SOURCE_DIR/$FILE $TARGET_DIR/$FILE 				# create symlink
 		else
-			cp -rfv $SOURCE_DIR/$FILE $TARGET_DIR/$FILE #create copy
+			cp -rfv $SOURCE_DIR/$FILE $TARGET_DIR/$FILE 			# create copy
 		fi
 	else
-		if [ "$TARGET_DIR/$FILE" -ef "$SOURCE_DIR/$FILE" ]; then #target file is the same as the source file
-			if [ "$COPY" == FALSE -a ! -h $TARGET_DIR/$FILE ]; then #target needs to be a symlink but it is not
+		if [ "$TARGET_DIR/$FILE" -ef "$SOURCE_DIR/$FILE" ]; then 	# target file is the same as the source file
+			if [ "$COPY" == FALSE -a ! -h $TARGET_DIR/$FILE ]; then # target needs to be a symlink but it is not
 				rm -rfv $TARGET_DIR/$FILE
 				ln -sv $SOURCE_DIR/$FILE $TARGET_DIR/$FILE
-			elif [ "$COPY" == TRUE -a -h $TARGET_DIR/$FILE ]; then #target needs to be a copy but it is a symlink
+			elif [ "$COPY" == TRUE -a -h $TARGET_DIR/$FILE ]; then 	# target needs to be a copy but it is a symlink
 				rm -rfv $TARGET_DIR/$FILE
 				cp -rfv $SOURCE_DIR/$FILE $TARGET_DIR/$FILE
 			fi
-		else #target file and source file are different
-			rm -rfv $TARGET_DIR/$FILE.bak #nuke current backup if it exists
-			cp -rfLv $TARGET_DIR/$FILE{,.bak} #back up current source file
-			rm -rfv $TARGET_DIR/$FILE #remove current source file
+		else 														# target file and source file are different
+			rm -rfv $TARGET_DIR/$FILE.bak 							# nuke current backup if it exists
+			cp -rfLv $TARGET_DIR/$FILE{,.bak} 						# back up current source file
+			rm -rfv $TARGET_DIR/$FILE 								# remove current source file
 			if [ "$COPY" == FALSE ]; then
-				ln -sv $SOURCE_DIR/$FILE $TARGET_DIR/$FILE #create symlink
+				ln -sv $SOURCE_DIR/$FILE $TARGET_DIR/$FILE 			# create symlink
 			else
-				cp -rfv $SOURCE_DIR/$FILE $TARGET_DIR/$FILE #create copy
+				cp -rfv $SOURCE_DIR/$FILE $TARGET_DIR/$FILE 		# create copy
 			fi
 		fi
 	fi
