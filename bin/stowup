@@ -41,8 +41,14 @@ done
 
 mkdir -p $TARGET_DIR
 
-cd $SOURCE_DIR
+cd $TARGET_DIR
+for FILE in *; do
+	if [ ! -e $TARGET_DIR/$FILE -a -h $TARGET_DIR/$FILE ]; then
+		rm -rfv $TARGET_DIR/$FILE
+	fi
+done
 
+cd $SOURCE_DIR
 for FILE in *; do
 	if [ ! -e $TARGET_DIR/$FILE  ]; then
 		rm -rfv $TARGET_DIR/$FILE #removes broken link if it exists

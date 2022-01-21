@@ -21,12 +21,18 @@ fi
 TARGET_DIR=$1
 SOURCE_DIR=$2
 
-if []
-
 [ -z "$TARGET_DIR" ] && usage
 [ -z "$SOURCE_DIR" ] && usage
 
 if [ -d $TARGET_DIR ]; then
+
+	cd $TARGET_DIR
+	for FILE in *; do
+		if [ ! -e $TARGET_DIR/$FILE -a -h $TARGET_DIR/$FILE ]; then
+			rm -rfv $TARGET_DIR/$FILE
+		fi
+	done
+	
 	cd $SOURCE_DIR
 	for FILE in *; do
 		if [ -e $TARGET_DIR/$FILE -a -h $TARGET_DIR/$FILE ]; then
@@ -39,9 +45,3 @@ if [ -d $TARGET_DIR ]; then
 		fi
 	done
 fi
-
-
-
-
-
-
