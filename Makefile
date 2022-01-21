@@ -9,12 +9,6 @@ HOMEBREW_PREFIX := $(shell bin/is-evaluable bin/is-arm64 /opt/homebrew /usr/loca
 PATH := $(DOTFILES_DIR)/bin:$(PATH)
 
 CONFIG_DIR := $(HOME)/.config
-MOPIDY_DIR := $(CONFIG_DIR)/mopidy
-SPOTIFYD_DIR := $(CONFIG_DIR)/spotifyd
-NCMPCPP_DIR := $(CONFIG_DIR)/ncmpcpp
-SSH_DIR := $(HOME)/.ssh
-KERBEROS_DIR := /etc
-HAMMERSPOON_DIR := $(HOME)/.hammerspoon
 
 GREEN_ECHO_PREFIX = '\033[92m'
 GREEN_ECHO_SUFFIX = '\033[0m'
@@ -57,8 +51,8 @@ endif
 sudo-revert:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Making sudo require password"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if sudo [ -f /etc/sudoers.d/sankalptipnis ]; then \
-		sudo rm -f /etc/sudoers.d/sankalptipnis; \
+	if sudo [ -f /etc/sudoers.d/$$(id -un) ]; then \
+		sudo rm -f /etc/sudoers.d/$$(id -un); \
 	fi
 endif
 
@@ -67,7 +61,7 @@ endif
 # Core utils: brew, bash, git & stow			      					      #
 ###############################################################################
 
-core: brew bash git stow
+core: brew bash git
 
 
 brew: sudo
@@ -97,13 +91,6 @@ ifndef DEBUG
 endif
 
 
-stow: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing GNU Stow if it does not exist"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	(is-executable stow && echo-color yellow "  stow is aleady installed") || (echo-color yellow "  Installing GNU Stow" && brew install stow)
-endif
-
-
 ###############################################################################
 # Deletion of .DS_Store files					      					      #
 ###############################################################################
@@ -119,103 +106,76 @@ endif
 # Linking of dotfiles							      					      #
 ###############################################################################
 
-link: link-config link-bash link-git link-xquartz link-kerberos link-ssh link-mopidy link-ncmpcpp link-hammerspoon link-spotifyd
+link: link-bash link-git link-xquartz link-kerberos link-ssh link-mopidy link-ncmpcpp link-hammerspoon link-spotifyd
 
 
-link-config:
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Creating config directory"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	mkdir -p $(CONFIG_DIR)
-endif
-
-
-link-bash: stow cleanup
+link-bash: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking bash dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	for FILE in $$(\ls -A $(DOTFILES_DIR)/bash); do if [ -f $(HOME)/$$FILE -a ! -h $(HOME)/$$FILE ]; then \
-		mv -v $(HOME)/$$FILE{,.bak}; fi; done
-	cd $(DOTFILES_DIR)/bash; stow -vv -t $(HOME) .
-
-	for FILE in $$(\ls -A $(DOTFILES_DIR)/bash_helpers); do if [ -f $(HOME)/$$FILE -a ! -h $(HOME)/$$FILE ]; then \
-		mv -v $(HOME)/$$FILE{,.bak}; fi; done
-	cd $(DOTFILES_DIR)/bash_helpers; stow -vv -t $(HOME) .
+	stowup $(DOTFILES_DIR)/bash $(HOME)
+	stowup $(DOTFILES_DIR)/bash_helpers $(HOME)
 endif
 
 
-link-git: stow cleanup
+link-git: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking git dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	for FILE in $$(\ls -A $(DOTFILES_DIR)/git); do if [ -f $(HOME)/$$FILE -a ! -h $(HOME)/$$FILE ]; then \
-		mv -v $(HOME)/$$FILE{,.bak}; fi; done
-	cd $(DOTFILES_DIR)/git; stow -vv -t $(HOME) .
+	stowup $(DOTFILES_DIR)/git $(HOME)
 endif
 
 
-link-xquartz: stow cleanup
+link-xquartz: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking xquartz dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	for FILE in $$(\ls -A $(DOTFILES_DIR)/xquartz); do if [ -f $(HOME)/$$FILE -a ! -h $(HOME)/$$FILE ]; then \
-		mv -v $(HOME)/$$FILE{,.bak}; fi; done
-	cd $(DOTFILES_DIR)/xquartz; stow -vv -t $(HOME) .
+	stowup $(DOTFILES_DIR)/xquartz $(HOME)
 endif
 
 
-link-kerberos: sudo stow cleanup
+link-kerberos: KERBEROS_DIR := /etc
+link-kerberos: sudo cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking kerberos dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	for FILE in $$(\ls -A $(DOTFILES_DIR)/kerberos); do if [ -f $(KERBEROS_DIR)/$$FILE ]; then \
-		sudo mv -v $(KERBEROS_DIR)/$$FILE{,.bak}; fi; done
-	sudo cp -v $(DOTFILES_DIR)/kerberos/* $(KERBEROS_DIR)
+	sudo cp -v --backup --suffix=.bak $(DOTFILES_DIR)/kerberos/* $(KERBEROS_DIR)
 endif
 
 
-link-ssh: stow cleanup
+link-ssh: SSH_DIR := $(HOME)/.ssh
+link-ssh: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking ssh dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	mkdir -p $(SSH_DIR)
-	for FILE in $$(\ls -A $(DOTFILES_DIR)/ssh); do if [ -f $(SSH_DIR)/$$FILE -a ! -h $(SSH_DIR)/$$FILE ]; then \
-		mv -v $(SSH_DIR)/$$FILE{,.bak}; fi; done
-	cd $(DOTFILES_DIR)/ssh; stow -vv -t $(SSH_DIR) .
+	stowup $(DOTFILES_DIR)/ssh $(SSH_DIR)
 endif
 
 
-link-mopidy: stow cleanup link-config
+link-mopidy: MOPIDY_DIR := $(CONFIG_DIR)/mopidy
+link-mopidy: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking mopidy dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	mkdir -p $(MOPIDY_DIR)
-	for FILE in $$(\ls -A $(DOTFILES_DIR)/mopidy); do if [ -f $(MOPIDY_DIR)/$$FILE ]; then \
-		mv -v $(MOPIDY_DIR)/$$FILE{,.bak}; fi; done
-	cp -v $(DOTFILES_DIR)/mopidy/* $(MOPIDY_DIR)
+	stowup -c $(DOTFILES_DIR)/mopidy $(MOPIDY_DIR)
 endif
 
 
-link-ncmpcpp: stow cleanup link-config
+link-ncmpcpp: NCMPCPP_DIR := $(CONFIG_DIR)/ncmpcpp
+link-ncmpcpp: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking ncmpcpp dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	mkdir -p $(NCMPCPP_DIR)
-	for FILE in $$(\ls -A $(DOTFILES_DIR)/ncmpcpp); do if [ -f $(NCMPCPP_DIR)/$$FILE -a ! -h $(NCMPCPP_DIR)/$$FILE ]; then \
-		mv -v $(NCMPCPP_DIR)/$$FILE{,.bak}; fi; done
-	cd $(DOTFILES_DIR)/ncmpcpp; stow -vv -t $(NCMPCPP_DIR) .
+	stowup $(DOTFILES_DIR)/ncmpcpp $(NCMPCPP_DIR)
 endif
 
 
-link-spotifyd: stow cleanup link-config
+link-spotifyd: SPOTIFYD_DIR := $(CONFIG_DIR)/spotifyd
+link-spotifyd: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking spotifyd dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	mkdir -p $(SPOTIFYD_DIR)
-	for FILE in $$(\ls -A $(DOTFILES_DIR)/spotifyd); do if [ -f $(SPOTIFYD_DIR)/$$FILE ]; then \
-		mv -v $(SPOTIFYD_DIR)/$$FILE{,.bak}; fi; done
-	cp -v $(DOTFILES_DIR)/spotifyd/* $(SPOTIFYD_DIR)	
+	stowup -c $(DOTFILES_DIR)/spotifyd $(SPOTIFYD_DIR)
 endif
 
 
-link-hammerspoon: stow cleanup
+link-hammerspoon: HAMMERSPOON_DIR := $(HOME)/.hammerspoon
+link-hammerspoon: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking hammerspoon dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	mkdir -p $(HAMMERSPOON_DIR)
-	for FILE in $$(\ls -A $(DOTFILES_DIR)/apps/hammerspoon); do if [ -f $(HAMMERSPOON_DIR)/$$FILE -a ! -h $(HAMMERSPOON_DIR)/$$FILE ]; then \
-		mv -v $(HAMMERSPOON_DIR)/$$FILE{,.bak}; fi; done
-	cd $(DOTFILES_DIR)/apps/hammerspoon; stow -vv -t $(HAMMERSPOON_DIR) .
+	stowup $(DOTFILES_DIR)/hammerspoon $(HAMMERSPOON_DIR)
 endif
 
 
@@ -419,7 +379,7 @@ endif
 # Keytab generation									 					      #
 ###############################################################################
 
-keytab:
+keytab: SSH_DIR := $(HOME)/.ssh
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Generating keytab for lxplus access"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	mkdir -p $(SSH_DIR)
