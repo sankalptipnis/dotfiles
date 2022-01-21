@@ -1,0 +1,74 @@
+#!/usr/bin/env bash
+
+# This utility creates symlinks from the target directory to all the
+# files in the source directory.
+#
+# If the the -c option is specified all the files from the source directory
+# are copied to the target directory instead.
+
+BIN_NAME=$(basename "$0")
+
+function usage {
+    echo "Usage:"
+    echo "$BIN_NAME [-c] target_dir source_dir"
+    echo ""
+    echo "This utility creates symlinks from the target directory to all the"
+    echo "files in the source directory."
+    echo ""
+    echo "If the the -c option is specified, all the files from the source"
+    echo "directory are copied to the target directory instead."
+    exit 1
+}
+
+if [[ $1 = "help" ]] || [[ $1 = "-h" ]] || [[ $1 = "--help" ]]; then
+	usage
+fi
+
+TARGET_DIR=$1
+SOURCE_DIR=$2
+
+[ -z "$TARGET_DIR" ] && usage
+[ -z "$SOURCE_DIR" ] && usage
+
+COPY=FALSE
+
+while getopts ':c' flag; do
+  case "${flag}" in
+    c) COPY=TRUE;;
+    *) usage
+  esac
+done
+
+mkdir -p $TARGET_DIR
+
+cd $SOURCE_DIR
+
+for FILE in *; do
+	if [ ! -e $TARGET_DIR/$FILE  ]; then
+		rm -rfv $TARGET_DIR/$FILE #removes broken link if it exists
+		if [ "$COPY" == FALSE ]; then
+			ln -sv $SOURCE_DIR/$FILE $TARGET_DIR/$FILE #create symlink
+		else
+			cp -rfv $SOURCE_DIR/$FILE $TARGET_DIR/$FILE #create copy
+		fi
+	else
+		if [ "$TARGET_DIR/$FILE" -ef "$SOURCE_DIR/$FILE" ]; then #target file is the same as the source file
+			if [ "$COPY" == FALSE -a ! -h $TARGET_DIR/$FILE ]; then #target needs to be a symlink but it is not
+				rm -rfv $TARGET_DIR/$FILE
+				ln -sv $SOURCE_DIR/$FILE $TARGET_DIR/$FILE
+			elif [ "$COPY" == TRUE -a -h $TARGET_DIR/$FILE ]; then #target needs to be a copy but it is a symlink
+				rm -rfv $TARGET_DIR/$FILE
+				cp -rfv $SOURCE_DIR/$FILE $TARGET_DIR/$FILE
+			fi
+		else #target file and source file are different
+			rm -rfv $TARGET_DIR/$FILE.bak #nuke current backup if it exists
+			cp -rfLv $TARGET_DIR/$FILE{,.bak} #back up current source file
+			rm -rfv $TARGET_DIR/$FILE #remove current source file
+			if [ "$COPY" == FALSE ]; then
+				ln -sv $SOURCE_DIR/$FILE $TARGET_DIR/$FILE #create symlink
+			else
+				cp -rfv $SOURCE_DIR/$FILE $TARGET_DIR/$FILE #create copy
+			fi
+		fi
+	fi
+done

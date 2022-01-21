@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+# This utility removes any symlinks from the target directory
+# to the source directory.
+
+BIN_NAME=$(basename "$0")
+
+function usage {
+    echo "Usage:"
+    echo "$BIN_NAME target_dir source_dir"
+    echo ""
+    echo "This utility removes any symlinks from the"
+    echo "target directory to the source directory."
+    exit 1
+}
+
+if [[ $1 = "help" ]] || [[ $1 = "-h" ]] || [[ $1 = "--help" ]]; then
+	usage
+fi
+
+TARGET_DIR=$1
+SOURCE_DIR=$2
+
+if []
+
+[ -z "$TARGET_DIR" ] && usage
+[ -z "$SOURCE_DIR" ] && usage
+
+if [ -d $TARGET_DIR ]; then
+	cd $SOURCE_DIR
+	for FILE in *; do
+		if [ -e $TARGET_DIR/$FILE -a -h $TARGET_DIR/$FILE ]; then
+			if [ "$TARGET_DIR/$FILE" -ef "$SOURCE_DIR/$FILE" ]; then
+				cp -Lrv $TARGET_DIR/$FILE $TARGET_DIR/$FILE.temp
+				rm -rf $TARGET_DIR/$FILE
+				rm -rf $TARGET_DIR/$FILE.bak
+				mv $TARGET_DIR/$FILE.temp $TARGET_DIR/$FILE
+			fi
+		fi
+	done
+fi
+
+
+
+
+
+
