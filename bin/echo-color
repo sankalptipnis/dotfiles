@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+BIN_NAME=$(basename "$0")
+
 # Reset
 COLOR_OFF='\033[0m'       # Text Reset
 
@@ -74,10 +76,14 @@ On_ICyan='\033[0;106m'    # Cyan
 On_IWhite='\033[0;107m'   # White
 
 function usage {
-    echo "Usage: echo-color [-b] [color] [text]"
+    echo "Usage: $BIN_NAME [-b] color text"
     echo "Available colors: black, red, green, yellow, blue, purple, cyan, white"
     exit 1
 }
+
+if [[ $1 = "help" ]] || [[ $1 = "-h" ]] || [[ $1 = "--help" ]]; then
+    usage
+fi
 
 BOLD=FALSE
 
@@ -91,7 +97,9 @@ done
 shift $((OPTIND -1))
 
 INPUT_COLOR=$1
-TEXT=$2
+shift
+
+TEXT=$@
 
 [ -z "$INPUT_COLOR" ] && usage
 [ -z "$TEXT" ] && usage

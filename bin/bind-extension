@@ -1,17 +1,22 @@
 #!/usr/bin/env bash
 
-APP=$1
-EXTENSION=$2
+BIN_NAME=$(basename "$0")
 
 function usage {
-    echo "Usage: $0 [app] [extension]"
+    echo "Usage: $BIN_NAME [app] [extension]"
     echo "Example: MacDown .md"
     exit 1
 }
 
+if [[ $1 = "help" ]] || [[ $1 = "-h" ]] || [[ $1 = "--help" ]]; then
+    usage
+fi
+
+APP=$1
+EXTENSION=$2
+
 [ -z "$APP" ] && usage
 [ -z "$EXTENSION" ] && usage
-
 
 BUNDLE_ID=$(osascript -e "id of app \"$APP\"")
 RETURN_CODE=$?

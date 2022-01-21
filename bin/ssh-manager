@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-
 BIN_NAME=$(basename "$0")
 COMMAND_NAME=$1
 ARROW="￫"

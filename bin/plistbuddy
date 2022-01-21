@@ -1,9 +1,26 @@
 #!/usr/bin/env bash
 
+BIN_NAME=$(basename "$0")
+
+function usage {
+    echo "Usage:"
+    echo "$BIN_NAME plist action key value"
+    exit 1
+}
+
+if [[ $1 = "help" ]] || [[ $1 = "-h" ]] || [[ $1 = "--help" ]]; then
+	usage
+fi
+
 PLIST="$1"
 ACTION="$2"
 KEY="$3"
 VALUE="$4"
+
+[ -z "$PLIST" ] && usage
+[ -z "$ACTION" ] && usage
+[ -z "$KEY" ] && usage
+[ -z "$VALUE" ] && usage
 
 if [ -f "$HOME/Library/Preferences/${PLIST}.plist" ]; then
 	/usr/libexec/PlistBuddy -c "$ACTION $KEY $VALUE" "$HOME/Library/Preferences/${PLIST}.plist"
