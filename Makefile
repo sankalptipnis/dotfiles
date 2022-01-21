@@ -135,7 +135,7 @@ endif
 
 link-kerberos: KERBEROS_DIR := /etc
 link-kerberos: sudo cleanup
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking kerberos file"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking kerberos files"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	sudo stowup $(DOTFILES_DIR)/kerberos $(KERBEROS_DIR)
 endif
