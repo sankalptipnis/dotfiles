@@ -48,8 +48,8 @@ all: sudo core cleanup link macos-defaults packages quicklook dock app-setup def
 sudo:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Making sudo passwordless"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if sudo [ ! -f /etc/sudoers.d/sankalptipnis ]; then \
-		echo "$$(id -un) ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/sankalptipnis; \
+	if sudo [ ! -f /etc/sudoers.d/$$(id -un) ]; then \
+		echo "$$(id -un) ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/$$(id -un); \
 	fi
 endif
 
@@ -163,7 +163,7 @@ endif
 link-kerberos: sudo stow cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking kerberos dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	for FILE in $$(\ls -A $(DOTFILES_DIR)/kerberos); do if [ -f $(KERBEROS_DIR)/$$FILE -a ! -h $(KERBEROS_DIR)/$$FILE ]; then \
+	for FILE in $$(\ls -A $(DOTFILES_DIR)/kerberos); do if [ -f $(KERBEROS_DIR)/$$FILE ]; then \
 		sudo mv -v $(KERBEROS_DIR)/$$FILE{,.bak}; fi; done
 	sudo cp -v $(DOTFILES_DIR)/kerberos/* $(KERBEROS_DIR)
 endif
@@ -183,7 +183,7 @@ link-mopidy: stow cleanup link-config
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking mopidy dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	mkdir -p $(MOPIDY_DIR)
-	for FILE in $$(\ls -A $(DOTFILES_DIR)/mopidy); do if [ -f $(MOPIDY_DIR)/$$FILE -a ! -h $(MOPIDY_DIR)/$$FILE ]; then \
+	for FILE in $$(\ls -A $(DOTFILES_DIR)/mopidy); do if [ -f $(MOPIDY_DIR)/$$FILE ]; then \
 		mv -v $(MOPIDY_DIR)/$$FILE{,.bak}; fi; done
 	cp -v $(DOTFILES_DIR)/mopidy/* $(MOPIDY_DIR)
 endif
@@ -203,7 +203,7 @@ link-spotifyd: stow cleanup link-config
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking spotifyd dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	mkdir -p $(SPOTIFYD_DIR)
-	for FILE in $$(\ls -A $(DOTFILES_DIR)/spotifyd); do if [ -f $(SPOTIFYD_DIR)/$$FILE -a ! -h $(SPOTIFYD_DIR)/$$FILE ]; then \
+	for FILE in $$(\ls -A $(DOTFILES_DIR)/spotifyd); do if [ -f $(SPOTIFYD_DIR)/$$FILE ]; then \
 		mv -v $(SPOTIFYD_DIR)/$$FILE{,.bak}; fi; done
 	cp -v $(DOTFILES_DIR)/spotifyd/* $(SPOTIFYD_DIR)	
 endif
@@ -362,7 +362,7 @@ endif
 quicklook:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Removing quarantine from quicklook plugins"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG	
-	([ -d $$(HOME)/Library/QuickLook ] && xattr -d -r com.apple.quarantine $$(HOME)/Library/QuickLook) || echo-color yellow "  $$(HOME)/Library/QuickLook does not exist"
+	([ -d $(HOME)/Library/QuickLook ] && xattr -d -r com.apple.quarantine $(HOME)/Library/QuickLook) || echo-color yellow "  $(HOME)/Library/QuickLook does not exist"
 endif
 
 
@@ -513,5 +513,7 @@ keytab:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Generating keytab for lxplus access"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	mkdir -p $(SSH_DIR)
-	ktutil -k $(SSH_DIR)/keytab add -p stipnis@CERN.CH -e arcfour-hmac-md5 -V 3
+	if [ ! -f $(SSH_DIR)/keytab ]; then \
+		ktutil -k $(SSH_DIR)/keytab add -p stipnis@CERN.CH -e arcfour-hmac-md5 -V 3; \
+	fi
 endif
