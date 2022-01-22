@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+shopt -s nullglob
+
 BIN_NAME=$(basename "$0")
 
 function usage {
@@ -34,17 +36,17 @@ done
 
 shift $((OPTIND -1))
 
-TARGET_DIR=$1
-SOURCE_DIR=$2
+SOURCE_DIR=$1
+TARGET_DIR=$2
 
-[[ -z "$TARGET_DIR" ]] && usage
 [[ -z "$SOURCE_DIR" ]] && usage
+[[ -z "$TARGET_DIR" ]] && usage
 
 mkdir -p "$TARGET_DIR"
 
 if [[ $CLEAN == "TRUE" ]]; then
 	cd "$TARGET_DIR"
-	for FILE in *; do
+	for FILE in * .[^.]*; do
 		if [[ ! -e "$TARGET_DIR/$FILE" && -h "$TARGET_DIR/$FILE" ]]; then 	# check if file is a beoken link
 			rm -rfv "$TARGET_DIR/$FILE"										# remove broken link if it exists 
 		fi
@@ -52,7 +54,7 @@ if [[ $CLEAN == "TRUE" ]]; then
 fi
 
 cd "$SOURCE_DIR"
-for FILE in *; do
+for FILE in * .[^.]*; do
 	if [[ ! -e "$TARGET_DIR/$FILE" ]]; then
 		if [[ $COPY == "FALSE" ]]; then
 			ln -sv "$SOURCE_DIR/$FILE" "$TARGET_DIR/$FILE" 					# create symlink

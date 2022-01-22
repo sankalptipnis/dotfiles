@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+shopt -s nullglob
+
 BIN_NAME=$(basename "$0")
 
 function usage {
@@ -15,23 +17,23 @@ if [[ $1 = "help" ]] || [[ $1 = "-h" ]] || [[ $1 = "--help" ]]; then
 	usage
 fi
 
-TARGET_DIR=$1
-SOURCE_DIR=$2
+SOURCE_DIR=$1
+TARGET_DIR=$2
 
-[[ -z "$TARGET_DIR" ]] && usage
 [[ -z "$SOURCE_DIR" ]] && usage
+[[ -z "$TARGET_DIR" ]] && usage
 
 if [[ -d "$TARGET_DIR" ]]; then
 
 	cd "$TARGET_DIR"
-	for FILE in *; do
+	for FILE in * .[^.]*; do
 		if [[ ! -e "$TARGET_DIR/$FILE" && -h "$TARGET_DIR/$FILE" ]]; then
 			rm -rfv "$TARGET_DIR/$FILE"
 		fi
 	done
 	
 	cd "$SOURCE_DIR"
-	for FILE in *; do
+	for FILE in * .[^.]*; do
 		if [[ -e "$TARGET_DIR/$FILE" && -h "$TARGET_DIR/$FILE" ]]; then
 			if [[ "$TARGET_DIR/$FILE" -ef "$SOURCE_DIR/$FILE" ]]; then
 				cp -Lrv "$TARGET_DIR/$FILE" "$TARGET_DIR/$FILE".temp
