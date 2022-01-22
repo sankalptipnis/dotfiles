@@ -82,16 +82,16 @@ function usage {
 }
 
 if [[ $1 = "help" ]] || [[ $1 = "-h" ]] || [[ $1 = "--help" ]]; then
-    usage
+	usage
 fi
 
-BOLD=FALSE
+BOLD="FALSE"
 
 while getopts ':b' flag; do
-  case "${flag}" in
-    b) BOLD=TRUE;;
-    *) usage
-  esac
+	case "${flag}" in
+		b) BOLD="TRUE";;
+		*) usage
+	esac
 done
 
 shift $((OPTIND -1))
@@ -101,10 +101,10 @@ shift
 
 TEXT=$@
 
-[ -z "$INPUT_COLOR" ] && usage
-[ -z "$TEXT" ] && usage
+[[ -z $INPUT_COLOR ]] && usage
+[[ -z $TEXT ]] && usage
 
-if [ "$BOLD" == FALSE ]; then
+if [[ $BOLD == "FALSE" ]]; then
     case $INPUT_COLOR in
         black)
             COLOR=$IBlack

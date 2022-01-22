@@ -22,7 +22,7 @@ if [[ ! $COMMAND_NAME ]] || [[ $COMMAND_NAME = "help" ]] || [[ $COMMAND_NAME = "
     echo "   list-host        List of all hosts in SSH config"
 fi
 
-if [[ "$COMMAND_NAME" = "list" ]]; then
+if [[ $COMMAND_NAME = "list" ]]; then
 	$BIN_NAME list-keys
 	$BIN_NAME list-host
 fi

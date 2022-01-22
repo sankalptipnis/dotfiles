@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-# This utility removes any symlinks from the target directory
-# to the source directory.
-
 BIN_NAME=$(basename "$0")
 
 function usage {
@@ -21,26 +18,26 @@ fi
 TARGET_DIR=$1
 SOURCE_DIR=$2
 
-[ -z "$TARGET_DIR" ] && usage
-[ -z "$SOURCE_DIR" ] && usage
+[[ -z "$TARGET_DIR" ]] && usage
+[[ -z "$SOURCE_DIR" ]] && usage
 
-if [ -d $TARGET_DIR ]; then
+if [[ -d "$TARGET_DIR" ]]; then
 
-	cd $TARGET_DIR
+	cd "$TARGET_DIR"
 	for FILE in *; do
-		if [ ! -e $TARGET_DIR/$FILE -a -h $TARGET_DIR/$FILE ]; then
-			rm -rfv $TARGET_DIR/$FILE
+		if [[ ! -e "$TARGET_DIR/$FILE" && -h "$TARGET_DIR/$FILE" ]]; then
+			rm -rfv "$TARGET_DIR/$FILE"
 		fi
 	done
 	
-	cd $SOURCE_DIR
+	cd "$SOURCE_DIR"
 	for FILE in *; do
-		if [ -e $TARGET_DIR/$FILE -a -h $TARGET_DIR/$FILE ]; then
-			if [ "$TARGET_DIR/$FILE" -ef "$SOURCE_DIR/$FILE" ]; then
-				cp -Lrv $TARGET_DIR/$FILE $TARGET_DIR/$FILE.temp
-				rm -rf $TARGET_DIR/$FILE
-				rm -rf $TARGET_DIR/$FILE.bak
-				mv $TARGET_DIR/$FILE.temp $TARGET_DIR/$FILE
+		if [[ -e "$TARGET_DIR/$FILE" && -h "$TARGET_DIR/$FILE" ]]; then
+			if [[ "$TARGET_DIR/$FILE" -ef "$SOURCE_DIR/$FILE" ]]; then
+				cp -Lrv "$TARGET_DIR/$FILE" "$TARGET_DIR/$FILE".temp
+				rm -rf "$TARGET_DIR/$FILE"
+				rm -rf "$TARGET_DIR/$FILE".bak
+				mv "$TARGET_DIR/$FILE".temp "$TARGET_DIR/$FILE"
 			fi
 		fi
 	done

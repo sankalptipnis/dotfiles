@@ -1,11 +1,5 @@
 #!/usr/bin/env bash
 
-# If one argument is provided, this utility succeeds if the argument can be evaluated,
-# otherwise it fails.
-
-# If three arguments are provided, this utility returns the second argument if the
-# first argument can be evaluated, otherwise it returns the third argument
-
 BIN_NAME=$(basename "$0")
 
 function usage {
@@ -22,21 +16,23 @@ function usage {
 }
 
 if [[ $1 = "help" ]] || [[ $1 = "-h" ]] || [[ $1 = "--help" ]]; then
-  usage
+	usage
 fi
 
-[ -z "$1" ] && usage
+[[ -z $1 ]] && usage
 
-if [ $# -eq 1 ]; then
-  if eval "$1" > /dev/null 2>&1; then 
-    exit 0
-  else
-    exit 1
-  fi
-elif [ $# -eq 3 ]; then
-  if eval "$1" > /dev/null 2>&1; then
-    echo -n "$2"
-  else
-    echo -n "$3"
-  fi
+if [[ $# -eq 1 ]]; then
+	if eval "$1" > /dev/null 2>&1; then 
+		exit 0
+	else
+		exit 1
+	fi
+elif [[ $# -eq 3 ]]; then
+	if eval "$1" > /dev/null 2>&1; then
+		echo -n "$2"
+	else
+		echo -n "$3"
+	fi
+else
+	usage
 fi
