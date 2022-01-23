@@ -82,7 +82,7 @@ alias lad="ls -lghAF ${colorflag} --group-directories-first | grep --color=never
 alias ls="ls -gh ${colorflag}"
 
 # Lots of details for broot
-alias bra ="br -sdph"
+alias bra="br -sdph"
 
 # Always enable colored `grep` output
 # Note: `GREP_OPTIONS="--color=auto"` is deprecated, hence the alias usage.
