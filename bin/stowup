@@ -62,23 +62,23 @@ for FILE in * .[^.]*; do
 			cp -rfv "$SOURCE_DIR/$FILE" "$TARGET_DIR/$FILE" 				# create copy
 		fi
 	else
-		if [[ "$TARGET_DIR/$FILE" -ef "$SOURCE_DIR/$FILE" ]]; then 
-			cp -rfL "$TARGET_DIR/$FILE"{,.temp}
-			rm -rf "$TARGET_DIR/$FILE"										# target file is the same as the source file
+		if [[ "$TARGET_DIR/$FILE" -ef "$SOURCE_DIR/$FILE" ]]; then 			# target file is the same as the source file
+			cp -fL "$TARGET_DIR/$FILE"{,.temp}									
 			if [[ $COPY == "FALSE" && ! -h "$TARGET_DIR/$FILE" ]]; then 	# target needs to be a symlink but it is not
+				rm -rf "$TARGET_DIR/$FILE"	
 				ln -sv "$SOURCE_DIR/$FILE" "$TARGET_DIR/$FILE"
 			elif [[ $COPY == "TRUE" && -h "$TARGET_DIR/$FILE" ]]; then 		# target needs to be a copy but it is a symlink
-				cp -rfv "$SOURCE_DIR/$FILE" "$TARGET_DIR/$FILE"
+				rm -rf "$TARGET_DIR/$FILE"	
+				cp -rfv "$SOURCE_DIR/$FILE" "$TARGET_DIR"
 			fi
 			rm -rf "$TARGET_DIR/$FILE.temp"
 		else 																# target file and source file are different
-			rm -rf "$TARGET_DIR/$FILE".bak 									# nuke current backup if it exists
-			cp -rfL "$TARGET_DIR/$FILE"{,.bak} 								# back up current source file
+			cp -fL "$TARGET_DIR/$FILE"{,.bak} 								# back up current source file
 			rm -rf "$TARGET_DIR/$FILE" 										# remove current source file
 			if [[ $COPY == "FALSE" ]]; then
 				ln -sv "$SOURCE_DIR/$FILE" "$TARGET_DIR/$FILE" 				# create symlink
 			else
-				cp -rfv "$SOURCE_DIR/$FILE" "$TARGET_DIR/$FILE" 			# create copy
+				cp -rfv "$SOURCE_DIR/$FILE" "$TARGET_DIR" 					# create copy
 			fi
 		fi
 	fi
