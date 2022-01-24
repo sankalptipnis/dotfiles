@@ -48,7 +48,7 @@ if [[ $CLEAN == "TRUE" ]]; then
 	cd "$TARGET_DIR"
 	for FILE in * .[^.]*; do
 		if [[ ! -e "$TARGET_DIR/$FILE" && -h "$TARGET_DIR/$FILE" ]]; then 	# check if file is a beoken link
-			rm -rfv "$TARGET_DIR/$FILE"										# remove broken link if it exists 
+			rm -rf "$TARGET_DIR/$FILE"										# remove broken link if it exists 
 		fi
 	done
 fi
