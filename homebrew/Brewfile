@@ -2,17 +2,10 @@ tap 'rdp/homebrew-openssh-gssapi'
 tap 'mopidy/mopidy'
 tap 'homebrew/services'
 
-# Install GNU alternatives to FreeBSD utils
-# If you need to use these commands with their normal names, amend your PATH as follows:
-# export PATH="$(brew --prefix)/opt/coreutils/libexec/gnubin:$PATH"
-# export PATH="$(brew --prefix)/opt/findutils/libexec/gnubin:$PATH"
-# export PATH="$(brew --prefix)/opt/gnu-indent/libexec/gnubin:$PATH"
-# export PATH="$(brew --prefix)/opt/gnu-sed/libexec/gnubin:$PATH"
-# export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
-# export PATH="$(brew --prefix)/opt/gnu-tar/libexec/gnubin:$PATH"
-# export PATH="$(brew --prefix)/opt/grep/libexec/gnubin:$PATH"
+# Install GNU alternatives to BSD utils
 brew 'coreutils'
 brew 'findutils'
+brew 'ed'
 brew 'gnu-indent'
 brew 'gnu-sed'
 brew 'gnu-tar'
@@ -26,7 +19,9 @@ brew 'gawk'
 brew 'gnutls'
 brew 'gzip'
 brew 'screen'
+brew 'stow'
 brew 'wdiff'
+brew 'wget'
 
 # Install Bash
 brew 'bash'
@@ -71,7 +66,6 @@ brew 'rsync'
 brew 'spotifyd'
 brew 'spotify-tui'
 brew 'ssh-copy-id'
-brew 'stow'
 brew 'svn'
 brew 'thefuck'
 brew 'tmux'
@@ -80,7 +74,6 @@ brew 'tree'
 brew 'unar'
 brew 'vim'
 brew 'watch'
-brew 'wget'
 brew 'zopfli'
 brew 'zoxide'
 
