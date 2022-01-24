@@ -74,6 +74,7 @@ brew 'tree'
 brew 'unar'
 brew 'vim'
 brew 'watch'
+brew 'xz'
 brew 'zopfli'
 brew 'zoxide'
 
