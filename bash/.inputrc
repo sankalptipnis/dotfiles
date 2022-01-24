@@ -1,7 +1,9 @@
+#!/usr/bin/env bash
+
 $include /etc/inputrc
 
-"\e[A": history-search-backward
-"\e[B": history-search-forward
+"\e[A": history-search-backward # down key
+"\e[B": history-search-forward  # up key
 
 # "\C-p":history-search-backward
 # "\C-n":history-search-forward
