@@ -5,8 +5,8 @@
   - [Trackpad](#trackpad)
   - [Security](#security)
   - [Xcode](#xcode)
-  - [Automated Installation](#automated-installation)
   - [System](#system)
+  - [Automated Installation](#automated-installation)
   - [Chrome and Gmail](#chrome-and-gmail)
   - [Better Touch Tool](#better-touch-tool)
   - [Steermouse](#steermouse)
@@ -53,21 +53,9 @@
 3. Turn on Firewall:\
    System Preferences -> Security & Privacy -> FileVault -> `Turn On Firewall`
 
-
 ## Xcode
 1. Sign into Apple account
 2. Install Xcode from the App Store
-
-
-## Automated Installation
-1. Install Command Line Tools (CLT) for Xcode
-    ```bash
-    make clt
-    ```
-2. Run the full [automated installation](../README.md) using the [Makefile](../Makefile)   
-    ```bash
-    make all
-    ```
 
 ## System
 1. Finder
@@ -83,8 +71,16 @@
    3. Disable `Insatall macOS updates`
    4. Enable `Insall app updates from the App Store`
    5. Enable `Install system data files and security updates`
-
-
+   
+## Automated Installation
+1. Install Command Line Tools (CLT) for Xcode
+    ```bash
+    make clt
+    ```
+2. Run the full [automated installation](../README.md) using the [Makefile](../Makefile)   
+    ```bash
+    make all
+    ```
 ## Chrome and Gmail
 1.  Sign into Chrome
 2.  Set the Gmail website to be the default email app
@@ -94,7 +90,6 @@
 
 ## Better Touch Tool
 Set up better touch tool or import settings from [file](../apps/btt/Default.bttpreset).
-
 
 ## Steermouse
 Set up steermouse or import settings from [file](../apps/steermouse/Default.smsetting_app).
@@ -178,20 +173,28 @@ Install apps which cannot be installed using Homebrew or mas-cli manually:
      2. Mathematica
 
 ## App Setup
-1. Set up Google Drive
-2. Set up Alfred, Raycast, Launchbar
-3. Set up Hook
-4. Set up menu bar using Bartender
-5. Set up Safari
-6. Set up Logseq and Obsidian
-7. Set up Fantastical
-8. Set up Little Snitch
-9. Set up Adguard
-10. Create Google Keep using Unite
-11. Set up Movist Pro
-12. Set up Amazing Marvin
-13. Set up Mimestream 
-14. Set up Zoom
+1. Sign into 1Password
+2. Set up Google Drive
+3. Set up Alfred, Raycast, Launchbar
+4. Set up Hook
+5. Set up menu bar using Bartender
+6. Set up Karabiner Elements
+7. Set up Safari
+8. Set up Logseq and Obsidian
+9. Set up Fantastical
+10. Set up Little Snitch
+11. Set up Adguard
+12. Create Google Keep using Unite
+13. Set up Movist Pro
+14. Set up Amazing Marvin
+15. Set up Mimestream
+16. Set up Adguard and Little Snitch 
+17. Set up Mimir
+18. Set up NordVPN
+19. Set up Zoom
+20. Sign into Skype
+21. Sign into Firefox
+22. Sign into Raindrop.io
 
 
 
