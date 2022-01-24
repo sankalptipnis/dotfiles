@@ -10,6 +10,7 @@
   - [XQuartz](#xquartz)
   - [Duti](#duti)
   - [LaTeX](#latex)
+  - [VSCode](#vscode)
 
 ## Shell
 1. Get current shell:
@@ -206,3 +207,9 @@
 	```
 	Cmd + Option + j	
 	```
+
+## VSCode
+1. Save list of installed extensions
+    ```bash
+    code --list-extensions > vscode-extensions.list
+    ```
