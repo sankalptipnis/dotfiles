@@ -26,12 +26,11 @@ In particular, need a way to sync settings (and more) for the following apps:
 11. Bartender
 12. Google Drive
 13. Fantastical
-14. Google Drive
-15. Karabiner Elements
-16. Loqseq
-17. Mimestream
-18. MovistPro
-19. Obsidian
+14. Karabiner Elements
+15. Loqseq
+16. Mimestream
+17. MovistPro
+18. Obsidian
 
 
 ## Setup Script
