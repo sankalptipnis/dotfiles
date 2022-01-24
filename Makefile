@@ -5,8 +5,9 @@ SHELL := /bin/bash
 
 # Path to Makefile cannot contain spaces!
 DOTFILES_DIR := $(strip $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))))
-HOMEBREW_PREFIX := $(shell bin/is-evaluable bin/is-arm64 /opt/homebrew /usr/local)
-PATH := $(DOTFILES_DIR)/bin:$(PATH)
+BIN := $(DOTFILES_DIR)/bin
+HOMEBREW_PREFIX := $(shell $(BIN)/is-evaluable $(BIN)/is-arm64 /opt/homebrew /usr/local)
+PATH := $(BIN):$(PATH)
 
 CONFIG_DIR := $(HOME)/.config
 COMPLETED_DIR := $(HOME)/.completed
@@ -38,7 +39,13 @@ all: completed sudo core cleanup link macos-defaults packages quicklook dock app
 completed:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Creating ~/.completed"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	mkdir -p $(COMPLETED_DIR)
+	if [ ! -d $(COMPLETED_DIR) ]; then \
+		mkdir $(COMPLETED_DIR) \
+		&& echo-color yellow "  Success!" \
+		|| echo-color yellow "  Failed to create ~/.completed!" && exit 1; \
+	else
+		$(BIN)/echo-color yellow "  ~/.completed already exists"; \
+	fi
 endif
 
 ###############################################################################
@@ -49,15 +56,23 @@ sudo:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Making sudo passwordless"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if sudo [ ! -f /etc/sudoers.d/$$(id -un) ]; then \
-		echo "$$(id -un) ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/$$(id -un); \
+		(echo "$$(id -un) ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/$$(id -un)) \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color yellow "  Failed to make sudo passwordless" && exit 1; \
+	else \
+		$(BIN)/echo-color yellow "  Sudo is already passwordless"; \
 	fi
 endif
 
 sudo-revert:
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Making sudo require password"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Making sudo require a password"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if sudo [ -f /etc/sudoers.d/$$(id -un) ]; then \
-		sudo rm -f /etc/sudoers.d/$$(id -un); \
+		sudo rm -f /etc/sudoers.d/$$(id -un) \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color yellow "  Failed to make sudo require a password"; \
+	else \
+		$(BIN)/echo-color yellow "  Sudo already requires a password"; \
 	fi
 endif
 
@@ -65,33 +80,34 @@ endif
 # Core utils: brew, bash, git & stow			      					      #
 ###############################################################################
 
-core: brew bash git
+core: brew bash
 
 brew: sudo
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew if it does not exist"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	(is-executable brew && echo-color yellow "  Homebrew is aleady installed") \
-	|| curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash
+	if ! $(BIN)/is-executable brew; then \
+		(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash) \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color yellow "  Failed to install Homebrew" && exit 1; \
+	else \
+		$(BIN)/echo-color yellow "  Homebrew is already installed"; \
+	fi
 endif
-
 
 bash: BASH := $(HOMEBREW_PREFIX)/bin/bash
 bash: SHELLS := /private/etc/shells
 bash: sudo brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing bash and setting it as the defualt shell"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Bash and setting it as the default shell"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if ! grep -q $(BASH) $(SHELLS); then \
-		brew install bash bash-completion@2 && \
-		echo $(BASH) | sudo tee -a $(SHELLS) && \
-		sudo chsh -s $(BASH) $$(id -un); \
+		brew install bash bash-completion@2 \
+		&& echo $(BASH) | sudo tee -a $(SHELLS) \
+		&& sudo chsh -s $(BASH) $$(id -un) \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color yellow "  Failed to install Bash or to set it as the default shell" && exit 1; \
+	else \
+		$(BIN)/echo-color yellow "  Bash already set up"; \
 	fi
-endif
-
-git: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing git if it does not exist"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	(is-executable git && echo-color yellow "  git is aleady installed") \
-	|| (echo-color yellow "  Installing git" && brew install git)
 endif
 
 ###############################################################################
@@ -101,7 +117,8 @@ endif
 cleanup:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Recursively deleting .DS_Store files"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	find $(DOTFILES_DIR) -name '.DS_Store' -type f -delete
+	find $(DOTFILES_DIR) -name '.DS_Store' -type f -delete \
+	|| $(BIN)/echo-color yellow "  Failed to delete .DS_Store files" && exit 1;
 endif
 
 ###############################################################################
@@ -111,74 +128,97 @@ endif
 link: link-bash link-git link-xquartz link-kerberos link-ssh link-mopidy link-ncmpcpp link-hammerspoon link-spotifyd
 
 link-bash: cleanup
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking bash dotfiles"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Bash dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	stowup -x $(DOTFILES_DIR)/bash $(HOME)
-	stowup -x $(DOTFILES_DIR)/bash_helpers $(HOME)
+	$(BIN)/stowup -x $(DOTFILES_DIR)/bash $(HOME) \
+	&& $(BIN)/echo-color yellow "  Success: Linked core Bash dotfiles" \
+	|| $(BIN)/echo-color red "  Failed to link core Bash dotfiles";
+	
+	$(BIN)/stowup -x $(DOTFILES_DIR)/bash_helpers $(HOME) \
+	&& $(BIN)/echo-color yellow "  Success: Linked supplementary Bash dotfiles!" \
+	|| $(BIN)/echo-color red "  Failed to link supplementary Bash dotfiles";
 endif
 
 link-git: cleanup
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking git dotfiles"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Git dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	stowup -x $(DOTFILES_DIR)/git $(HOME)
+	$(BIN)/stowup -x $(DOTFILES_DIR)/git $(HOME) \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| $(BIN)/echo-color red "  Failed to link Git dotfiles";
 endif
 
 link-xquartz: cleanup
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking xquartz dotfiles"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking XQuartz dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	stowup -x $(DOTFILES_DIR)/xquartz $(HOME)
+	$(BIN)/stowup -x $(DOTFILES_DIR)/xquartz $(HOME) \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| $(BIN)/echo-color red "  Failed to link XQuartz dotfiles";
 endif
 
 link-kerberos: KERBEROS_DIR := /etc
 link-kerberos: sudo cleanup
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking kerberos files"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Kerberos files"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	sudo stowup $(DOTFILES_DIR)/kerberos $(KERBEROS_DIR)
+	sudo $(BIN)/stowup $(DOTFILES_DIR)/kerberos $(KERBEROS_DIR) \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| $(BIN)/echo-color red "  Failed to link Kerberos files";
 endif
 
 link-ssh: SSH_DIR := $(HOME)/.ssh
 link-ssh: cleanup
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking ssh dotfiles"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking SSH files"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	stowup -x $(DOTFILES_DIR)/ssh $(SSH_DIR)
+	$(BIN)/stowup -x $(DOTFILES_DIR)/ssh $(SSH_DIR) \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| $(BIN)/echo-color red "  Failed to link SSH files";
 endif
 
 link-mopidy: MOPIDY_DIR := $(CONFIG_DIR)/mopidy
 link-mopidy: cleanup completed
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking mopidy dotfiles"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Copying mopidy files"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if [ ! -f $(COMPLETED_DIR)/mopidyfile ]; then \
-		stowup -x -c $(DOTFILES_DIR)/mopidy $(MOPIDY_DIR) && touch $(COMPLETED_DIR)/mopidyfile; \
+	if [ ! -f $(COMPLETED_DIR)/mopidyfiles ]; then \
+		$(BIN)/stowup -x -c $(DOTFILES_DIR)/mopidy $(MOPIDY_DIR) \
+		&& touch $(COMPLETED_DIR)/mopidyfiles \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to copy mopidy files";
 	else \
-		echo-color yellow "  Mopidy files have already been copied."; \
-		echo-color yellow "  Delete $(COMPLETED_DIR)/mopidyfile to be able to recopy."; \
+		$(BIN)/echo-color yellow "  Mopidy files have already been copied."; \
+		$(BIN)/echo-color yellow "  Delete $(COMPLETED_DIR)/mopidyfiles to be able to re-copy."; \
 	fi
 endif
 
 link-ncmpcpp: NCMPCPP_DIR := $(CONFIG_DIR)/ncmpcpp
 link-ncmpcpp: cleanup
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking ncmpcpp dotfiles"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking ncmpcpp files"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	stowup -x $(DOTFILES_DIR)/ncmpcpp $(NCMPCPP_DIR)
+	$(BIN)/stowup -x $(DOTFILES_DIR)/ncmpcpp $(NCMPCPP_DIR) \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| $(BIN)/echo-color red "  Failed to link ncmpcpp files";
 endif
 
 link-spotifyd: SPOTIFYD_DIR := $(CONFIG_DIR)/spotifyd
 link-spotifyd: cleanup completed
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking spotifyd dotfiles"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Copying spotifyd dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if [ ! -f $(COMPLETED_DIR)/spotifydfile ]; then \
-		stowup -x -c $(DOTFILES_DIR)/spotifyd $(SPOTIFYD_DIR) && touch $(COMPLETED_DIR)/spotifydfile; \
+	if [ ! -f $(COMPLETED_DIR)/spotifydfiles ]; then \
+		$(BIN)/stowup -x -c $(DOTFILES_DIR)/spotifyd $(SPOTIFYD_DIR) \
+		&& touch $(COMPLETED_DIR)/spotifydfiles \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to copy spotifyd files";
 	else \
-		echo-color yellow "  Spotifyd files have already been copied."; \
-		echo-color yellow "  Delete $(COMPLETED_DIR)/spotifydfile to be able to recopy."; \
+		$(BIN)/echo-color yellow "  Spotifyd files have already been copied."; \
+		$(BIN)/echo-color yellow "  Delete $(COMPLETED_DIR)/spotifydfiles to be able to re-copy."; \
 	fi
 endif
 
 link-hammerspoon: HAMMERSPOON_DIR := $(HOME)/.hammerspoon
 link-hammerspoon: cleanup
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking hammerspoon dotfiles"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Hammerspoon files"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	stowup -x $(DOTFILES_DIR)/hammerspoon $(HAMMERSPOON_DIR)
+	$(BIN)/stowup -x $(DOTFILES_DIR)/hammerspoon $(HAMMERSPOON_DIR) \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| $(BIN)/echo-color red "  Failed to link Hammerspoon files";
 endif
 
 ###############################################################################
@@ -189,11 +229,13 @@ macos-defaults: sudo completed
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting sensible macOS defaults"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if [ ! -f $(COMPLETED_DIR)/defaults ]; then \
-		(. $(DOTFILES_DIR)/macos/defaults.sh && touch $(COMPLETED_DIR)/defaults) \
-		|| echo-color red "  Failed to set macOS defaults"; \
+		$(DOTFILES_DIR)/macos/defaults.sh \
+		&& touch $(COMPLETED_DIR)/defaults \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to set macOS defaults"; \
 	else \
-		echo-color yellow "  macOS defaults have already been set."; \
-		echo-color yellow "  Delete $(COMPLETED_DIR)/defaults to be able to reset."; \
+		$(BIN)/echo-color yellow "  macOS defaults have already been set."; \
+		$(BIN)/echo-color yellow "  Delete $(COMPLETED_DIR)/defaults to be able to reset."; \
 	fi
 endif
 
@@ -203,47 +245,56 @@ endif
 
 packages: brew-packages cask-apps mas-apps
 
-brew-packages: brew completed
+brew-packages: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew packages"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if [ ! -f $(COMPLETED_DIR)/brew ]; then \
-		(brew bundle --file=$(DOTFILES_DIR)/homebrew/Brewfile && touch $(COMPLETED_DIR)/brew) \
-		|| echo-color red "  Failed to install all the Homebrew packages"; \
+	brew bundle --file=$(DOTFILES_DIR)/homebrew/Brewfile \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| $(BIN)/echo-color red "  Failed to install all the Homebrew packages";
+endif
+
+svn: brew
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing SVN if it does not exist"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	if ! $(BIN)/is-executable svn; then \
+		brew install svn \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to install SVN"; \
 	else \
-		echo-color yellow "  Homebrew packages have already been installed."; \
-		echo-color yellow "  Delete $(COMPLETED_DIR)/brew to be able to reinstall."; \
+		$(BIN)/echo-color yellow "  SVN is already installed"; \
 	fi
 endif
 
-cask-apps: brew completed
+cask-apps: brew svn
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew Cask apps"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if [ ! -f $(COMPLETED_DIR)/cask ]; then \
-		(brew bundle --file=$(DOTFILES_DIR)/homebrew/Caskfile && touch $(COMPLETED_DIR)/cask) \
-		|| echo-color red "  Failed to install all the Homebrew Cask apps"; \
-	else \
-		echo-color yellow "  Homebrew Cask apps have already been installed."; \
-		echo-color yellow "  Delete $(COMPLETED_DIR)/cask to be able to reinstall."; \
-	fi
+		brew bundle --file=$(DOTFILES_DIR)/homebrew/Caskfile \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| echo-color red "  Failed to install all the Homebrew Cask apps"; 
 endif
 
-mas-apps: brew mas completed
+mas-apps: brew mas
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing macOS App Store apps"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if [ ! -f $(COMPLETED_DIR)/mas ]; then \
-		(brew bundle --file=$(DOTFILES_DIR)/homebrew/Masfile && touch $(COMPLETED_DIR)/mas) \
-		|| echo-color red "  Failed to install all the macOS App Store apps"; \
+	if $(BIN)/is-executable mas; then \
+		brew bundle --file=$(DOTFILES_DIR)/homebrew/Masfile \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to install all the macOS App Store apps; \
 	else \
-		echo-color yellow "  macOS App Store apps have already been installed."; \
-		echo-color yellow "  Delete $(COMPLETED_DIR)/mas to be able to reinstall."; \
+		$(BIN)/echo-color red "  mas-cli is not installed"; \
 	fi
 endif
 
 mas: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mas-cli is it does not exist"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG	
-	(is-executable mas && echo-color yellow "  mas-cli is aleady installed") \
-	|| (echo-color yellow "  Installing mas-cli" && brew install mas)
+	if ! $(BIN)/is-executable mas; then \
+		brew install mas \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to install mas-cli"; \
+	else \
+		$(BIN)/echo-color yellow "  mas-cli is already installed"; \
+	fi
 endif
 
 ###############################################################################
@@ -253,31 +304,42 @@ endif
 quicklook:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Removing quarantine from quicklook plugins"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG	
-	([ -d $(HOME)/Library/QuickLook ] && xattr -d -r com.apple.quarantine $(HOME)/Library/QuickLook) \
-	|| echo-color yellow "  $(HOME)/Library/QuickLook does not exist"
+	if [ -d $(HOME)/Library/QuickLook ]; then \
+		xattr -d -r com.apple.quarantine $(HOME)/Library/QuickLook \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to remove quarantine from quicklook plugins"; \
+	else \
+		$(BIN)/echo-color yellow "  $(HOME)/Library/QuickLook does not exist"; \
+	fi
 endif
 
 ###############################################################################
 # Dock setup 				      					 					      #
 ###############################################################################
 
-dock: dockutil completed
+dock: dockutil
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Organising the dock"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if [ ! -f $(COMPLETED_DIR)/dock]; then \
-		(. $(DOTFILES_DIR)/macos/dock.sh && touch $(COMPLETED_DIR)/dock) \
-		|| echo-color red "  Failed to set up the dock"; \
-	else \
-		echo-color yellow "  Dock has already been set up."; \
-		echo-color yellow "  Delete $(COMPLETED_DIR)/dock to be able to re-setup."; \
-	fi
+		if $(BIN)/is-executable dockutil; then \
+			$(DOTFILES_DIR)/macos/dock.sh \
+			&& touch $(COMPLETED_DIR)/dock \
+			&& $(BIN)/echo-color yellow "  Success!" \
+			|| $(BIN)/echo-color red "  Failed to set up the dock"; \
+		else \
+			$(BIN)/echo-color red "  dockutil is not installed"; \
+		fi
 endif
 
 dockutil: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing dockutil is it does not exist"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing dockutil"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG	
-	(is-executable dockutil && echo-color yellow "  dockutil is aleady installed") \
-	|| (echo-color yellow "  Installing dockutil" && brew install dockutil)
+	if ! $(BIN)/is-executable dockutil; then \
+		brew install dockutil \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to install dockutil"; \
+	else \
+		$(BIN)/echo-color yellow "  dockutil is already installed"; \
+	fi
 endif
 
 ###############################################################################
@@ -286,155 +348,226 @@ endif
 
 app-setup: vscode subl smerge iterm mamba mopidy
 
-vscode: vscode-install completed
+vscode: CODE := '/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code'
+vscode: vscode-install
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up VSCode"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if ! is-executable code; then \
-		ln -s '/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code' /usr/local/bin/ \
-		|| echo-color red "  Failed to symlink code"; \
-	fi
-	
-	if [ ! -f $(COMPLETED_DIR)/vscext]; then \
-		((cat $(DOTFILES_DIR)/apps/vscode/vscode-extensions.list | xargs -L1 code --install-extension) \
-		&& touch $(COMPLETED_DIR)/vscext) \
-		|| echo-color red "  Failed to install all the VSCode extensions"; \
+	if (ls /Applications | grep -q "Visual Studio Code.app"); then \
+		if ! $(BIN)/is-executable code; then \
+			if [ -e $(CODE) ]; then \
+				ln -s $(CODE) /usr/local/bin/ \
+				&& $(BIN)/echo-color yellow "  Success: Symlinked code!" \
+				|| $(BIN)/echo-color red "  Failed to symlink code"; \
+			else \
+				$(BIN)/echo-color red "  Failed to symlink code: $(CODE) does not exist "; \
+			fi; \
+		else \
+			$(BIN)/echo-color yellow "  code is already a symlink"; \
+		fi; \
+		
+		(cat $(DOTFILES_DIR)/apps/vscode/vscode-extensions.list | xargs -L1 code --install-extension) \
+		&& $(BIN)/echo-color yellow "  Success: Installed VSCode extensions!" \
+		|| $(BIN)/echo-color red "  Failed to install all the VSCode extensions"; \
 	else \
-		echo-color yellow "  VSCode extensions have already been installed \
-		echo-color yellow "  Delete $(COMPLETED_DIR)/vscext to be able to reinstall."; \
-	fi
-
+		$(BIN)/echo-color red "  VSCode is not installed"; \
+	fi	
 endif
 
 vscode-install: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing VSCode if it does not exist"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing VSCode"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if ! (ls /Applications | grep "Visual Studio Code.app"); then echo-color yellow "  Installing VSCode" && brew install vscode; \
-	else  echo-color yellow "  VSCode is already installed"; fi
+	if ! (ls /Applications | grep "Visual Studio Code.app"); then \
+		brew install vscode \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to install VSCode"; \
+	else \
+	  	$(BIN)/echo-color yellow "  VSCode is already installed"; \
+  	fi
 endif
 
+subl: SUBL := '/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl'
 subl: subl-install
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up Sublime Text & Merge"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up Sublime Text"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if ! is-executable subl; then \
-		ln -s '/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl' /usr/local/bin/ \
-		|| echo-color red "  Failed to symlink subl"; \
-	fi
+	if (ls /Applications | grep -q "Sublime Text.app"); then \
+		if ! $(BIN)/is-executable subl; then \
+			if [ -e $(SUBL) ]; then \
+				ln -s $(SUBL) /usr/local/bin/ \
+				&& $(BIN)/echo-color yellow "  Success: Symlinked subl!" \
+				|| $(BIN)/echo-color red "  Failed to symlink subl"; \
+			else \
+				$(BIN)/echo-color red "  Failed to symlink subl: $(SUBL) does not exist "; \
+			fi; \
+		else \
+			$(BIN)/echo-color yellow "  subl is already a symlink"; \
+		fi; \
+	else \
+		$(BIN)/echo-color red "  Sublime Text is not installed"; \
+	fi	
 endif
 
 subl-install: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Sublime Text & Merge if they do not exist"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Sublime Text"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if ! (ls /Applications | grep "Sublime Text.app"); then echo-color yellow "  Installing Sublime Text" && brew install sublime-text; \
-	else echo-color yellow "  Sublime Text is already installed"; fi
+	if ! (ls /Applications | grep "Sublime Text.app"); then \
+		brew install sublime-text \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to install Sublime Text"; \
+	else \
+	  	$(BIN)/echo-color yellow "  Sublime Text is already installed"; \
+  	fi
 endif
 
+smerge: SMERGE := '/Applications/Sublime Merge.app/Contents/SharedSupport/bin/smerge'
 smerge: smerge-install
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up Sublime Merge"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if ! is-executable smerge; then \
-		ln -s '/Applications/Sublime Merge.app/Contents/SharedSupport/bin/smerge' /usr/local/bin/ \
-		|| echo-color red "  Failed to symlink smerge"; \
-	fi
+	if (ls /Applications | grep -q "Sublime Merge.app"); then \
+		if ! $(BIN)/is-executable smerge; then \
+			if [ -e $(SMERGE) ]; then \
+				ln -s $(SMERGE) /usr/local/bin/ \
+				&& $(BIN)/echo-color yellow "  Success: Symlinked smerge!" \
+				|| $(BIN)/echo-color red "  Failed to symlink smerge"; \
+			else \
+				$(BIN)/echo-color red "  Failed to symlink smerge: $(SMERGE) does not exist "; \
+			fi; \
+		else \
+			$(BIN)/echo-color yellow "  smerge is already a symlink"; \
+		fi; \
+	else \
+		$(BIN)/echo-color red "  Sublime Merge is not installed"; \
+	fi	
 endif
 
 smerge-install: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Sublime Text & Merge if they do not exist"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Sublime Merge"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if ! (ls /Applications | grep "Sublime Merge.app"); then echo-color yellow "  Installing Sublime Merge" && brew install sublime-merge; \
-	else echo-color yellow "  Sublime Merge is already installed"; fi
+	if ! (ls /Applications | grep "Sublime Merge.app"); then \
+		brew install sublime-merge \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to install Sublime Merge"; \
+	else \
+	  	$(BIN)/echo-color yellow "  Sublime Merge is already installed"; \
+  	fi
 endif
 
 iterm: iterm-install completed
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Importing iTerm color schemes"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if [ ! -f $(COMPLETED_DIR)/itermcol ]
-		(. $(DOTFILES_DIR)/apps/iterm/import-color-schemes.sh && touch $(COMPLETED_DIR)/itermcol) \
-		|| echo-color red "  Failed to import iTerm color schemes"; \
-	else \
-		echo-color yellow "  iTerm color schemes have already been imported. \
-		echo-color yellow "  Delete $(COMPLETED_DIR)/itermcol to be able to reimport."; \
-	fi
+	if (ls /Applications | grep "iTerm.app"); then \
+		if [ ! -f $(COMPLETED_DIR)/itermcol ]
+			$(DOTFILES_DIR)/apps/iterm/import-color-schemes.sh \
+			&& touch $(COMPLETED_DIR)/itermcol \
+			&& $(BIN)/echo-color yellow "  Success!" \
+			|| $(BIN)/echo-color red "  Failed to import iTerm color schemes"; \
+		else \
+			$(BIN)/echo-color yellow "  iTerm color schemes have already been imported."; \
+			$(BIN)/echo-color yellow "  Delete $(COMPLETED_DIR)/itermcol to be able to reimport."; \
+		fi; \
+	else
+		$(BIN)/echo-color red "  iTerm is not installed"; \
+  	fi
 endif
 
 iterm-install: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing iTerm if it does not exist"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing iTerm"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if ! (ls /Applications | grep "iTerm.app"); then echo-color yellow "  Installing iTerm" && brew install iterm; \
-	else echo-color yellow "  iTerm is already installed"; fi
+	if ! (ls /Applications | grep "iTerm.app"); then \
+		brew install iterm \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to install iTerm"; \
+	else \
+	  	$(BIN)/echo-color yellow "  iTerm is already installed"; \
+  	fi
 endif
 
-mamba: miniforge completed
+mamba: miniforge
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mamba in the base conda environment"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if [ ! -f $(COMPLETED_DIR)/mamba ]
-		(conda install -y mamba -n base -c conda-forge && touch $(COMPLETED_DIR)/mamba) \
-		|| echo-color red "  Failed to install mamba"; \
+	if $(BIN)/is-executable conda; then \
+		if ! conda list | grep -q ^mamba; then \
+			conda install -y mamba -n base -c conda-forge \
+			&& $(BIN)/echo-color yellow "  Success!" \
+			|| $(BIN)/echo-color red "  Failed to install mamba"; \
+		else \
+			$(BIN)/echo-color yellow "  mamba is already installed"; \
+		fi; \
 	else \
-		echo-color yellow "  mamba has been already been installed. \
-		echo-color yellow "  Delete $(COMPLETED_DIR)/mamba to be able to reinstall."; \
+		$(BIN)/echo-color red "  conda is not installed"; \
 	fi
 endif
 
 miniforge: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing miniforge if it does not exist"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing miniforge"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	(is-executable conda && echo-color yellow "  miniforge is aleady installed") \
-	|| (echo-color yellow "  Installing miniforge" && brew install miniforge)
+	if ! brew list miniforge &>/dev/null; then \
+		brew install miniforge \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to install miniforge"; \
+	else \
+		$(BIN)/echo-color yellow "  miniforge is already installed"; \
+	fi
 endif
 
-mopidy: mopidy-install completed
+mopidy: mopidy-install
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Starting up mopidy as a servce"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if [ ! -f $(COMPLETED_DIR)/mopidyservice ]
-		(brew services start mopidy && touch $(COMPLETED_DIR)/mopidyservice) \
-		|| echo-color red "  Failed to start mopidy as a service"; \
+	if ! brew services | grep -q mopidy; then \
+		brew services start mopidy \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to start mopidy as a service"; \
 	else \
-		echo-color yellow "  mopidy has been already been started as a service. \
-		echo-color yellow "  Delete $(COMPLETED_DIR)/mopidyservice to be able to restart."; \
+		$(BIN)/echo-color yellow "  mopidy has been already been started as a service"; \
 	fi
 endif
 
 mopidy-install: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mopidy and ncmpcpp if they do not not exist"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mopidy and ncmpcpp"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG	
-	(is-executable mopidy && echo-color yellow "  mopidy is aleady installed") \
-	|| (echo-color yellow "  Installing mopidy" && brew tap mopidy/mopidy && brew install mopidy mopidy-mpd mopidy-spotify)
+	if ! $(BIN)/is-executable mopidy; then \
+		brew tap mopidy/mopidy \
+		&& brew install mopidy mopidy-mpd mopidy-spotify \
+		&& $(BIN)/echo-color yellow "  Success: Installed mopidy!" \
+		|| $(BIN)/echo-color red "  Failed to install mopidy"; \
+	else \
+		$(BIN)/echo-color yellow "  mopidy is already installed"; \
+	fi
 
-	(is-executable ncmpcpp && echo-color yellow "  ncmpcpp is aleady installed") \
-	|| (echo-color yellow "  Installing ncmpcpp" && brew install ncmpcpp)
+	if ! $(BIN)/is-executable ncmpcpp; then \
+		brew install ncmpcpp \
+		&& $(BIN)/echo-color yellow "  Success: Installed ncmpcpp!" \
+		|| $(BIN)/echo-color red "  Failed to install ncmpcpp"; \
+	else \
+		$(BIN)/echo-color yellow "  ncmpcpp is already installed"; \
+	fi
 endif
 
 ###############################################################################
 # Default apps 				      					 					      #
 ###############################################################################
 
-default-apps: duti completed
+default-apps: duti
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up default apps for various filetypes"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if [ ! -f $(COMPLETED_DIR)/duti ]; then \
-		(duti -v $(DOTFILES_DIR)/duti/Dutifile && touch $(COMPLETED_DIR)/duti) \
-		|| echo-color red "  Failed to set default apps"; \
+	if $(BIN)/is-executable duti; then \
+		duti -v $(DOTFILES_DIR)/duti/Dutifile \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to set default apps"; \
 	else \
-		echo-color yellow "  Default apps have already been set. \
-		echo-color yellow "  Delete $(COMPLETED_DIR)/duti to be able to reset."; \
+		$(BIN)/echo-color red "  duti is not installed"; \
 	fi
 endif
 
 duti: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing duti if it does not exist"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing duti"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	(is-executable duti && echo-color yellow "  duti is aleady installed") \
-	|| (echo-color yellow "  Installing duti" && brew install duti)
-endif
-
-###############################################################################
-# XCode Command Line Tools installation				 					      #
-###############################################################################
-
-clt:
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing XCode Command Line Tools"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	xcode-select --install
+	if ! $(BIN)/is-executable duti; then \
+		brew install duti \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to install duti"; \
+	else \
+		$(BIN)/echo-color yellow "  duti is already installed"; \
+	fi
 endif
 
 ###############################################################################
@@ -447,6 +580,10 @@ keytab:
 ifndef DEBUG
 	mkdir -p $(SSH_DIR)
 	if [ ! -f $(SSH_DIR)/keytab ]; then \
-		ktutil -k $(SSH_DIR)/keytab add -p stipnis@CERN.CH -e arcfour-hmac-md5 -V 3; \
+		ktutil -k $(SSH_DIR)/keytab add -p stipnis@CERN.CH -e arcfour-hmac-md5 -V 3 \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to generate keytab"; \
+	else \
+		$(BIN)/echo-color yellow "  keytab already exists"; \
 	fi
 endif
