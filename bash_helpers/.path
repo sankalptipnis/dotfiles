@@ -12,14 +12,15 @@ fi
 export HOMEBREW_PREFIX
 
 # Add GNU utils
-prepend-path "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
-prepend-path "$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin"
-prepend-path "$HOMEBREW_PREFIX/opt/ed/libexec/gnubin"
-prepend-path "$HOMEBREW_PREFIX/opt/gnu-indent/libexec/gnubin"
-prepend-path "$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin"
-prepend-path "$HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin"
-prepend-path "$HOMEBREW_PREFIX/opt/gnu-which/libexec/gnubin"
-prepend-path "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"
+# prepend-path "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
+# prepend-path "$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin"
+# prepend-path "$HOMEBREW_PREFIX/opt/ed/libexec/gnubin"
+# prepend-path "$HOMEBREW_PREFIX/opt/gnu-indent/libexec/gnubin"
+# prepend-path "$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin"
+# prepend-path "$HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin"
+# prepend-path "$HOMEBREW_PREFIX/opt/gnu-which/libexec/gnubin"
+# prepend-path "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"
+for d in ${HOMEBREW_PREFIX}/opt/*/libexec/gnubin; do prepend-path "$d"; done
 
 # Make own utilities available
 prepend-path "$DOTFILES_DIR/bin"
