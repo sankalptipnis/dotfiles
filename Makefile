@@ -42,7 +42,7 @@ ifndef DEBUG
 	if [ ! -d $(COMPLETED_DIR) ]; then \
 		mkdir $(COMPLETED_DIR) \
 		&& echo-color yellow "  Success!" \
-		|| echo-color yellow "  Failed to create ~/.completed!" && exit 1; \
+		|| (echo-color yellow "  Failed to create ~/.completed!" && exit 1); \
 	else
 		$(BIN)/echo-color yellow "  ~/.completed already exists"; \
 	fi
@@ -58,7 +58,7 @@ ifndef DEBUG
 	if sudo [ ! -f /etc/sudoers.d/$$(id -un) ]; then \
 		(echo "$$(id -un) ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/$$(id -un)) \
 		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color yellow "  Failed to make sudo passwordless" && exit 1; \
+		|| ($(BIN)/echo-color yellow "  Failed to make sudo passwordless" && exit 1); \
 	else \
 		$(BIN)/echo-color yellow "  Sudo is already passwordless"; \
 	fi
@@ -88,7 +88,7 @@ ifndef DEBUG
 	if ! $(BIN)/is-executable brew; then \
 		(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash) \
 		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color yellow "  Failed to install Homebrew" && exit 1; \
+		|| ($(BIN)/echo-color yellow "  Failed to install Homebrew" && exit 1); \
 	else \
 		$(BIN)/echo-color yellow "  Homebrew is already installed"; \
 	fi
@@ -104,7 +104,7 @@ ifndef DEBUG
 		&& echo $(BASH) | sudo tee -a $(SHELLS) \
 		&& sudo chsh -s $(BASH) $$(id -un) \
 		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color yellow "  Failed to install Bash or to set it as the default shell" && exit 1; \
+		|| ($(BIN)/echo-color yellow "  Failed to install Bash or to set it as the default shell" && exit 1); \
 	else \
 		$(BIN)/echo-color yellow "  Bash already set up"; \
 	fi
@@ -118,7 +118,7 @@ cleanup:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Recursively deleting .DS_Store files"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	find $(DOTFILES_DIR) -name '.DS_Store' -type f -delete \
-	|| $(BIN)/echo-color yellow "  Failed to delete .DS_Store files" && exit 1;
+	|| ($(BIN)/echo-color yellow "  Failed to delete .DS_Store files" && exit 1);
 endif
 
 ###############################################################################
