@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+# Get Homebrew prefix
+if [[ "$(uname -m)" == "arm64" ]]; then 
+	HOMEBREW_PREFIX=/opt/homebrew
+else
+	HOMEBREW_PREFIX=/usr/local
+fi
+
 # Define dotfiles directory
 export DOTFILES_DIR="$HOME/dotfiles"
 
