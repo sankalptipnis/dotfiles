@@ -246,7 +246,7 @@ function extract() {
 #Use Git’s colored diff when available
 if command -v git &>/dev/null; then
 	function diff() {
-		git diff --no-index --color-words "$@"
+		git diff --no-index "$@"
 	}
 fi
 
