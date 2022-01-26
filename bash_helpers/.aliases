@@ -20,14 +20,13 @@ alias path='echo -e ${PATH//:/\\n}'
 # Shortcuts
 alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
-alias goog="cd ~/Google\ Drive/"
+alias drive="cd ~/Drive/"
 alias dot="cd $DOTFILES_DIR"
-alias notes="cd ~/Google\ Drive/Notes"
+alias notes="cd ~/Drive/Notes"
 
 # Conda environment activation
 alias ca="conda activate"
 alias base="conda activate base"
-alias ml="conda activate MLenv"
 
 # Git shortcuts
 alias g="git"
@@ -108,7 +107,7 @@ alias cleanup="find . -type f -name '*.DS_Store' -ls -delete"
 alias emptytrash="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl; sqlite3 ~/Library/Preferences/com.apple.LaunchServices.QuarantineEventsV* 'delete from LSQuarantineEvent'"
 
 # URL-encode strings
-alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
+alias urlencode='python -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1]))"'
 
 # Intuitive map function
 alias map="xargs -n1"
@@ -121,7 +120,7 @@ alias pumpitup="osascript -e 'set volume output volume 100'"
 alias reload="unset PATH;exec -l "$SHELL";clear"
 
 # Update macOS and Homebrew
-alias updateall="sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup"
+alias updateall="sudo softwareupdate -i -a; brew update; brew upgrade; brew cu; brew cleanup"
 
 # Update Homebrew
 alias update="brew update; brew upgrade; brew cu; brew cleanup"

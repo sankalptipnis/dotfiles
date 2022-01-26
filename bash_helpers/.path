@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# Extend the PATH variable
-
 # Add /usr/local/bin
 prepend-path "/usr/local/bin"
 
