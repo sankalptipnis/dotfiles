@@ -256,7 +256,7 @@ ifndef DEBUG
 endif
 
 svn: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing SVN if it does not exist"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing SVN"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if ! $(BIN)/is-executable svn; then \
 		brew install svn \
@@ -288,7 +288,7 @@ ifndef DEBUG
 endif
 
 mas: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mas-cli is it does not exist"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mas-cli"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG	
 	if ! $(BIN)/is-executable mas; then \
 		brew install mas \
