@@ -2,34 +2,17 @@
 
 # Extend the PATH variable
 
-# Get Homebrew prefix
-if [[ "$(uname -m)" == "arm64" ]]; then 
-	HOMEBREW_PREFIX=/opt/homebrew
-else
-	HOMEBREW_PREFIX=/usr/local
-fi
+# Add /usr/local/bin
+prepend-path "/usr/local/bin"
 
-export HOMEBREW_PREFIX
+# Add Homebrew installed binaries
+eval "\$(${HOMEBREW_PREFIX}/bin/brew shellenv)"
 
 # Add GNU utils
-# prepend-path "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin"
-# prepend-path "$HOMEBREW_PREFIX/opt/findutils/libexec/gnubin"
-# prepend-path "$HOMEBREW_PREFIX/opt/ed/libexec/gnubin"
-# prepend-path "$HOMEBREW_PREFIX/opt/gnu-indent/libexec/gnubin"
-# prepend-path "$HOMEBREW_PREFIX/opt/gnu-sed/libexec/gnubin"
-# prepend-path "$HOMEBREW_PREFIX/opt/gnu-tar/libexec/gnubin"
-# prepend-path "$HOMEBREW_PREFIX/opt/gnu-which/libexec/gnubin"
-# prepend-path "$HOMEBREW_PREFIX/opt/grep/libexec/gnubin"
 for d in ${HOMEBREW_PREFIX}/opt/*/libexec/gnubin; do prepend-path "$d"; done
 
 # Make own utilities available
 prepend-path "$DOTFILES_DIR/bin"
-
-# Add Homebrew installation directory
-# prepend-path "$HOMEBREW_PREFIX/bin"
-
-# Add /usr/local/bin
-prepend-path "/usr/local/bin"
 
 # Remove duplicates
 # Source: http://unix.stackexchange.com/a/40755
