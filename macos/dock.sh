@@ -16,8 +16,8 @@ dockutil --no-restart --add "/Applications/Spotify.app"
 dockutil --no-restart --add "/System/Applications/App Store.app"
 dockutil --no-restart --add "/System/Applications/System Preferences.app"
 
-if [ -d "$HOME/Google Drive" ]; then
-    dockutil --no-restart --add "$HOME/Google Drive" --view grid --display folder --sort name
+if [ -d "$HOME/Drive" ]; then
+    dockutil --no-restart --add "$HOME/Drive" --view grid --display folder --sort name
 fi
 
 dockutil --no-restart --add "/Applications" --view grid --display folder --sort name

@@ -43,7 +43,7 @@ ifndef DEBUG
 		mkdir $(COMPLETED_DIR) \
 		&& echo-color yellow "  Success!" \
 		|| (echo-color yellow "  Failed to create ~/.completed!" && exit 1); \
-	else
+	else \
 		$(BIN)/echo-color yellow "  ~/.completed already exists"; \
 	fi
 endif
@@ -111,14 +111,16 @@ ifndef DEBUG
 endif
 
 ###############################################################################
-# Deletion of .DS_Store files					      					      #
+# Cleanup of dotfiles directory					      					      #
 ###############################################################################
 
 cleanup:
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Recursively deleting .DS_Store files"$(GREEN_ECHO_SUFFIX)
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Cleaning up dotfiles directory"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	find $(DOTFILES_DIR) -name '.DS_Store' -type f -delete \
-	|| ($(BIN)/echo-color yellow "  Failed to delete .DS_Store files" && exit 1);
+	&& find $(DOTFILES_DIR) -mindepth 1 -maxdepth 1 -not -name .git -exec xattr -d -r com.apple.quarantine '{}' \; \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| ($(BIN)/echo-color yellow "  Failed to clean up dotfiles directory" && exit 1);
 endif
 
 ###############################################################################
@@ -181,7 +183,7 @@ ifndef DEBUG
 		$(BIN)/stowup -x -c $(DOTFILES_DIR)/mopidy $(MOPIDY_DIR) \
 		&& touch $(COMPLETED_DIR)/mopidyfiles \
 		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to copy mopidy files";
+		|| $(BIN)/echo-color red "  Failed to copy mopidy files"; \
 	else \
 		$(BIN)/echo-color yellow "  Mopidy files have already been copied."; \
 		$(BIN)/echo-color yellow "  Delete $(COMPLETED_DIR)/mopidyfiles to be able to re-copy."; \
@@ -205,7 +207,7 @@ ifndef DEBUG
 		$(BIN)/stowup -x -c $(DOTFILES_DIR)/spotifyd $(SPOTIFYD_DIR) \
 		&& touch $(COMPLETED_DIR)/spotifydfiles \
 		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to copy spotifyd files";
+		|| $(BIN)/echo-color red "  Failed to copy spotifyd files"; \
 	else \
 		$(BIN)/echo-color yellow "  Spotifyd files have already been copied."; \
 		$(BIN)/echo-color yellow "  Delete $(COMPLETED_DIR)/spotifydfiles to be able to re-copy."; \
@@ -279,7 +281,7 @@ ifndef DEBUG
 	if $(BIN)/is-executable mas; then \
 		brew bundle --file=$(DOTFILES_DIR)/homebrew/Masfile \
 		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to install all the macOS App Store apps; \
+		|| $(BIN)/echo-color red "  Failed to install all the macOS App Store apps"; \
 	else \
 		$(BIN)/echo-color red "  mas-cli is not installed"; \
 	fi
@@ -364,7 +366,6 @@ ifndef DEBUG
 		else \
 			$(BIN)/echo-color yellow "  code is already a symlink"; \
 		fi; \
-		
 		(cat $(DOTFILES_DIR)/apps/vscode/vscode-extensions.list | xargs -L1 code --install-extension) \
 		&& $(BIN)/echo-color yellow "  Success: Installed VSCode extensions!" \
 		|| $(BIN)/echo-color red "  Failed to install all the VSCode extensions"; \
@@ -455,7 +456,7 @@ iterm: iterm-install completed
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Importing iTerm color schemes"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if (ls /Applications | grep "iTerm.app"); then \
-		if [ ! -f $(COMPLETED_DIR)/itermcol ]
+		if [ ! -f $(COMPLETED_DIR)/itermcol ]; then \
 			$(DOTFILES_DIR)/apps/iterm/import-color-schemes.sh \
 			&& touch $(COMPLETED_DIR)/itermcol \
 			&& $(BIN)/echo-color yellow "  Success!" \
@@ -464,7 +465,7 @@ ifndef DEBUG
 			$(BIN)/echo-color yellow "  iTerm color schemes have already been imported."; \
 			$(BIN)/echo-color yellow "  Delete $(COMPLETED_DIR)/itermcol to be able to reimport."; \
 		fi; \
-	else
+	else \
 		$(BIN)/echo-color red "  iTerm is not installed"; \
   	fi
 endif
@@ -500,7 +501,7 @@ endif
 miniforge: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing miniforge"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if ! brew list miniforge &>/dev/null; then \
+	if ! $(BIN)/is-executable conda; then \
 		brew install miniforge \
 		&& $(BIN)/echo-color yellow "  Success!" \
 		|| $(BIN)/echo-color red "  Failed to install miniforge"; \
@@ -512,12 +513,12 @@ endif
 mopidy: mopidy-install
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Starting up mopidy as a servce"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if ! brew services | grep -q mopidy; then \
+	if ! brew services | grep -qE mopidy.*started; then \
 		brew services start mopidy \
 		&& $(BIN)/echo-color yellow "  Success!" \
 		|| $(BIN)/echo-color red "  Failed to start mopidy as a service"; \
 	else \
-		$(BIN)/echo-color yellow "  mopidy has been already been started as a service"; \
+		$(BIN)/echo-color yellow "  mopidy has already been started as a service"; \
 	fi
 endif
 
