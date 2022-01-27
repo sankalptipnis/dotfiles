@@ -5,8 +5,8 @@
   - [Trackpad](#trackpad)
   - [Security](#security)
   - [Xcode](#xcode)
-  - [System](#system)
   - [Automated Installation](#automated-installation)
+  - [System](#system)
   - [Chrome and Gmail](#chrome-and-gmail)
   - [Better Touch Tool](#better-touch-tool)
   - [Steermouse](#steermouse)
@@ -56,6 +56,19 @@
 ## Xcode
 1. Sign into Apple account
 2. Install Xcode from the App Store
+3. Open XCode and accept the license agreement
+
+## Automated Installation
+1. Run the full [automated installation](../README.md) using the [Makefile](../Makefile)   
+    ```bash
+    make all
+    ```
+## Chrome and Gmail
+1.  Sign into Chrome
+2.  Set the Gmail website to be the default email app
+    1.  Mail.app -> Preferences -> Default email reader -> Google Chrome.app
+    2.  Google Chrome.app -> Privacy and Security -> Site Settings -> Additional Permissions -> Protocol Handlers -> Sites can ask to handle protocols
+    3.  Go the the [Gmail website](https://mail.google.com/mail/u/0/#inbox) -> Click on diamond icon on the right of the status bar -> Set "Allow mail.google.com to open all email links?" to Allow
 
 ## System
 1. Finder
@@ -71,22 +84,6 @@
    3. Disable `Insatall macOS updates`
    4. Enable `Insall app updates from the App Store`
    5. Enable `Install system data files and security updates`
-   
-## Automated Installation
-1. Install Command Line Tools (CLT) for Xcode
-    ```bash
-    make clt
-    ```
-2. Run the full [automated installation](../README.md) using the [Makefile](../Makefile)   
-    ```bash
-    make all
-    ```
-## Chrome and Gmail
-1.  Sign into Chrome
-2.  Set the Gmail website to be the default email app
-    1.  Mail.app -> Preferences -> Default email reader -> Google Chrome.app
-    2.  Google Chrome.app -> Privacy and Security -> Site Settings -> Additional Permissions -> Protocol Handlers -> Sites can ask to handle protocols
-    3.  Go the the [Gmail website](https://mail.google.com/mail/u/0/#inbox) -> Click on diamond icon on the right of the status bar -> Set "Allow mail.google.com to open all email links?" to Allow
 
 ## Better Touch Tool
 Set up better touch tool or import settings from [file](../apps/btt/Default.bttpreset).
