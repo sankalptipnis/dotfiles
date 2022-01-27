@@ -15,10 +15,6 @@ COMPLETED_DIR := $(HOME)/.completed
 GREEN_ECHO_PREFIX = '\033[92m'
 GREEN_ECHO_SUFFIX = '\033[0m'
 
-# .PHONY: list
-# list:
-#     @LC_ALL=C $(MAKE) -pRrq -f $(lastword $(MAKEFILE_LIST)) : 2>/dev/null | awk -v RS= -F: '/^# File/,/^# Finished Make data base/ {if ($$1 !~ "^[#.]") {print $$1}}' | sort | egrep -v -e '^[^[:alnum:]]' -e '^$@$$'
-
 .PHONY: $(shell sed -n -e '/^$$/ { n ; /^[^ .\#][^ ]*:/ { s/:.*$$// ; p ; } ; }' $(MAKEFILE_LIST))
 
 default: all
