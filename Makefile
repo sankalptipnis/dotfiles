@@ -76,7 +76,7 @@ endif
 # Core utils: brew, bash, git & stow			      					      #
 ###############################################################################
 
-core: brew bash
+core: brew brew-path bash
 
 brew: sudo
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew"$(GREEN_ECHO_SUFFIX)
@@ -88,6 +88,14 @@ ifndef DEBUG
 	else \
 		$(BIN)/echo-color yellow "  Homebrew is already installed"; \
 	fi
+endif
+
+brew-path: brew
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Adding Homebrew to PATH"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	eval "$($(HOMEBREW_PREFIX)/bin/brew shellenv)" \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| ($(BIN)/echo-color yellow "  Failed to add Homebrew to PATH" && exit 1);
 endif
 
 bash: BASH := $(HOMEBREW_PREFIX)/bin/bash
