@@ -100,7 +100,7 @@ Set up steermouse or import settings from [file](../apps/steermouse/Default.smse
  2. Update using saved [settings](../apps/vscode/settings.json) and [keybindings](../apps/vscode/keybindings.json) as required
 
 ## SSH
-Copy the private keyand the public key to `~/.ssh`.
+Copy the private key and the public key to `~/.ssh`.
 
 ## Sublime Text
 1.  Set up Sublime Text
