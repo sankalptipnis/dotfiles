@@ -57,7 +57,7 @@ DIR 01;91						# di: directory
 LINK 01;96						# ln: symbolic link
 MULTIHARDLINK 01;96 			# mh: hard link
 
-FIFO 1;93;44 BLK				# pi: pipe
+FIFO 1;93;44					# pi: pipe
 SOCK 00;32						# so: socket
 DOOR 1;92;44					# do: door
 BLK 01;97;44 					# bd: block device driver
