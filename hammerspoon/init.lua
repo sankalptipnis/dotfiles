@@ -53,7 +53,7 @@ local moveleft = function()
     return function()
         cur_window = hs.window.focusedWindow()
         hs.grid.pushWindowLeft(cur_window)
-        hs.grid.pushWindowLeft(cur_window)
+        -- hs.grid.pushWindowLeft(cur_window)
     end
 end
 
@@ -61,7 +61,7 @@ local moveright = function()
     return function()
         cur_window = hs.window.focusedWindow()
         hs.grid.pushWindowRight(cur_window)
-        hs.grid.pushWindowRight(cur_window)
+        -- hs.grid.pushWindowRight(cur_window)
     end
 end
 
@@ -127,9 +127,15 @@ hs.hotkey.bind(hyper, "up",    moveup())
 hs.hotkey.bind(hyper, "down",  movedown())
 hs.hotkey.bind(hyper, "left",  moveleft())
 hs.hotkey.bind(hyper, "right", moveright())
-
--- maximize window
 hs.hotkey.bind(hyper, "padenter", maximize())
+
+---- EXPOSE ----
+-- Keyboard-only expose
+-- local expose=hs.expose.new(nil,{showThumbnails=true})
+-- hs.hotkey.bind(hyper, 'e', function()expose:toggleShow()end)
+
+-- expose_app = hs.expose.new(nil,{onlyActiveApplication=true}) -- show windows for the current application
+-- hs.hotkey.bind(hyper, 'r', function()expose_app:toggleShow()end)
 
 ---- APP LAUNCHER ----
 -- open and switch to most used applications
@@ -140,10 +146,10 @@ local applicationHotkeys = {
   f = 'Finder',
   o = 'Microsoft Outlook',
   z = 'zoom.us',
-  p = 'Preview',
-  b = 'Bear',
+  p = '1Password 7',
   v = 'Visual Studio Code',
-  a = 'Atom'
+  k = 'Keep',
+  m = 'Mimestream'
 }
 
 for key, app in pairs(applicationHotkeys) do
@@ -159,12 +165,12 @@ local work_layout = {
 	['Microsoft Outlook' ] = go_top_left_three_by_two,
 	['Google Chrome'     ] = go_top_middle_three_by_two,
 	['Finder'            ] = go_top_right_three_by_two,
-    ['iTerm'             ] = go_bottom_left_three_by_two,
-	['iTerm2'            ] = go_bottom_left_three_by_two,
-	['Sublime Text'      ] = go_bottom_middle_three_by_two,
-	['Atom'              ] = go_bottom_right_three_by_two,
+--['iTerm'             ] = go_bottom_left_three_by_two,
+	['iTerm2'            ] = go_bottom_middle_three_by_two,
+--['Sublime Text'      ] = go_bottom_middle_three_by_two,
+	['Mimestream'        ] = go_bottom_left_three_by_two,
     ['Code'              ] = go_bottom_right_three_by_two,
-    ['Visual Studio Code'] = go_bottom_right_three_by_two,
+--['Visual Studio Code'] = go_bottom_right_three_by_two,
 }
 
 function openApps(layout)
