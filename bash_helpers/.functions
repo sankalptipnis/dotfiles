@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
 # Activate cern conda environment and get kerberos ticket for lxplus access
-function cern() {
-	kinit -kt ~/.ssh/keytab stipnis@CERN.CH
-	conda activate cern
+function lxplus() {
+	if ! /usr/bin/klist -s; then
+		/usr/bin/kinit -kt ~/.ssh/keytab stipnis@CERN.CH
+	fi
+	ssh lxplus
 }
 
 # Usage: pfdmerge output-file input-file-1 ... input-file-n
