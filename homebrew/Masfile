@@ -11,10 +11,10 @@ mas 'Microsoft Word', id:462054704
 mas 'Mimir', id:1508343025
 mas 'NordVPN', id:905953485
 mas 'The Unarchiver', id:425424353
-mas 'Trello', id:1278508951
 
 # Install optional macOS App Store apps
 # mas 'Dato', id: 1470584107
 # mas 'Evernote', id:406056744
 # mas 'Taskheat', id:1431995750
+# mas 'Trello', id:1278508951
 # mas 'Streaks', id:963034692
