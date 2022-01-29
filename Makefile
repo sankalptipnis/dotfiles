@@ -38,7 +38,7 @@ ifndef DEBUG
 	if [ ! -d $(COMPLETED_DIR) ]; then \
 		mkdir $(COMPLETED_DIR) \
 		&& echo-color yellow "  Success!" \
-		|| (echo-color yellow "  Failed to create ~/.completed!" && exit 1); \
+		|| (echo-color red "  Failed to create ~/.completed!" && exit 1); \
 	else \
 		$(BIN)/echo-color yellow "  ~/.completed already exists"; \
 	fi
@@ -54,7 +54,7 @@ ifndef DEBUG
 	if sudo [ ! -f /etc/sudoers.d/$$(id -un) ]; then \
 		(echo "$$(id -un) ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/$$(id -un)) \
 		&& $(BIN)/echo-color yellow "  Success!" \
-		|| ($(BIN)/echo-color yellow "  Failed to make sudo passwordless" && exit 1); \
+		|| ($(BIN)/echo-color red "  Failed to make sudo passwordless" && exit 1); \
 	else \
 		$(BIN)/echo-color yellow "  Sudo is already passwordless"; \
 	fi
@@ -66,7 +66,7 @@ ifndef DEBUG
 	if sudo [ -f /etc/sudoers.d/$$(id -un) ]; then \
 		sudo rm -f /etc/sudoers.d/$$(id -un) \
 		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color yellow "  Failed to make sudo require a password"; \
+		|| $(BIN)/echo-color red "  Failed to make sudo require a password"; \
 	else \
 		$(BIN)/echo-color yellow "  Sudo already requires a password"; \
 	fi
@@ -84,7 +84,7 @@ ifndef DEBUG
 	if ! $(BIN)/is-executable brew; then \
 		(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash) \
 		&& $(BIN)/echo-color yellow "  Success!" \
-		|| ($(BIN)/echo-color yellow "  Failed to install Homebrew" && exit 1); \
+		|| ($(BIN)/echo-color red "  Failed to install Homebrew" && exit 1); \
 	else \
 		$(BIN)/echo-color yellow "  Homebrew is already installed"; \
 	fi
@@ -95,7 +95,7 @@ brew-path: brew
 ifndef DEBUG
 	eval "$($(HOMEBREW_PREFIX)/bin/brew shellenv)" \
 	&& $(BIN)/echo-color yellow "  Success!" \
-	|| ($(BIN)/echo-color yellow "  Failed to add Homebrew to PATH" && exit 1);
+	|| ($(BIN)/echo-color red "  Failed to add Homebrew to PATH" && exit 1);
 endif
 
 bash: BASH := $(HOMEBREW_PREFIX)/bin/bash
@@ -108,7 +108,7 @@ ifndef DEBUG
 		&& echo $(BASH) | sudo tee -a $(SHELLS) \
 		&& sudo chsh -s $(BASH) $$(id -un) \
 		&& $(BIN)/echo-color yellow "  Success!" \
-		|| ($(BIN)/echo-color yellow "  Failed to install Bash or to set it as the default shell" && exit 1); \
+		|| ($(BIN)/echo-color red "  Failed to install Bash or to set it as the default shell" && exit 1); \
 	else \
 		$(BIN)/echo-color yellow "  Bash already set up"; \
 	fi
@@ -124,7 +124,7 @@ ifndef DEBUG
 	find $(DOTFILES_DIR) -name '.DS_Store' -type f -delete \
 	&& find $(DOTFILES_DIR) -mindepth 1 -maxdepth 1 -not -name .git -exec xattr -d -r com.apple.quarantine '{}' \; \
 	&& $(BIN)/echo-color yellow "  Success!" \
-	|| ($(BIN)/echo-color yellow "  Failed to clean up dotfiles directory" && exit 1);
+	|| ($(BIN)/echo-color red "  Failed to clean up dotfiles directory" && exit 1);
 endif
 
 ###############################################################################
