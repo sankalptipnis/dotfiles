@@ -34,29 +34,8 @@ com.sublimetext.4           rb            editor
 com.sublimetext.4           log           editor
 com.sublimetext.4           conf          editor
 com.sublimetext.4           bak           editor
-
-# com.microsoft.VSCode          md            editor
-# com.microsoft.VSCode          sh            editor
-# com.microsoft.VSCode          txt           editor
-# com.microsoft.VSCode          xml           editor
-# com.microsoft.VSCode          json          editor
-# com.microsoft.VSCode          py            editor
-# com.microsoft.VSCode          cpp           editor
-# com.microsoft.VSCode          hpp           editor
-# com.microsoft.VSCode          tex           editor
-# com.microsoft.VSCode          bib           editor
-# com.microsoft.VSCode          lua           editor
-# com.microsoft.VSCode          js            editor
-# com.microsoft.VSCode          csv           editor
-# com.microsoft.VSCode          c             editor
-# com.microsoft.VSCode          h             editor
-# com.microsoft.VSCode          cs            editor
-# com.microsoft.VSCode          java          editor
-# com.microsoft.VSCode          php           editor
-# com.microsoft.VSCode          rb            editor
-# com.microsoft.VSCode          log           editor
-# com.microsoft.VSCode          conf          editor
-# com.microsoft.VSCode          bak           editor
+com.sublimetext.4           tex           editor
+com.sublimetext.4           bib           editor
 
 # Images & PDFs
 com.apple.Preview           jpeg            editor
