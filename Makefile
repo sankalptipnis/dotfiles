@@ -179,30 +179,6 @@ ifndef DEBUG
 	|| $(BIN)/echo-color red "  Failed to link SSH files";
 endif
 
-link-mopidy: MOPIDY_DIR := $(CONFIG_DIR)/mopidy
-link-mopidy: cleanup completed
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Copying mopidy files"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	if [ ! -f $(COMPLETED_DIR)/mopidyfiles ]; then \
-		$(BIN)/stowup -x -c $(DOTFILES_DIR)/mopidy $(MOPIDY_DIR) \
-		&& touch $(COMPLETED_DIR)/mopidyfiles \
-		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to copy mopidy files"; \
-	else \
-		$(BIN)/echo-color yellow "  Mopidy files have already been copied."; \
-		$(BIN)/echo-color yellow "  Delete $(COMPLETED_DIR)/mopidyfiles to be able to re-copy."; \
-	fi
-endif
-
-link-ncmpcpp: NCMPCPP_DIR := $(CONFIG_DIR)/ncmpcpp
-link-ncmpcpp: cleanup
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking ncmpcpp files"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	$(BIN)/stowup -x $(DOTFILES_DIR)/ncmpcpp $(NCMPCPP_DIR) \
-	&& $(BIN)/echo-color yellow "  Success!" \
-	|| $(BIN)/echo-color red "  Failed to link ncmpcpp files";
-endif
-
 link-spotifyd: SPOTIFYD_DIR := $(CONFIG_DIR)/spotifyd
 link-spotifyd: cleanup completed
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Copying spotifyd dotfiles"$(GREEN_ECHO_SUFFIX)
@@ -511,39 +487,6 @@ ifndef DEBUG
 		|| $(BIN)/echo-color red "  Failed to install miniforge"; \
 	else \
 		$(BIN)/echo-color yellow "  miniforge is already installed"; \
-	fi
-endif
-
-mopidy: mopidy-install
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Starting up mopidy as a servce"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	if ! brew services | grep -qE mopidy.*started; then \
-		brew services start mopidy \
-		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to start mopidy as a service"; \
-	else \
-		$(BIN)/echo-color yellow "  mopidy has already been started as a service"; \
-	fi
-endif
-
-mopidy-install: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mopidy and ncmpcpp"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG	
-	if ! $(BIN)/is-executable mopidy; then \
-		brew tap mopidy/mopidy \
-		&& brew install mopidy mopidy-mpd mopidy-spotify \
-		&& $(BIN)/echo-color yellow "  Success: Installed mopidy!" \
-		|| $(BIN)/echo-color red "  Failed to install mopidy"; \
-	else \
-		$(BIN)/echo-color yellow "  mopidy is already installed"; \
-	fi
-
-	if ! $(BIN)/is-executable ncmpcpp; then \
-		brew install ncmpcpp \
-		&& $(BIN)/echo-color yellow "  Success: Installed ncmpcpp!" \
-		|| $(BIN)/echo-color red "  Failed to install ncmpcpp"; \
-	else \
-		$(BIN)/echo-color yellow "  ncmpcpp is already installed"; \
 	fi
 endif
 

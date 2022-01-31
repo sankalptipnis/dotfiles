@@ -63,7 +63,7 @@
     This will grant you Kerberos tickets without having to type your password.
 
 
-## Mopidy + ncmpcpp
+## Mopidy + ncmpcpp (DOES NOT WORK ON ARM64)
 (based on https://blog.deepjyoti30.dev/using-spotify-with-ncmpcpp-mopidy-linux)
 
 1. Install ncmpcpp, mopidy, mopidy-mpd, mopidy-spotify (part of automated installation):
