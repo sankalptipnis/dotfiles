@@ -123,7 +123,7 @@ alias update="brew update; brew upgrade; brew cu; brew cleanup"
 alias cpwd="pwd|tr -d '\n'|pbcopy"
 
 # Launch ncmpcpp
-alias music="ncmpcpp"
+alias music="spt"
 
 # Get weather
 alias weather='curl wttr.in/London'
