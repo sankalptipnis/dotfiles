@@ -138,3 +138,6 @@ alias functions="declare -f | grep '^[a-z].* ()' | sed 's/{$//'"
 alias grep='grep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
+
+# Print sleep and wake log
+alias sleeplog='pmset -g log|grep -e " Sleep  " -e " Wake  "'
