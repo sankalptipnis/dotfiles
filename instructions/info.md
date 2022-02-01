@@ -4,13 +4,15 @@
 ## Table of contents:
   - [Shell](#shell)
   - [Sudo](#sudo)
-  - [Kerberos + Keytab Access to LXPLUS](#kerberos--keytab-access-to-lxplus)
-  - [Mopidy + ncmpcpp](#mopidy--ncmpcpp)
-  - [Spotifyd + Spotify-TUI](#spotifyd--spotify-tui)
+  - [Spotifyd + Spotify TUI](#spotifyd--spotify-tui)
   - [XQuartz](#xquartz)
   - [Duti](#duti)
   - [LaTeX](#latex)
   - [VSCode](#vscode)
+  - [CERN](#cern)
+    - [Acquire/Renew Grid Certificate](#acquirerenew-grid-certificate)
+    - [Kerberos + Keytab Access to LXPLUS](#kerberos--keytab-access-to-lxplus)
+
 
 ## Shell
 1. Get current shell:
@@ -32,75 +34,6 @@
     ```bash
     echo "$(id -un) ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/sudoers
     ```
-    
-## Kerberos + Keytab Access to LXPLUS
-(based on https://frankenthal.dev/post/ssh_kerberos_keytabs_macos/)
-1. Install the correct [SSH binary](https://github.com/rdp/homebrew-openssh-gssapi) which supports GSSAPI authentication (part of automated installation):
-    ```bash
-    $ brew tap rdp/homebrew-openssh-gssapi
-    $ brew install rdp/homebrew-openssh-gssapi/openssh-patched --with-gssapi-support
-    ```
-    It is **NOT** necessary to follow the instructions on the terminal screen after the installation.
-2. Place the `krb5.conf` [file](../kerberos/krb5.conf) in `/etc/` (part of automated installation).
-3. Edit the `~/.ssh/config` file to include GSSAPI authentication for LXPLUS (part of automated installation).
-4. Make a keytab file with your encrypted password. This step is to create a keytab file containing your password that will be fed to the kinit command in order to obtain a Kerberos ticket. On macOS X (which comes with the Heimdal flavor of Kerberos, and not MIT’s) the command to add a password for CERN’s account is:
-    ```bash
-    $ ktutil -k ~/.ssh/keytab add -p stipnis@CERN.CH -e arcfour-hmac-md5 -V 3
-    $ (type your password)
-    ```
-5. This step should have already been done as part of a previous LXPLUS keytab creation. If not, make your keytab file when logged in to one of the LXPLUS machines:
-    ```bash
-    $ ktutil 
-    $ addent -password -p stipnis@CERN.CH -k 3 -e arcfour-hmac-md5
-    $ (type your password)
-    $ wkt keytab
-    $ quit
-    ```
-6. Add the follwing command to `~/.bash_profile` (part of automated installation) :
-    ```bash
-    $ kinit -kt ~/.ssh/keytab stipnis@CERN.CH
-    ```
-    This will grant you Kerberos tickets without having to type your password.
-
-
-## Mopidy + ncmpcpp (DOES NOT WORK ON ARM64)
-(based on https://blog.deepjyoti30.dev/using-spotify-with-ncmpcpp-mopidy-linux)
-
-1. Install ncmpcpp, mopidy, mopidy-mpd, mopidy-spotify (part of automated installation):
-   ```bash
-   brew tap mopidy/mopidy
-   brew install ncmpcpp mopidy mopidy-spotify mopidy-mpd
-   ```
-2. Start mopidy as a service which restarts on subsequent logins (part of automated installation):
-   ```bash
-   brew tap homebrew/services
-   brew services start mopidy
-   ```
-3. Amend/add `mopidy.conf` in `~/.config/mopidy` with the following entries (you need to fill in your Spotify username and password, and the client id and secret):
-   ```
-   [core]
-   restore_state = true
-
-   [mpd]
-   enabled = true
-   hostname = 127.0.0.1
-   port = 6600
-
-   [spotify]
-   enabled = true
-   username = 
-   password = 
-   client_id = 
-   client_secret = 
-   bitrate = 320
-   ```
-   Client id and secret can be obtained [here](https://mopidy.com/ext/spotify/) on validating your Spotify login details.
-4. Amend/add `config` in `~/.config/ncmpcpp` with at least the following entries (part of automated installation):
-   ```
-   mpd_host = "127.0.0.1"
-   mpd_port = 6600
-   mpd_music_dir = ~/Music
-   ```
 
 ## Spotifyd + Spotify TUI
 (based on https://jonathanchang.org/blog/setting-up-spotifyd-on-macos/)
@@ -163,7 +96,7 @@
    11. Enter your Client Secret
    12. Press enter to confirm the default port (8888) or enter a custom port
    13. You will be redirected to an official Spotify webpage to ask you for permissions.
-   14. After accepting the permissions, you'll be redirected to localhost. If all goes well, the redirect URL will be parsed     automatically and now you're done. If the local webserver fails for some reason you'll be redirected to a blank webpage that might say something like "Connection Refused" since no server is running. Regardless, copy the URL and paste into the prompt in the terminal.
+   14. After accepting the permissions, you'll be redirected to localhost. If all goes well, the redirect URL will be parsed automatically and now you're done. If the local webserver fails for some reason you'll be redirected to a blank webpage that might say something like "Connection Refused" since no server is running. Regardless, copy the URL and paste into the prompt in the terminal.
 
 8. Re-run Spotify TUI, press d, and select the `spotifyd` device
 
@@ -214,3 +147,54 @@
     ```bash
     code --list-extensions > vscode-extensions.list
     ```
+
+## CERN
+### Acquire/Renew Grid Certificate
+(based on https://www.sdcc.bnl.gov/information/getting-started/installing-your-grid-certificate and https://alice-doc.github.io/alice-analysis-tutorial/start/cert.html)
+1. Request a new grid user certificate from [here](https://ca.cern.ch/ca/)
+2. Set a grid password (Recommended: Use the same password as for the previous certificate)
+3. Download the certificate
+4. Open Keychain Access
+5. Drag the certificate into Keychain Access to install it
+6. Double click the certificate in Keychain Access, open the "Trust" tab and set to "When using this certificate -> Always Trust" 
+7. Click the > button on the left of the certificate in Keycahain Access, double click the private key that opens up, and set "Allow all applications to access this item" in the "Access Control" tab
+8. Copy the grid cerificate to any remote machines you might want to use it on (lxplus etc.)
+9. Assuming the certificate is located in `~/myCertificate.p12`, run the following commands
+    - Export the certificate (you will be prompted for you import password which you set in step 2)
+        ```bash
+        openssl pkcs12 -clcerts -nokeys -in ~/myCertificate.p12 -out ~/.globus/usercert.pem
+        ```
+    - Export the private key (you will be prompted (1) for your import password which you set in step 2, and (2) to set a seperate PEM pass phrase)
+        ```bash
+        openssl pkcs12 -nocerts -in ~/myCertificate.p12 -out ~/.globus/userkey.pem
+        chmod 0400 ~/.globus/userkey.pem
+        ```
+    
+### Kerberos + Keytab Access to LXPLUS
+(based on https://frankenthal.dev/post/ssh_kerberos_keytabs_macos/)
+1. Install the correct [SSH binary](https://github.com/rdp/homebrew-openssh-gssapi) which supports GSSAPI authentication (part of automated installation):
+    ```bash
+    $ brew tap rdp/homebrew-openssh-gssapi
+    $ brew install rdp/homebrew-openssh-gssapi/openssh-patched --with-gssapi-support
+    ```
+    It is **NOT** necessary to follow the instructions on the terminal screen after the installation.
+2. Place the `krb5.conf` [file](../kerberos/krb5.conf) in `/etc/` (part of automated installation).
+3. Edit the `~/.ssh/config` file to include GSSAPI authentication for LXPLUS (part of automated installation).
+4. Make a keytab file with your encrypted password. This step is to create a keytab file containing your password that will be fed to the kinit command in order to obtain a Kerberos ticket. On macOS X (which comes with the Heimdal flavor of Kerberos, and not MIT’s) the command to add a password for CERN’s account is:
+    ```bash
+    $ /usr/sbin/ktutil -k ~/.ssh/keytab add -p stipnis@CERN.CH -e arcfour-hmac-md5 -V 3
+    $ (type your password)
+    ```
+5. This step should have already been done as part of a previous LXPLUS keytab creation. If not, make your keytab file when logged in to one of the LXPLUS machines:
+    ```bash
+    $ ktutil 
+    $ addent -password -p stipnis@CERN.CH -k 3 -e arcfour-hmac-md5
+    $ (type your password)
+    $ wkt keytab
+    $ quit
+    ```
+6. Add the follwing command to `~/.bash_profile` (part of automated installation) :
+    ```bash
+    $ /usr/bin/kinit -kt ~/.ssh/keytab stipnis@CERN.CH
+    ```
+    This will grant you Kerberos tickets without having to type your password.
