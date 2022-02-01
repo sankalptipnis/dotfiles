@@ -73,6 +73,14 @@ else
     fi
 fi
 unset __conda_setup
-conda deactivate
 # <<< conda initialize <<<
 
+# # Add global ROOT to PYTHONPATH so it is accessible from conda envs
+# prefix=".."
+# suffix="/bin/root"
+# ROOT_LIB_DIR=$(readlink $(which root))
+# ROOT_LIB_DIR=${ROOT_LIB_DIR#"$prefix"}
+# ROOT_LIB_DIR=${ROOT_LIB_DIR%"$suffix"}
+# ROOT_LIB_DIR="$(brew --prefix)${ROOT_LIB_DIR}/lib/root"
+
+# [ -d $ROOT_LIB_DIR ] && export PYTHONPATH=$ROOT_LIB_DIR:$PYTHONPATH
