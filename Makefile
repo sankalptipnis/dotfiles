@@ -131,7 +131,7 @@ endif
 # Linking of dotfiles							      					      #
 ###############################################################################
 
-link: link-bash link-git link-xquartz link-kerberos link-ssh link-mopidy link-ncmpcpp link-hammerspoon link-spotifyd
+link: link-bash link-git link-xquartz link-kerberos link-ssh link-hammerspoon link-spotifyd
 
 link-bash: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Bash dotfiles"$(GREEN_ECHO_SUFFIX)
@@ -328,7 +328,7 @@ endif
 # App setup 				      					 					      #
 ###############################################################################
 
-app-setup: vscode subl smerge iterm mamba mopidy
+app-setup: vscode subl smerge iterm mamba
 
 vscode: CODE := '/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code'
 vscode: vscode-install

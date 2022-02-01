@@ -1,5 +1,4 @@
 tap 'rdp/homebrew-openssh-gssapi'
-tap 'mopidy/mopidy'
 tap 'homebrew/services'
 
 # Install GNU alternatives to BSD utils
@@ -53,10 +52,6 @@ brew 'lbzip2'
 brew 'lzip'
 brew 'mackup'
 brew 'mas'
-brew 'mopidy'
-brew 'mopidy-mpd'
-brew 'mopidy-spotify'
-brew 'ncmpcpp'
 brew 'neofetch'
 brew 'neovim'
 brew 'pandoc'

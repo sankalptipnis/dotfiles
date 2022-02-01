@@ -45,9 +45,8 @@ from within it.
    3. SSH
    4. XQuartz
    5. Kerberos
-   6. Mopidy and ncmpcpp
-   7. Spotifyd
-   8. Hammerspoon
+   6. Spotifyd
+   7. Hammerspoon
 4. Sets sensible macOS defaults: defined [here](macos/defaults.sh)
 5. Installs apps using [Homebrew](https://brew.sh/) and [`mas-cli`](https://github.com/mas-cli/mas)
    1. Binaries: defined in [Brewfile](homebrew/Brewfile)
