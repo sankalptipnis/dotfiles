@@ -2,17 +2,18 @@
 (information is valid as of macOS Monterey)
 
 ## Table of contents:
-- [Shell](#shell)
-- [Sudo](#sudo)
-- [Spotifyd + Spotify TUI](#spotifyd--spotify-tui)
-- [XQuartz](#xquartz)
-- [Duti](#duti)
-- [LaTeX](#latex)
-- [VSCode](#vscode)
-- [CERN](#cern)
-    - [Acquire/Renew Grid Certificate](#acquirerenew-grid-certificate)
-    - [Kerberos + Keytab Access to LXPLUS](#kerberos--keytab-access-to-lxplus)
-- [Markdown Extensions](#markdown-extensions)
+
+  - [Shell](#shell)
+  - [Sudo](#sudo)
+  - [Spotifyd and Spotify TUI](#spotifyd-and-spotify-tui)
+  - [XQuartz](#xquartz)
+  - [Duti](#duti)
+  - [LaTeX](#latex)
+  - [VSCode](#vscode)
+  - [CERN](#cern)
+    - [Renew Grid Certificate](#renew-grid-certificate)
+    - [Kerberos Access to LXPLUS](#kerberos-access-to-lxplus)
+  - [Markdown Extensions](#markdown-extensions)
     - [VSCode](#vscode-1)
     - [Sublime Text](#sublime-text)
 
@@ -38,7 +39,7 @@
     echo "$(id -un) ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/sudoers
     ```
 
-## Spotifyd + Spotify TUI
+## Spotifyd and Spotify TUI
 (based on https://jonathanchang.org/blog/setting-up-spotifyd-on-macos/)
 1. Install spotifyd (part of automated installation):
     ```bash
@@ -153,7 +154,7 @@
 
 ## CERN
 
-### Acquire/Renew Grid Certificate
+### Renew Grid Certificate
 (based on https://www.sdcc.bnl.gov/information/getting-started/installing-your-grid-certificate and https://alice-doc.github.io/alice-analysis-tutorial/start/cert.html)
 1. Request a new grid user certificate from [here](https://ca.cern.ch/ca/)
 2. Set a grid password (Recommended: Use the same password as for the previous certificate)
@@ -174,7 +175,7 @@
         chmod 0400 ~/.globus/userkey.pem
         ```
     
-### Kerberos + Keytab Access to LXPLUS
+### Kerberos Access to LXPLUS
 (based on https://frankenthal.dev/post/ssh_kerberos_keytabs_macos/)
 1. Install the correct [SSH binary](https://github.com/rdp/homebrew-openssh-gssapi) which supports GSSAPI authentication (part of automated installation):
     ```bash

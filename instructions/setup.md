@@ -15,7 +15,8 @@
   - [SSH](#ssh)
   - [Sublime Text](#sublime-text)
   - [Sublime Merge](#sublime-merge)
-  - [Kerberos + Keytab Access to LXPLUS](#kerberos--keytab-access-to-lxplus)
+  - [Kerberos Access to LXPLUS](#kerberos-access-to-lxplus)
+  - [Shpotify](#shpotify)
   - [Remaining Apps Installation](#remaining-apps-installation)
   - [App Setup](#app-setup)
 
@@ -64,7 +65,7 @@
     ```
 ## Chrome and Gmail
 1.  Sign into Chrome
-2.  Set the Gmail website to be the default email app
+2.  Set the Gmail website to be the default email app, if required:
     1.  Mail.app -> Preferences -> Default email reader -> Google Chrome.app
     2.  Google Chrome.app -> Privacy and Security -> Site Settings -> Additional Permissions -> Protocol Handlers -> Sites can ask to handle protocols
     3.  Go the the [Gmail website](https://mail.google.com/mail/u/0/#inbox) -> Click on diamond icon on the right of the status bar -> Set "Allow mail.google.com to open all email links?" to Allow
@@ -141,7 +142,7 @@ Copy the private key and the public key to `~/.ssh`.
        ```
        This appropriately changes the UI elements of Sublime Merge.
 
-## Kerberos + Keytab Access to LXPLUS
+## Kerberos Access to LXPLUS
 Make a keytab file with your encrypted password. This step is to create a keytab file containing your password that will be fed to the kinit command in order to obtain a Kerberos ticket. On macOS X (which comes with the Heimdal flavor of Kerberos, and not MIT’s) the command to add a password for CERN’s account is:
 ```bash
 $ ktutil -k ~/.ssh/keytab add -p stipnis@CERN.CH -e arcfour-hmac-md5 -V 3
@@ -151,6 +152,23 @@ Alternatively you can use the [Makefile](../Makefile) to create the keytab:
 ```bash
 $ make keytab
 ```
+
+## Shpotify
+shpotify needs to connect to Spotify’s API in order to find music by
+name. It is very likely you want this feature!
+
+To get this to work, you first need to sign up (or into) Spotify’s
+developer site and [create an *Application*](https://developer.spotify.com/dashboard/applications). Once you’ve
+done so, you can find its `Client ID` and `Client Secret` values and
+enter them into your shpotify config file at `${HOME}/.shpotify.cfg`.
+
+Be sure to quote your values and don’t add any extra spaces. When
+done, it should look like the following (but with your own values):
+
+````
+CLIENT_ID="abc01de2fghijk345lmnop"
+CLIENT_SECRET="qr6stu789vwxyz"
+````
 
 ## Remaining Apps Installation
 Install apps which cannot be installed using Homebrew or mas-cli manually:
