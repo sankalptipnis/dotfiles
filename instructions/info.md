@@ -143,7 +143,7 @@
 3. Jump from the source code to the pdf:
     ```
     Cmd + Option + j    
-    Sublime Text: Cmd + l; k
+    Sublime Text: Cmd + l; j
     ```
 
 ## VSCode
