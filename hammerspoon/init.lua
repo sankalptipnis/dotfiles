@@ -229,6 +229,47 @@ quitModal:bind('', 'escape', function() quitModal:exit() end)
 
 
 --------------------------------------------
+-- Control Spotify
+--------------------------------------------
+
+-- pause /resume
+hs.hotkey.bind(
+    ultra,
+    "F6",
+    function()
+        hs.execute("/opt/homebrew/bin/spotify pause")
+    end
+)
+
+-- next track
+hs.hotkey.bind(
+    ultra,
+    "F5",
+    function()
+        hs.execute("/opt/homebrew/bin/spotify prev")
+    end
+)
+
+-- previous track
+hs.hotkey.bind(
+    ultra,
+    "F8",
+    function()
+        hs.execute("/opt/homebrew/bin/spotify next")
+    end
+)
+
+-- toggle shuffle
+hs.hotkey.bind(
+    ultra,
+    "s",
+    function()
+        hs.execute("/opt/homebrew/bin/spotify toggle shuffle")
+    end
+)
+
+
+--------------------------------------------
 -- Reload config
 --------------------------------------------
 hs.hotkey.bind(hyper, "0", function() hs.reload() end)
