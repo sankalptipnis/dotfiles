@@ -16,7 +16,6 @@
   - [Sublime Text](#sublime-text)
   - [Sublime Merge](#sublime-merge)
   - [Kerberos + Keytab Access to LXPLUS](#kerberos--keytab-access-to-lxplus)
-  - [Mopidy + ncmpcpp](#mopidy--ncmpcpp)
   - [Remaining Apps Installation](#remaining-apps-installation)
   - [App Setup](#app-setup)
 
@@ -95,7 +94,7 @@ Set up steermouse or import settings from [file](../apps/steermouse/Default.smse
 1. Set up iTerm
 2. Restore [profile](../apps/iterm/Profiles/Default+.json)
    
-## VScode
+## VSCode
  1. Set Color Theme to Dark+: Cmd + Shift + P -> Preferences: Color Theme -> Dark+
  2. Update using saved [settings](../apps/vscode/settings.json) and [keybindings](../apps/vscode/keybindings.json) as required
 
@@ -152,14 +151,6 @@ Alternatively you can use the [Makefile](../Makefile) to create the keytab:
 ```bash
 $ make keytab
 ```
-
-## Mopidy + ncmpcpp
-Fill in your Spotify username and password, and the client id and secret in the file `~/.config/mopidy.conf/mopidy`.
-
-Client id and secret can be obtained [here](https://mopidy.com/ext/spotify/) on validating your Spotify login details.
-
-## spotifyd + Spotify TUI
-Set up spotifyd & Spotify TUI as described [here](info.md#spotifyd--spotify-tui), if required.
 
 ## Remaining Apps Installation
 Install apps which cannot be installed using Homebrew or mas-cli manually:

@@ -131,7 +131,7 @@ endif
 # Linking of dotfiles							      					      #
 ###############################################################################
 
-link: link-bash link-git link-xquartz link-kerberos link-ssh link-hammerspoon link-spotifyd link-karabiner
+link: link-bash link-git link-xquartz link-kerberos link-ssh link-hammerspoon link-karabiner
 
 link-bash: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Bash dotfiles"$(GREEN_ECHO_SUFFIX)
@@ -177,21 +177,6 @@ ifndef DEBUG
 	$(BIN)/stowup -x $(DOTFILES_DIR)/ssh $(SSH_DIR) \
 	&& $(BIN)/echo-color yellow "  Success!" \
 	|| $(BIN)/echo-color red "  Failed to link SSH files";
-endif
-
-link-spotifyd: SPOTIFYD_DIR := $(CONFIG_DIR)/spotifyd
-link-spotifyd: cleanup completed
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Copying spotifyd dotfiles"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	if [ ! -f $(COMPLETED_DIR)/spotifydfiles ]; then \
-		$(BIN)/stowup -x -c $(DOTFILES_DIR)/spotifyd $(SPOTIFYD_DIR) \
-		&& touch $(COMPLETED_DIR)/spotifydfiles \
-		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to copy spotifyd files"; \
-	else \
-		$(BIN)/echo-color yellow "  Spotifyd files have already been copied."; \
-		$(BIN)/echo-color yellow "  Delete $(COMPLETED_DIR)/spotifydfiles to be able to re-copy."; \
-	fi
 endif
 
 link-hammerspoon: HAMMERSPOON_DIR := $(HOME)/.hammerspoon
@@ -537,7 +522,7 @@ keytab:
 ifndef DEBUG
 	mkdir -p $(SSH_DIR)
 	if [ ! -f $(SSH_DIR)/keytab ]; then \
-		ktutil -k $(SSH_DIR)/keytab add -p stipnis@CERN.CH -e arcfour-hmac-md5 -V 3 \
+		/usr/sbin/ktutil -k $(SSH_DIR)/keytab add -p stipnis@CERN.CH -e arcfour-hmac-md5 -V 3 \
 		&& $(BIN)/echo-color yellow "  Success!" \
 		|| $(BIN)/echo-color red "  Failed to generate keytab"; \
 	else \
