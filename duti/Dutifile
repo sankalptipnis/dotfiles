@@ -20,13 +20,14 @@ com.sublimetext.4           json          editor
 com.sublimetext.4           py            editor
 com.sublimetext.4           cpp           editor
 com.sublimetext.4           hpp           editor
+com.sublimetext.4           c             editor
+com.sublimetext.4           h             editor
 com.sublimetext.4           tex           editor
 com.sublimetext.4           bib           editor
 com.sublimetext.4           lua           editor
 com.sublimetext.4           js            editor
+com.sublimetext.4           ts            editor
 com.sublimetext.4           csv           editor
-com.sublimetext.4           c             editor
-com.sublimetext.4           h             editor
 com.sublimetext.4           cs            editor
 com.sublimetext.4           java          editor
 com.sublimetext.4           php           editor
@@ -34,8 +35,8 @@ com.sublimetext.4           rb            editor
 com.sublimetext.4           log           editor
 com.sublimetext.4           conf          editor
 com.sublimetext.4           bak           editor
-com.sublimetext.4           tex           editor
-com.sublimetext.4           bib           editor
+com.sublimetext.4           cfg           editor
+com.sublimetext.4           hjson         editor
 
 # Images & PDFs
 com.apple.Preview           jpeg            editor
