@@ -8,12 +8,16 @@
 local application = require "hs.application"
 local appfinder = require "hs.appfinder"
 
----- DEFINING HYPER KEY ----
+--------------------------------------------
+-- Hyper key definitions
+--------------------------------------------
 local hyper  = {"⌃", "⌥", "⌘"}
 local ultra  = {"⇧", "⌃", "⌥", "⌘"}
 
 
----- WINDOW MANAGEMENT ----
+--------------------------------------------
+-- Window management
+--------------------------------------------
 -- grid parameters : 6 columns and 2 rows
 hs.grid.setGrid('6x2')
 hs.grid.setMargins({0, 0})
@@ -134,8 +138,9 @@ hs.hotkey.bind(hyper, "right", moveright())
 hs.hotkey.bind(hyper, "padenter", maximize())
 
 
----- APP LAUNCHER ----
--- open and switch to most used applications
+--------------------------------------------
+-- Open or focus application
+--------------------------------------------
 local applicationHotkeys = {
   c = 'Google Chrome',
   b = 'Safari',
@@ -156,9 +161,10 @@ for key, app in pairs(applicationHotkeys) do
   end)
 end
 
----- WORK LAYOUT ----
--- set up work layout
 
+--------------------------------------------
+-- Snap to work layout
+--------------------------------------------
 local work_layout = {
 	['Microsoft Outlook' ] = go_top_left_three_by_two,
 	['Google Chrome'     ] = go_top_middle_three_by_two,
@@ -201,8 +207,30 @@ end
 hs.hotkey.bind(hyper, 'F7', openApps(work_layout))
 hs.hotkey.bind(hyper, 'F8', applyLayout(work_layout))
 
----- CONFIG RELOAD ----
--- reload config
+
+--------------------------------------------
+-- Press Cmd+Q twice to quit
+--------------------------------------------
+local quitModal = hs.hotkey.modal.new('cmd','q')
+
+function quitModal:entered()
+    hs.alert.show("Press ⌘+Q again to quit", 1)
+    hs.timer.doAfter(1, function() quitModal:exit() end)
+end
+
+local function doQuit()
+    local res = hs.application.frontmostApplication():selectMenuItem("^Quit.*$")
+    quitModal:exit()
+end
+
+quitModal:bind('cmd', 'q', doQuit)
+
+quitModal:bind('', 'escape', function() quitModal:exit() end)
+
+
+--------------------------------------------
+-- Reload config
+--------------------------------------------
 hs.hotkey.bind(hyper, "0", function() hs.reload() end)
 hs.notify.new({title="Hammerspoon", informativeText="Config loaded"}):send()
 
