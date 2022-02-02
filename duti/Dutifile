@@ -37,6 +37,8 @@ com.sublimetext.4           conf          editor
 com.sublimetext.4           bak           editor
 com.sublimetext.4           cfg           editor
 com.sublimetext.4           hjson         editor
+com.sublimetext.4           list          editor
+com.sublimetext.4           plist         editor
 
 # Images & PDFs
 com.apple.Preview           jpeg            editor
