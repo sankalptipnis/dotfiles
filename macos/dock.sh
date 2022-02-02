@@ -10,8 +10,9 @@ if (ls /Applications | grep -q "Google Keep.app"); then
     dockutil --no-restart --add "/Applications/Google Keep.app"
 fi
 
-dockutil --no-restart --add "/Applications/Sublime Text.app"
 dockutil --no-restart --add "/Applications/Visual Studio Code.app"
+dockutil --no-restart --add "/Applications/Sublime Text.app"
+dockutil --no-restart --add "/Applications/Sublime Merge.app"
 dockutil --no-restart --add "/Applications/Spotify.app"
 dockutil --no-restart --add "/System/Applications/App Store.app"
 dockutil --no-restart --add "/System/Applications/System Preferences.app"
