@@ -19,7 +19,7 @@ done
 unset file
 
 if is-executable dircolors; then
-	test -r $DOTFILES_DIR/bash_helpers/.dircolors && eval "$(dircolors $DOTFILES_DIR/bash_helpers/.dircolors)"
+	[ -r $DOTFILES_DIR/bash_helpers/.dircolors ] && eval "$(dircolors $DOTFILES_DIR/bash_helpers/.dircolors)"
 fi
 
 # Add tab completion for Bash commands
@@ -75,12 +75,14 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-# # Add global ROOT to PYTHONPATH so it is accessible from conda envs
-# prefix=".."
-# suffix="/bin/root"
-# ROOT_LIB_DIR=$(readlink $(which root))
-# ROOT_LIB_DIR=${ROOT_LIB_DIR#"$prefix"}
-# ROOT_LIB_DIR=${ROOT_LIB_DIR%"$suffix"}
-# ROOT_LIB_DIR="$(brew --prefix)${ROOT_LIB_DIR}/lib/root"
+# Add global ROOT to PYTHONPATH so it is accessible from conda envs
+prefix=".."
+suffix="/bin/root"
+ROOT_LIB_DIR=$(readlink $(which root))
+ROOT_LIB_DIR=${ROOT_LIB_DIR#"$prefix"}
+ROOT_LIB_DIR=${ROOT_LIB_DIR%"$suffix"}
+ROOT_LIB_DIR="$(brew --prefix)${ROOT_LIB_DIR}/lib/root"
+PYTHONPATH="$ROOT_LIB_DIR:$PYTHONPATH"
+PYTHONPATH=${PYTHONPATH%":"}
+[ -d $ROOT_LIB_DIR ] && export PYTHONPATH
 
-# [ -d $ROOT_LIB_DIR ] && export PYTHONPATH=$ROOT_LIB_DIR:$PYTHONPATH
