@@ -1,13 +1,17 @@
 -- Mac to PC keyboard mapping:
--- ⌘ / Command -> Ctrl
--- ⌃ / Ctrl    -> Windows
--- ⌥ / Option  -> Alt
+-- Key Symbol / Key Name : Mac Key -> Windows Key
+-- ⌘ / cmd : Command -> Ctrl
+-- ⌃ / ctrl : Ctrl    -> Windows
+-- ⌥ / alt : Option  -> Alt
+-- ⇧ / shift : Shift -> Shift
 
 local application = require "hs.application"
 local appfinder = require "hs.appfinder"
 
 ---- DEFINING HYPER KEY ----
 local hyper  = {"⌃", "⌥", "⌘"}
+local ultra  = {"⇧", "⌃", "⌥", "⌘"}
+
 
 ---- WINDOW MANAGEMENT ----
 -- grid parameters : 6 columns and 2 rows
@@ -15,7 +19,7 @@ hs.grid.setGrid('6x2')
 hs.grid.setMargins({0, 0})
 hs.window.animationDuration = 0
 
--- a helper function that returns another function that places the current window
+-- helper function that returns another function that places the current window
 -- into a certain grid position
 
 -- position[1] - The column of the left edge of the window
@@ -33,7 +37,7 @@ local gridset = function(position)
     end
 end
 
--- helper function that return another functions which move the current window
+-- helper functions that return other functions which move the current window
 -- around the grid
 local moveup = function()
     return function()
@@ -53,7 +57,7 @@ local moveleft = function()
     return function()
         cur_window = hs.window.focusedWindow()
         hs.grid.pushWindowLeft(cur_window)
-        -- hs.grid.pushWindowLeft(cur_window)
+        hs.grid.pushWindowLeft(cur_window)
     end
 end
 
@@ -61,7 +65,7 @@ local moveright = function()
     return function()
         cur_window = hs.window.focusedWindow()
         hs.grid.pushWindowRight(cur_window)
-        -- hs.grid.pushWindowRight(cur_window)
+        hs.grid.pushWindowRight7(cur_window)
     end
 end
 
@@ -129,13 +133,6 @@ hs.hotkey.bind(hyper, "left",  moveleft())
 hs.hotkey.bind(hyper, "right", moveright())
 hs.hotkey.bind(hyper, "padenter", maximize())
 
----- EXPOSE ----
--- Keyboard-only expose
--- local expose=hs.expose.new(nil,{showThumbnails=true})
--- hs.hotkey.bind(hyper, 'e', function()expose:toggleShow()end)
-
--- expose_app = hs.expose.new(nil,{onlyActiveApplication=true}) -- show windows for the current application
--- hs.hotkey.bind(hyper, 'r', function()expose_app:toggleShow()end)
 
 ---- APP LAUNCHER ----
 -- open and switch to most used applications
@@ -165,13 +162,13 @@ local work_layout = {
 	['Microsoft Outlook' ] = go_top_left_three_by_two,
 	['Google Chrome'     ] = go_top_middle_three_by_two,
 	['Finder'            ] = go_top_right_three_by_two,
---['iTerm'             ] = go_bottom_left_three_by_two,
-	['iTerm2'            ] = go_bottom_middle_three_by_two,
---['Sublime Text'      ] = go_bottom_middle_three_by_two,
+    ['iTerm'             ] = go_bottom_left_three_by_two,   -- need for opening app
+	['iTerm2'            ] = go_bottom_middle_three_by_two, -- need for moving app
+    ['Sublime Text'      ] = go_bottom_left_three_by_two,
 	['Mimestream'        ] = go_bottom_left_three_by_two,
-    ['Code'              ] = go_bottom_right_three_by_two,
---['Visual Studio Code'] = go_bottom_right_three_by_two,
-}
+    ['Visual Studio Code'] = go_bottom_right_three_by_two,  -- need for opening app
+    ['Code'              ] = go_bottom_right_three_by_two,  -- need for moving app
+}   
 
 function openApps(layout)
 	  	return function()
