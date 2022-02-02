@@ -131,7 +131,7 @@ endif
 # Linking of dotfiles							      					      #
 ###############################################################################
 
-link: link-bash link-git link-xquartz link-kerberos link-ssh link-hammerspoon link-spotifyd
+link: link-bash link-git link-xquartz link-kerberos link-ssh link-hammerspoon link-spotifyd link-karabiner
 
 link-bash: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Bash dotfiles"$(GREEN_ECHO_SUFFIX)
@@ -197,6 +197,15 @@ endif
 link-hammerspoon: HAMMERSPOON_DIR := $(HOME)/.hammerspoon
 link-hammerspoon: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Hammerspoon files"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	$(BIN)/stowup -x $(DOTFILES_DIR)/hammerspoon $(HAMMERSPOON_DIR) \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| $(BIN)/echo-color red "  Failed to link Hammerspoon files";
+endif
+
+link-karabiner: HAMMERSPOON_DIR := $(CONFIG_DIR)/karabiner
+link-karabiner: cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Karabiner files"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	$(BIN)/stowup -x $(DOTFILES_DIR)/hammerspoon $(HAMMERSPOON_DIR) \
 	&& $(BIN)/echo-color yellow "  Success!" \
