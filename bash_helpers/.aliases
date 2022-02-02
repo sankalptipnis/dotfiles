@@ -53,9 +53,9 @@ alias gl3="git log --graph --abbrev-commit --decorate --format=format:'%C(bold b
 alias gl="gl1 -10"
 
 alias gh1="gl1 --all"
-alias gh1="gl2 --all"
-alias gh2="gl3 --all"
-alias gh="gh1 -10"
+alias gh2="gl2 --all"
+alias gh3="gl3 --all"
+alias gh="gl1 -10"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
