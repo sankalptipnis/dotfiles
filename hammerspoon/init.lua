@@ -138,6 +138,7 @@ hs.hotkey.bind(hyper, "padenter", maximize())
 -- open and switch to most used applications
 local applicationHotkeys = {
   c = 'Google Chrome',
+  b = 'Safari',
   t = 'iTerm',
   s = 'Sublime Text',
   f = 'Finder',
