@@ -228,7 +228,7 @@
                     "simple_modifications": [
                         {
                             "from": {
-                                "key_code": "caps_lock"
+                                "key_code": "right_option"
                             },
                             "to": [
                                 {
