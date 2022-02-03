@@ -145,14 +145,15 @@ local applicationHotkeys = {
   c = 'Google Chrome',
   b = 'Safari',
   t = 'iTerm',
-  s = 'Sublime Text',
+  b = 'Sublime Text',
   f = 'Finder',
   o = 'Microsoft Outlook',
   z = 'zoom.us',
   p = '1Password 7',
   v = 'Visual Studio Code',
   k = 'Keep',
-  m = 'Mimestream'
+  g = 'Mimestream',
+  m = 'Sublime Merge'
 }
 
 for key, app in pairs(applicationHotkeys) do
