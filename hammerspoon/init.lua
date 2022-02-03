@@ -143,12 +143,11 @@ hs.hotkey.bind(hyper, "padenter", maximize())
 --------------------------------------------
 local applicationHotkeys = {
   c = 'Google Chrome',
-  b = 'Safari',
-  t = 'iTerm',
+  s = 'Safari',
+  i = 'iTerm',
   b = 'Sublime Text',
   f = 'Finder',
   o = 'Microsoft Outlook',
-  z = 'zoom.us',
   p = '1Password 7',
   v = 'Visual Studio Code',
   k = 'Keep',
