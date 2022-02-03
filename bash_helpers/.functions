@@ -255,10 +255,16 @@ function extract() {
 	fi
 }
 
-#Use Git’s colored diff when available
+# Use Git’s colored diff when available
 if command -v git &>/dev/null; then
 	function diff() {
 		git diff --no-index "$@"
 	}
 fi
+
+# Get Bundle ID of an app (useful for duti)
+function bundleid () {
+	APP="$1"
+    echo $(osascript -e "id of app \"$APP\"")
+}
 
