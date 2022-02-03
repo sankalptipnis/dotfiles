@@ -144,11 +144,13 @@ Copy the private key and the public key to `~/.ssh`.
 
 ## Kerberos Access to LXPLUS
 Make a keytab file with your encrypted password. This step is to create a keytab file containing your password that will be fed to the kinit command in order to obtain a Kerberos ticket. On macOS X (which comes with the Heimdal flavor of Kerberos, and not MIT’s) the command to add a password for CERN’s account is:
+
 ```bash
 $ ktutil -k ~/.ssh/keytab add -p stipnis@CERN.CH -e arcfour-hmac-md5 -V 3
 (type your password)
 ```
 Alternatively you can use the [Makefile](../Makefile) to create the keytab:
+
 ```bash
 $ make keytab
 ```
@@ -165,18 +167,18 @@ enter them into your shpotify config file at `${HOME}/.shpotify.cfg`.
 Be sure to quote your values and don’t add any extra spaces. When
 done, it should look like the following (but with your own values):
 
-````
+```bash
 CLIENT_ID="abc01de2fghijk345lmnop"
 CLIENT_SECRET="qr6stu789vwxyz"
-````
+```
 
 ## Remaining Apps Installation
 Install apps which cannot be installed using Homebrew or mas-cli manually:
 1. Required Apps 
-     1. [Roam Research](https://roamresearch.com/)
+    1. [Roam Research](https://roamresearch.com/)
 2. Optional Apps
-     1. Adobe Creative Cloud
-     2. Mathematica
+    1. Adobe Creative Cloud
+    2. Mathematica
 
 ## App Setup
 1. Sign into 1Password
@@ -201,9 +203,6 @@ Install apps which cannot be installed using Homebrew or mas-cli manually:
 20. Sign into Skype
 21. Sign into Firefox
 22. Sign into Raindrop.io
-
-
-
 
 
 
