@@ -22,6 +22,11 @@ if is-executable dircolors; then
 	[ -r $DOTFILES_DIR/bash_helpers/.dircolors ] && eval "$(dircolors $DOTFILES_DIR/bash_helpers/.dircolors)"
 fi
 
+#### FIG ENV VARIABLES ####
+# Please make sure this block is at the start of this file.
+[ -r ~/.fig/shell/pre.sh ] && source ~/.fig/shell/pre.sh
+#### END FIG ENV VARIABLES ####
+
 # Add tab completion for Bash commands
 if is-executable brew && [ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]; then
 	source "$(brew --prefix)/etc/profile.d/bash_completion.sh"
@@ -86,3 +91,7 @@ PYTHONPATH="$ROOT_LIB_DIR:$PYTHONPATH"
 PYTHONPATH=${PYTHONPATH%":"}
 [ -d $ROOT_LIB_DIR ] && export PYTHONPATH
 
+#### FIG ENV VARIABLES ####
+# Please make sure this block is at the end of this file.
+[ -r ~/.fig/fig.sh ] && source ~/.fig/fig.sh
+#### END FIG ENV VARIABLES ####
