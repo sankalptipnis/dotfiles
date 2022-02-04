@@ -53,9 +53,9 @@ function s() {
 	fi
 }
 
-# `c` with no arguments opens the current directory in VSCode, otherwise
+# `v` with no arguments opens the current directory in VSCode, otherwise
 # opens the given location
-function co() {
+function v() {
 	if [ $# -eq 0 ]; then
 		code .
 	else
