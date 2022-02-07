@@ -51,6 +51,32 @@ prompt_git() {
 	echo -e "${1}${branchName}${2}${s}"
 }
 
+source ${HOMEBREW_PREFIX}/opt/gitstatus/gitstatus.plugin.sh
+gitstatus_stop && gitstatus_start -s -1 -u -1 -c -1 -d -1
+prompt_git_fast() {
+	local s=''
+	local branchName=''
+
+	# Check if the current directory is in a Git repository.
+	gitstatus_query && [[ "$VCS_STATUS_RESULT" == ok-sync ]] || return
+
+  	if [[ -n "$VCS_STATUS_LOCAL_BRANCH" ]]; then
+    	branchName="$VCS_STATUS_LOCAL_BRANCH"
+  	elif [[ -n "$VCS_STATUS_TAG" ]]; then
+    	branchName="$VCS_STATUS_TAG"
+  	else
+    	branchName="${VCS_STATUS_COMMIT:0:8}"
+  	fi
+
+    (( VCS_STATUS_HAS_STAGED    )) && s+='+'
+    (( VCS_STATUS_HAS_UNSTAGED  )) && s+='!'
+    (( VCS_STATUS_HAS_UNTRACKED )) && s+='?'
+
+	[ -n "${s}" ] && s=" [${s}]"
+
+	echo -e "${1}${branchName}${2}${s}"
+}
+
 if tput setaf 1 &> /dev/null; then
 	tput sgr0; # reset colors
 	bold=$(tput bold)
@@ -115,7 +141,7 @@ fi
 
 PS1+="\[${brightwhite}\] in "
 PS1+="\[${brightgreen}\]\w"; # working directory full path
-PS1+="\$(prompt_git \"\[${brightwhite}\] on \[${brightmagenta}\]\" \"\[${brightcyan}\]\")" # Git repository details
+PS1+="\$(prompt_git_fast \"\[${brightwhite}\] on \[${brightmagenta}\]\" \"\[${brightcyan}\]\")" # Git repository details
 PS1+="\n";
 PS1+="\[${brightwhite}\]\$ \[${reset}\]" # `$` (and reset color)
 

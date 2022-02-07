@@ -1,5 +1,6 @@
 tap 'rdp/homebrew-openssh-gssapi'
 tap 'homebrew/services'
+tap 'romkatv/gitstatus'
 
 # Install GNU alternatives to BSD utils
 brew 'coreutils'
@@ -45,6 +46,7 @@ brew 'fzf'
 brew 'gh'
 brew 'ghostscript'
 brew 'git'
+brew 'gitstatus'
 brew 'highlight'
 brew 'imagemagick'
 brew 'lazygit'
