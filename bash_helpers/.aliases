@@ -66,19 +66,22 @@ else # macOS `ls`
 fi
 
 # List files colorized in long format
-alias l="ls -lghF ${colorflag} --group-directories-first"
+alias l="ls -lhF ${colorflag} --group-directories-first"
 
 # List all files colorized in long format, including dot files
-alias la="ls -lghAF ${colorflag} --group-directories-first"
+alias la="ls -lhAF ${colorflag} --group-directories-first"
 
 # List only directories
 alias lsd="ls -lhF ${colorflag} --group-directories-first | grep --color=never '^d'"
 
 # List all directories
-alias lad="ls -lghAF ${colorflag} --group-directories-first | grep --color=never '^d'"
+alias lad="ls -lhAF ${colorflag} --group-directories-first | grep --color=never '^d'"
 
 # Always use color output for `ls`
-alias ls="ls -gh ${colorflag}"
+alias ls="ls -h ${colorflag}"
+
+# List only dotfiles
+alias ldot="ls -ld .* --group-directories-first ${colorflag}"
 
 # Lots of details for broot
 alias bra="br -sdph"
