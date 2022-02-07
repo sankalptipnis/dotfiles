@@ -11,7 +11,7 @@ fi
 export DOTFILES_DIR="$HOME/dotfiles"
 
 # Load the shell dotfiles, and then some:
-for file in $DOTFILES_DIR/bash_helpers/.{prompt,exports,aliases,functions,path}; do
+for file in $DOTFILES_DIR/bash_helpers/.{prompt,exports,history,aliases,functions,path}; do
 	[ -r "$file" ] && [ -f "$file" ] && source "$file"
 done
 unset file

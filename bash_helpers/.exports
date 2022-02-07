@@ -6,21 +6,6 @@ export EDITOR='subl'
 # Make Python use UTF-8 encoding for output to stdin, stdout, and stderr.
 export PYTHONIOENCODING='UTF-8'
 
-# Increase Bash history size. Allow 32³ entries; the default is 500.
-export HISTSIZE='10000'
-export HISTFILESIZE="${HISTSIZE}"
-
-# 1. Append to history immediately after command
-# 2. Clear current history
-# 3. Reload updated history
-export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
-
-# Print the timestamp of each command in history
-export HISTTIMEFORMAT='%F %T '
-
-# Omit duplicates and commands that begin with a space from history.
-export HISTCONTROL='ignoreboth'
-
 # Don’t clear the screen after quitting a manual page.
 export MANPAGER='less -X'
 
