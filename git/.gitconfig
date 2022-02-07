@@ -3,6 +3,7 @@
 	email = 35152001+sankalptipnis@users.noreply.github.com
 [core]
 	editor = subl -n -w
+	excludesfile = ~/.gitignore
 [init]
 	defaultBranch = main
 [push]
