@@ -28,6 +28,9 @@ alias notes="cd ~/Drive/Notes"
 alias ca="conda activate"
 alias base="conda activate base"
 
+# Homebrew shortcuts
+alias buz="brew uninstall --zap"
+
 # Git shortcuts
 alias g="git"
 alias got="git"
