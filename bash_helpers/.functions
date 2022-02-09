@@ -43,7 +43,7 @@ function fs() {
 	if [ $# -eq 0 ]; then
 		paste \
 		<((du --summarize --human-readable .[!.]* * | sort -k2) | sed 's/\s.*//') \
-		<(LANG=C ls --color=always -1 --almost-all) \
+		<(ls --color=always -1 --almost-all) \
 		| sort --reverse --human-numeric-sort
 	else
 		du --summarize --human-readable --total -- "$@" \
