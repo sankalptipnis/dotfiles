@@ -130,9 +130,12 @@ alias aliases="alias | sed 's/=.*//'"
 alias functions="declare -f | grep '^[a-z].* ()' | sed 's/{$//'"
 
 # Always enable colored `grep` output
-alias grep='grep --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
+alias grep="grep --color=auto"
+alias fgrep="fgrep --color=auto"
+alias egrep="egrep --color=auto"
 
 # Print sleep and wake log
 alias sleeplog='pmset -g log|grep -e " Sleep  " -e " Wake  "'
+
+# Open diff in VSCode
+alias vdiff="code --diff"
