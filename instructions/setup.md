@@ -57,6 +57,7 @@
 1. Sign into Apple account
 2. Install Xcode from the App Store
 3. Open XCode and accept the license agreement
+4. Open XCode and set the Command Line Tools to "Xcode xx.x.x": Preferences -> Locations -> Locations tab -> Command Line Tools
 
 ## Automated Installation
 1. Run the full [automated installation](../README.md) using the [Makefile](../Makefile)   
