@@ -1,6 +1,5 @@
 # Things to automate in the setup of a macOS system
 
-
 ## System
 Automate the setting of system preferences, in particular
 1. Trackpad settings
@@ -26,3 +25,7 @@ In particular, need a way to sync settings (and more) for the following apps:
 ## Setup Script
 1. Figure out a way to deal with files with passwords in them: look into [git-secret](https://git-secret.io/) & [BlackBox](https://github.com/StackExchange/blackbox)
 2. Use a different setup manager: look into Ansible, Nix, and options listed in this [table](https://www.chezmoi.io/comparison-table/)
+
+
+# Bash Tab Completion
+1. Investigate [fzf-obc](https://github.com/rockandska/fzf-obc)
