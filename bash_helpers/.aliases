@@ -26,7 +26,7 @@ alias notes="cd ~/Drive/Notes"
 
 # Conda environment activation
 alias ca="conda activate"
-alias base="conda activate base"
+alias cda="conda deactivate"
 
 # Homebrew shortcuts
 alias buz="brew uninstall --zap"
