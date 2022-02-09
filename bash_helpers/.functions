@@ -38,6 +38,7 @@ function fsbw() {
 }
 
 # Colorized size of the contents of the current directory
+# Use gfs (symlinked to /opt/homebrew/Cellar/gdu/5.13.0/bin/gdu) to run gdu
 function fs() {
 	if [ $# -eq 0 ]; then
 		paste \
