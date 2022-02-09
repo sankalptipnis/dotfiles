@@ -28,18 +28,25 @@ function cdf() { # short for `cdfinder`
 	cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
 }
 
-# Determine size of a file or total size of a directory
-function fs() {
-	if du -b /dev/null > /dev/null 2>&1; then
-		local arg=-sbhc
-	else
-		local arg=-shc
-	fi
-	
+# Determine size of a file/directory
+function fsbw() {
 	if [ $# -eq 0 ]; then
-		du $arg .[!.]* * | sort -hr
+		du -shc .[!.]* * | sort -hr
 	else
-		du $arg -- "$@" | sort -hr	
+		du -shc -- "$@" | sort -hr	
+	fi
+}
+
+# Colorized size of the contents of the current directory
+function fs() {
+	if [ $# -eq 0 ]; then
+		paste \
+		<((du --summarize --human-readable .[!.]* * | sort -k2) | sed 's/\s.*//') \
+		<(LANG=C ls --color=always -1 --almost-all) \
+		| sort --reverse --human-numeric-sort
+	else
+		du --summarize --human-readable --total -- "$@" \
+		| sort --reverse --human-numeric-sort
 	fi
 }
 
