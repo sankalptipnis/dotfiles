@@ -44,6 +44,8 @@ run/
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+!.vscode/c_cpp_properties.json
+!.vscode/cmake-kits.json
 !.vscode/*.code-snippets
 *.code-workspace
 
