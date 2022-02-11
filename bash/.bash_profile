@@ -59,5 +59,6 @@ ROOT_LIB_DIR=${ROOT_LIB_DIR%"$suffix"}
 ROOT_LIB_DIR="${HOMEBREW_PREFIX}${ROOT_LIB_DIR}/lib/root"
 PYTHONPATH="$ROOT_LIB_DIR:$PYTHONPATH"
 PYTHONPATH=${PYTHONPATH%":"}
+PYTHONPATH=$(echo -n $PYTHONPATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}')
 [ -d $ROOT_LIB_DIR ] && export PYTHONPATH
 
