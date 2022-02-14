@@ -219,7 +219,7 @@ endif
 # Package and app installations	 				      					      #
 ###############################################################################
 
-packages: brew-packages cask-apps mas-apps
+packages: brew-packages cask-apps mas-apps rust-apps
 
 brew-packages: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew packages"$(GREEN_ECHO_SUFFIX)
@@ -270,6 +270,30 @@ ifndef DEBUG
 		|| $(BIN)/echo-color red "  Failed to install mas-cli"; \
 	else \
 		$(BIN)/echo-color yellow "  mas-cli is already installed"; \
+	fi
+endif
+
+rust-apps: brew rust
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Rust apps"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	if $(BIN)/is-executable cargo; then \
+		(cat $(DOTFILES_DIR)/rust/Cargofile | xargs -L1 cargo install) \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to install all the Rust apps"; \
+	else \
+		$(BIN)/echo-color red "  Rust is not installed"; \
+	fi
+endif
+
+rust: brew
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Rust"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG	
+	if ! $(BIN)/is-executable cargo; then \
+		brew install rust \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to install Rust"; \
+	else \
+		$(BIN)/echo-color yellow "  Rust is already installed"; \
 	fi
 endif
 

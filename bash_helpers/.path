@@ -3,6 +3,9 @@
 # Add /usr/local/bin
 prepend-path "/usr/local/bin"
 
+# Add Rust packages installed by Cargo
+prepend-path "$HOME/.cargo/bin"
+
 # Add Homebrew installed binaries
 eval "$(${HOMEBREW_PREFIX}/bin/brew shellenv)"
 
