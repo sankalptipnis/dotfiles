@@ -16,6 +16,7 @@ brew 'gnu-which'
 brew 'grep'
 
 # Other useful GNU utils
+brew 'automake'
 brew 'binutils'
 brew 'diffutils'
 brew 'gawk'
