@@ -1,0 +1,3 @@
+[submodule "fzf-obc"]
+	path = fzf-obc
+	url = git@github.com:sankalptipnis/fzf-obc.git

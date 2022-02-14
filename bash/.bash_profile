@@ -62,3 +62,4 @@ PYTHONPATH=${PYTHONPATH%":"}
 PYTHONPATH=$(echo -n $PYTHONPATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}')
 [ -d $ROOT_LIB_DIR ] && export PYTHONPATH
 
+source "$DOTFILES_DIR/fzf-obc/bin/fzf-obc.bash"
