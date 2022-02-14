@@ -219,14 +219,14 @@ endif
 # Package and app installations	 				      					      #
 ###############################################################################
 
-packages: brew-packages cask-apps mas-apps rust-apps
+packages: brew-apps mas-apps rust-apps gdu
 
-brew-packages: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew packages"$(GREEN_ECHO_SUFFIX)
+brew-apps: brew svn
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew binaries and Cask apps"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	brew bundle --file=$(DOTFILES_DIR)/homebrew/Brewfile \
+	brew bundle -v --file=$(DOTFILES_DIR)/homebrew/Brewfile \
 	&& $(BIN)/echo-color yellow "  Success!" \
-	|| $(BIN)/echo-color red "  Failed to install all the Homebrew packages";
+	|| $(BIN)/echo-color red "  Failed to install all the Homebrew packages/apps";
 endif
 
 svn: brew
@@ -241,19 +241,23 @@ ifndef DEBUG
 	fi
 endif
 
-cask-apps: brew svn
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew Cask apps"$(GREEN_ECHO_SUFFIX)
+gdu: brew-apps
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing gdu"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-		brew bundle --file=$(DOTFILES_DIR)/homebrew/Caskfile \
+	if ! [[ -d $(HOMEBREW_PREFIX)/Cellar/gdu ]]; then \
+		brew install -f gdu &&  brew link --overwrite gdu \
 		&& $(BIN)/echo-color yellow "  Success!" \
-		|| echo-color red "  Failed to install all the Homebrew Cask apps"; 
+		|| $(BIN)/echo-color red "  Failed to install gdu"; \
+	else \
+		$(BIN)/echo-color yellow "  gdu is already installed"; \
+	fi
 endif
 
 mas-apps: brew mas
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing macOS App Store apps"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if $(BIN)/is-executable mas; then \
-		brew bundle --file=$(DOTFILES_DIR)/homebrew/Masfile \
+		brew bundle -v --file=$(DOTFILES_DIR)/homebrew/Masfile \
 		&& $(BIN)/echo-color yellow "  Success!" \
 		|| $(BIN)/echo-color red "  Failed to install all the macOS App Store apps"; \
 	else \

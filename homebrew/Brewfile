@@ -1,10 +1,11 @@
+# Taps for binaries
 tap 'rdp/homebrew-openssh-gssapi'
 tap 'homebrew/services'
 tap 'romkatv/gitstatus'
 tap 'scullionw/tap'
 tap 'martido/homebrew-graph'
 
-# Install GNU alternatives to BSD utils
+# GNU alternatives to BSD utils
 brew 'coreutils'
 brew 'findutils'
 brew 'ed'
@@ -14,7 +15,7 @@ brew 'gnu-tar'
 brew 'gnu-which'
 brew 'grep'
 
-# Install other useful GNU utils
+# Other useful GNU utils
 brew 'binutils'
 brew 'diffutils'
 brew 'gawk'
@@ -28,15 +29,17 @@ brew 'stow'
 brew 'wdiff'
 brew 'wget'
 
-# Install Bash
+# Bash
 brew 'bash'
 brew 'bash-completion@2'
 
-# Install binaries
+# Binaries
 brew 'ack'
 brew 'bat'
+brew 'boost'
 brew 'broot'
 brew 'btop'
+brew 'catch2'
 brew 'cmake'
 brew 'dockutil'
 brew 'scullionw/tap/dirstat-rs'
@@ -55,6 +58,7 @@ brew 'git'
 brew 'romkatv/gitstatus/gitstatus'
 brew 'graphviz'
 brew 'highlight'
+brew 'hyperfine'
 brew 'imagemagick'
 brew 'lazygit'
 brew 'lbzip2'
@@ -84,11 +88,80 @@ brew 'watch'
 brew 'xz'
 brew 'zopfli'
 brew 'zoxide'
+brew 'zsh'
 
-# Install OpenSSH with GSSAPI support
+# OpenSSH with GSSAPI support
 brew 'rdp/homebrew-openssh-gssapi/openssh-patched', args: ['with-gssapi-support']
 
+# Taps for casks
+tap 'homebrew/cask'
+tap 'homebrew/cask-fonts'
+tap 'buo/cask-upgrade'
 
+# Arguments for all 'brew install --cask' commands
+cask_args appdir: "/Applications"
+
+# Cask apps
+cask '1password'
+cask 'adguard'
+cask 'aerial'
+cask 'alfred'
+cask 'alt-tab'
+cask 'bartender'
+cask 'bettertouchtool'
+cask 'boop'
+cask 'docker'
+cask 'firefox'
+cask 'google-chrome'
+cask 'google-drive'
+cask 'hammerspoon'
+cask 'hook'
+cask 'iterm2'
+cask 'karabiner-elements'
+cask 'launchbar'
+cask 'logseq'
+cask 'little-snitch'
+cask 'mactex-no-gui'
+cask 'marvin'
+cask 'mimestream'
+cask 'miniforge'
+cask 'movist-pro'
+cask 'numi'
+cask 'obsidian'
+cask 'raycast'
+cask 'skim'
+cask 'skype'
+cask 'soundsource'
+cask 'spotify'
+cask 'sublime-merge'
+cask 'sublime-text'
+cask 'trezor-suite'
+cask 'unite'
+cask 'visual-studio-code'
+cask 'xquartz'
+cask 'zoom'
+
+# Optional Homebrew Cask apps
+# cask 'discord'
+# cask 'notable'
+# cask 'notion'
+# cask 'steermouse'
+# cask 'transmission'
+# cask 'tor-browser'
+# cask 'yacreader'
+# cask 'zettlr'
+
+# Quicklook plugins
+cask 'syntax-highlight'
+cask 'qlmarkdown'
+
+# Fonts
+cask "font-hasklig"
+cask "font-space-mono"
+cask 'font-source-code-pro'
+cask 'font-source-code-pro-for-powerline'
+cask 'font-source-sans-pro'
+cask 'font-source-serif-pro'
 
 
 
