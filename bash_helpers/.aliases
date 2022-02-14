@@ -32,7 +32,7 @@ alias cda="conda deactivate"
 # Homebrew shortcuts
 alias buz="brew uninstall --zap"
 alias bup="brew update; brew upgrade; brew cu; brew cleanup"
-alias bclean="brew bundle cleanup --file=$DOTFILES_DIR/homebrew/Brewfile"
+alias bclean="brew bundle cleanup --file=$DOTFILES_DIR/homebrew/Brewfile;brew autoremove --dry-run"
 
 # Git shortcuts
 alias gst="git status"
