@@ -22,6 +22,7 @@ alias dl="cd ~/Downloads"
 alias dt="cd ~/Desktop"
 alias drive="cd ~/Drive/"
 alias dot="cd $DOTFILES_DIR"
+alias vdot="code $DOTFILES_DIR"
 alias notes="cd ~/Drive/Notes"
 
 # Conda environment activation
@@ -30,6 +31,8 @@ alias cda="conda deactivate"
 
 # Homebrew shortcuts
 alias buz="brew uninstall --zap"
+alias bup="brew update; brew upgrade; brew cu; brew cleanup"
+alias bclean="brew bundle cleanup --file=$DOTFILES_DIR/homebrew/Brewfile"
 
 # Git shortcuts
 alias gst="git status"
@@ -82,7 +85,7 @@ alias lad="ls -lhAF ${colorflag} --group-directories-first | grep --color=never 
 # List only dotfiles
 alias ldot="ls -ld .* --group-directories-first ${colorflag}"
 
-# Lots of details for broot
+# broot with sensible options
 alias bra="br -sdph"
 
 # Enable aliases to be sudo’ed
