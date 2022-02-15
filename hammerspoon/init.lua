@@ -280,6 +280,12 @@ hs.hotkey.bind(
 
 
 --------------------------------------------
+-- Start Screensaver
+--------------------------------------------
+hs.hotkey.bind(hyper, "l", function() hs.caffeinate.startScreensaver() end)
+
+
+--------------------------------------------
 -- Reload config
 --------------------------------------------
 hs.hotkey.bind(hyper, "0", function() hs.reload() end)
