@@ -26,8 +26,8 @@ hs.window.animationDuration = 0
 -- helper function that returns another function that places the current window
 -- into a certain grid position
 
--- position[1] - The column of the left edge of the window
--- position[2] - The row of the top edge of the window
+-- position[1] - The row of the left edge of the window
+-- position[2] - The column of the top edge of the window
 -- position[3] - The number of columns the window occupies
 -- position[4] - The number of rows the window occupies
 local gridset = function(position)
@@ -69,7 +69,7 @@ local moveright = function()
     return function()
         cur_window = hs.window.focusedWindow()
         hs.grid.pushWindowRight(cur_window)
-        hs.grid.pushWindowRight7(cur_window)
+        hs.grid.pushWindowRight(cur_window)
     end
 end
 
@@ -79,14 +79,6 @@ local maximize = function()
         hs.grid.maximizeWindow(cur_window)
     end
 end
-
--- grid placement 4x2
-local go_top_left_three_by_two      =  {0, 0, 2, 1}
-local go_top_middle_three_by_two    =  {2, 0, 2, 1}
-local go_top_right_three_by_two     =  {4, 0, 2, 1}
-local go_bottom_left_three_by_two   =  {0, 1, 2, 1}
-local go_bottom_middle_three_by_two =  {2, 1, 2, 1}
-local go_bottom_right_three_by_two  =  {4, 1, 2, 1}
 
 -- grid placement 3x2
 local go_top_left_three_by_two      =  {0, 0, 2, 1}
@@ -129,6 +121,24 @@ local go_right_two_by_one =  {3, 0, 3, 2}
 
 hs.hotkey.bind(hyper, 'pad0',  gridset(go_left_two_by_one)) -- left
 hs.hotkey.bind(hyper, 'pad.', gridset(go_right_two_by_one)) -- right
+
+-- asymmetric placement 2x2
+local go_top_left_two_by_two_asym     =  {0, 0, 4, 1}
+local go_top_middle_two_by_two_asym   =  {2, 0, 4, 1}
+local go_bottom_left_two_by_two_asym  =  {0, 1, 4, 1}
+local go_bottom_right_two_by_two_asym =  {2, 1, 4, 1}
+
+hs.hotkey.bind(ultra, 'home',     gridset(go_top_left_two_by_two_asym)) -- top left
+hs.hotkey.bind(ultra, 'pageup',   gridset(go_top_middle_two_by_two_asym)) -- top right
+hs.hotkey.bind(ultra, 'end',      gridset(go_bottom_left_two_by_two_asym)) -- bottom left
+hs.hotkey.bind(ultra, 'pagedown', gridset(go_bottom_right_two_by_two_asym)) -- bottom right
+
+-- asymmetric placement 2x1
+local go_left_two_by_one_asym  =  {0, 0, 4, 2}
+local go_right_two_by_one_asym =  {2, 0, 4, 2}
+
+hs.hotkey.bind(ultra, 'left',  gridset(go_left_two_by_one_asym)) -- left
+hs.hotkey.bind(ultra, 'right', gridset(go_right_two_by_one_asym)) -- right
 
 -- grid movement
 hs.hotkey.bind(hyper, "up",    moveup())
