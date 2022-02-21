@@ -46,7 +46,7 @@ for option in autocd globstar; do
 	shopt -s "$option" 2> /dev/null
 done
 
-# conda initialize
+# Initialize conda
 _conda_script="${HOMEBREW_PREFIX}/Caskroom/miniforge/base/etc/profile.d/conda.sh"
 [ -r $_conda_script ] && source $_conda_script
 
@@ -62,4 +62,5 @@ PYTHONPATH=${PYTHONPATH%":"}
 PYTHONPATH=$(echo -n $PYTHONPATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}')
 [ -d $ROOT_LIB_DIR ] && export PYTHONPATH
 
-source "$DOTFILES_DIR/fzf-obc/bin/fzf-obc.bash"
+# Initilize fzf-obc
+[ -r "$DOTFILES_DIR/fzf-obc/bin/fzf-obc.bash" ] && source "$DOTFILES_DIR/fzf-obc/bin/fzf-obc.bash"
