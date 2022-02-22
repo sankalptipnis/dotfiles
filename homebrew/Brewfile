@@ -4,6 +4,7 @@ tap 'homebrew/services'
 tap 'romkatv/gitstatus'
 tap 'scullionw/tap'
 tap 'martido/homebrew-graph'
+tap 'dimentium/autoraise'
 
 # GNU alternatives to BSD utils
 brew 'coreutils'
@@ -36,6 +37,7 @@ brew 'bash-completion@2'
 
 # Binaries
 brew 'ack'
+brew 'dimentium/autoraise/autoraise'
 brew 'bat'
 brew 'boost'
 brew 'broot'
