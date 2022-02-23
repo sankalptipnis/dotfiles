@@ -70991,6 +70991,8 @@
 	</dict>
 	<key>Default Bookmark Guid</key>
 	<string>BA66E9AA-6FA0-460E-B030-5251419D7FA7</string>
+	<key>FocusFollowsMouse</key>
+	<true/>
 	<key>HapticFeedbackForEsc</key>
 	<false/>
 	<key>HideScrollbar</key>
