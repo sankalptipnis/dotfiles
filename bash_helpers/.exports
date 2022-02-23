@@ -14,3 +14,6 @@ export LESS_TERMCAP_md="${brightyellow}"
 
 # Silence "default interactive shell is now zsh" warning
 export BASH_SILENCE_DEPRECATION_WARNING=1
+
+# Highligh Grep matches in bright red
+export GREP_COLORS='ms=01;91'
