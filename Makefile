@@ -326,7 +326,6 @@ dock: dockutil
 ifndef DEBUG
 		if $(BIN)/is-executable dockutil; then \
 			$(DOTFILES_DIR)/macos/dock.sh \
-			&& touch $(COMPLETED_DIR)/dock \
 			&& $(BIN)/echo-color yellow "  Success!" \
 			|| $(BIN)/echo-color red "  Failed to set up the dock"; \
 		else \
