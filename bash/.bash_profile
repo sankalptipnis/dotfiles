@@ -21,11 +21,7 @@ if is-executable dircolors; then
 fi
 
 # Add tab completion for Bash commands
-if is-executable brew && [ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]; then
-	source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
-elif [ -r /etc/bash_completion ]; then
-	source /etc/bash_completion
-fi
+[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ] && source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
 
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [ -r "$HOME/.ssh/config" ] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh
