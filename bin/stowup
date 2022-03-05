@@ -52,6 +52,13 @@ TARGET_DIR=$2
 
 [[ ! -d "$SOURCE_DIR" ]] && echo "The source directory does not exist!" && usage
 
+if [[ $DEBUG == "TRUE" ]]; then
+	echo ""	
+	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	echo "!!!!!!!!!!!!!!!! PERFORMING DRY RUN !!!!!!!!!!!!!!!!"
+	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+fi
+
 mkdir -p "$TARGET_DIR"
 
 echo ""
