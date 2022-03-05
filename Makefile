@@ -133,16 +133,20 @@ endif
 
 link: link-bash link-git link-xquartz link-kerberos link-ssh link-hammerspoon link-karabiner
 
-link-bash: cleanup
+link-shell: cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking supplementary shell dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	$(BIN)/stowup -x $(DOTFILES_DIR)/shell $(HOME) \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| $(BIN)/echo-color red "  Failed to link supplementary shell dotfiles";
+endif
+
+link-bash: cleanup link-shell
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Bash dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	$(BIN)/stowup -x $(DOTFILES_DIR)/bash $(HOME) \
-	&& $(BIN)/echo-color yellow "  Success: Linked core Bash dotfiles" \
-	|| $(BIN)/echo-color red "  Failed to link core Bash dotfiles";
-	
-	$(BIN)/stowup -x $(DOTFILES_DIR)/bash_helpers $(HOME) \
-	&& $(BIN)/echo-color yellow "  Success: Linked supplementary Bash dotfiles!" \
-	|| $(BIN)/echo-color red "  Failed to link supplementary Bash dotfiles";
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| $(BIN)/echo-color red "  Failed to link Bash dotfiles";
 endif
 
 link-git: cleanup

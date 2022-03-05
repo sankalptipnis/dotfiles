@@ -10,14 +10,21 @@ fi
 # Define dotfiles directory
 export DOTFILES_DIR="$HOME/dotfiles"
 
-# Load the shell dotfiles, and then some:
-for file in $DOTFILES_DIR/bash_helpers/.{prompt,exports,history,aliases,functions,path}; do
+# Load the prompt
+[ -r "$DOTFILES_DIR/bash/.bash_prompt" ] && source "$DOTFILES_DIR/bash/.bash_prompt"
+
+# Load history settings
+[ -r "$DOTFILES_DIR/bash/.bash_history" ] && source "$DOTFILES_DIR/bash/.bash_history"
+
+# Load exports, aliases, functions, and PATH
+for file in $DOTFILES_DIR/shell/.{exports,aliases,functions,path}; do
 	[ -r "$file" ] && source "$file"
 done
 unset file
 
+# Load LS_COLORS
 if is-executable dircolors; then
-	[ -r $DOTFILES_DIR/bash_helpers/.dircolors ] && eval "$(dircolors $DOTFILES_DIR/bash_helpers/.dircolors)"
+	[ -r $DOTFILES_DIR/shell/.dircolors ] && eval "$(dircolors $DOTFILES_DIR/shell/.dircolors)"
 fi
 
 # Add tab completion for Bash commands
