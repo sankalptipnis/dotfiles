@@ -64,14 +64,14 @@ setopt HIST_FIND_NO_DUPS
 setopt HIST_REDUCE_BLANKS
 
 # Conda initialize
-_conda_script="${HOMEBREW_PREFIX}/Caskroom/miniforge/base/etc/profile.d/conda.sh"
+_conda_script="$HOMEBREW_PREFIX/Caskroom/miniforge/base/etc/profile.d/conda.sh"
 [[ -r $_conda_script ]] && source $_conda_script
 
 # Zoxide initialize
 eval "$(zoxide init zsh)"
 
 # Auto completion initialize
-_auto_complete_script="$HOME/Repos/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
+_auto_complete_script="$DOTFILES_DIR/submodules/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
 if [[ -r $_auto_complete_script ]]; then
 	source $_auto_complete_script
 	zstyle ':autocomplete:*' min-input 1
@@ -84,7 +84,7 @@ _powerline_script="$HOMEBREW_PREFIX/opt/powerlevel10k/powerlevel10k.zsh-theme"
 [[ -r $_powerline_script ]] && source $_powerline_script
 
 # Auto suggestions initialize
-_auto_suggestions_script="${HOMEBREW_PREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+_auto_suggestions_script="$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
 if [[ -r $_auto_suggestions_script ]]; then
 	source $_auto_suggestions_script
@@ -95,7 +95,7 @@ if [[ -r $_auto_suggestions_script ]]; then
 fi
 
 # Auto syntax highlight initialize
-_auto_syntax_highlight_script="${HOMEBREW_PREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+_auto_syntax_highlight_script="$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
 [[ -r $_auto_syntax_highlight_script ]] && source $_auto_syntax_highlight_script
 
 # Prompt initialize 
