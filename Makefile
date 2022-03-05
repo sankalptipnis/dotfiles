@@ -1,5 +1,8 @@
-# Debug mode only prints to console, and does not run any commands
+# Debug mode: prints out a summary of the targets being built, and does not run any commands
 # DEBUG = TRUE
+
+# Linking dry run: prints commands rather than executing them for linking targets
+# LINKING_DRY_RUN = TRUE
 
 SHELL := /bin/bash
 
@@ -14,6 +17,12 @@ COMPLETED_DIR := $(HOME)/.completed
 
 GREEN_ECHO_PREFIX = '\033[92m'
 GREEN_ECHO_SUFFIX = '\033[0m'
+
+ifndef LINKING_DRY_RUN
+	FLAG = ''
+else
+	FLAG = '-d'
+endif
 
 .PHONY: $(shell sed -n -e '/^$$/ { n ; /^[^ .\#][^ ]*:/ { s/:.*$$// ; p ; } ; }' $(MAKEFILE_LIST))
 
@@ -136,7 +145,7 @@ link: link-bash link-git link-xquartz link-kerberos link-ssh link-hammerspoon li
 link-shell: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking supplementary shell dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	$(BIN)/stowup -x $(DOTFILES_DIR)/shell $(HOME) \
+	$(BIN)/stowup -x $(FLAG) $(DOTFILES_DIR)/shell $(HOME) \
 	&& $(BIN)/echo-color yellow "  Success!" \
 	|| $(BIN)/echo-color red "  Failed to link supplementary shell dotfiles";
 endif
@@ -144,7 +153,7 @@ endif
 link-bash: cleanup link-shell
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Bash dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	$(BIN)/stowup -x $(DOTFILES_DIR)/bash $(HOME) \
+	$(BIN)/stowup -x $(FLAG) $(DOTFILES_DIR)/bash $(HOME) \
 	&& $(BIN)/echo-color yellow "  Success!" \
 	|| $(BIN)/echo-color red "  Failed to link Bash dotfiles";
 endif
@@ -152,7 +161,7 @@ endif
 link-git: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Git dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	$(BIN)/stowup -x $(DOTFILES_DIR)/git $(HOME) \
+	$(BIN)/stowup -x $(FLAG) $(DOTFILES_DIR)/git $(HOME) \
 	&& $(BIN)/echo-color yellow "  Success!" \
 	|| $(BIN)/echo-color red "  Failed to link Git dotfiles";
 endif
@@ -160,7 +169,7 @@ endif
 link-xquartz: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking XQuartz dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	$(BIN)/stowup -x $(DOTFILES_DIR)/xquartz $(HOME) \
+	$(BIN)/stowup -x $(FLAG) $(DOTFILES_DIR)/xquartz $(HOME) \
 	&& $(BIN)/echo-color yellow "  Success!" \
 	|| $(BIN)/echo-color red "  Failed to link XQuartz dotfiles";
 endif
@@ -169,7 +178,7 @@ link-kerberos: KERBEROS_DIR := /etc
 link-kerberos: sudo cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Kerberos files"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	sudo $(BIN)/stowup $(DOTFILES_DIR)/kerberos $(KERBEROS_DIR) \
+	sudo $(BIN)/stowup $(FLAG) $(DOTFILES_DIR)/kerberos $(KERBEROS_DIR) \
 	&& $(BIN)/echo-color yellow "  Success!" \
 	|| $(BIN)/echo-color red "  Failed to link Kerberos files";
 endif
@@ -178,7 +187,7 @@ link-ssh: SSH_DIR := $(HOME)/.ssh
 link-ssh: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking SSH files"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	$(BIN)/stowup -x $(DOTFILES_DIR)/ssh $(SSH_DIR) \
+	$(BIN)/stowup -x $(FLAG) $(DOTFILES_DIR)/ssh $(SSH_DIR) \
 	&& $(BIN)/echo-color yellow "  Success!" \
 	|| $(BIN)/echo-color red "  Failed to link SSH files";
 endif
@@ -187,16 +196,16 @@ link-hammerspoon: HAMMERSPOON_DIR := $(HOME)/.hammerspoon
 link-hammerspoon: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Hammerspoon files"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	$(BIN)/stowup -x $(DOTFILES_DIR)/hammerspoon $(HAMMERSPOON_DIR) \
+	$(BIN)/stowup -x $(FLAG) $(DOTFILES_DIR)/hammerspoon $(HAMMERSPOON_DIR) \
 	&& $(BIN)/echo-color yellow "  Success!" \
 	|| $(BIN)/echo-color red "  Failed to link Hammerspoon files";
 endif
 
-link-karabiner: HAMMERSPOON_DIR := $(CONFIG_DIR)/karabiner
+link-karabiner: KARABINER_DIR := $(CONFIG_DIR)/karabiner
 link-karabiner: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Karabiner files"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	$(BIN)/stowup -x $(DOTFILES_DIR)/karabiner $(HAMMERSPOON_DIR) \
+	$(BIN)/stowup -x $(FLAG) $(DOTFILES_DIR)/karabiner $(KARABINER_DIR) \
 	&& $(BIN)/echo-color yellow "  Success!" \
 	|| $(BIN)/echo-color red "  Failed to link Hammerspoon files";
 endif
