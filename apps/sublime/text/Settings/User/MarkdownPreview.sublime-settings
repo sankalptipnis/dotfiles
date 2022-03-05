@@ -9,12 +9,6 @@
                 "generic": true
             }
         },
-        {
-            "pymdownx.highlight": {   // Auto linkify URLs and email addresses
-                "linenums": true,
-                "guess_lang": true
-            }
-        },
         // Python Markdown Extra with SuperFences.
         // You can't include "extra" and "superfences"
         // as "fenced_code" can not be included with "superfences",
