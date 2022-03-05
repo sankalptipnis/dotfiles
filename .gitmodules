@@ -1,3 +1,6 @@
 [submodule "fzf-obc"]
 	path = submodules/fzf-obc
 	url = git@github.com:sankalptipnis/fzf-obc.git
+[submodule "submodules/zsh-autocomplete"]
+	path = submodules/zsh-autocomplete
+	url = git@github.com:sankalptipnis/zsh-autocomplete.git
