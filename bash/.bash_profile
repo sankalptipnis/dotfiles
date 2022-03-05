@@ -66,4 +66,5 @@ PYTHONPATH=$(echo -n $PYTHONPATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s"
 [ -d $ROOT_LIB_DIR ] && export PYTHONPATH
 
 # Initilize fzf-obc
-[ -r "$DOTFILES_DIR/fzf-obc/bin/fzf-obc.bash" ] && source "$DOTFILES_DIR/fzf-obc/bin/fzf-obc.bash"
+_fzf_script="$DOTFILES_DIR/submodules/fzf-obc/bin/fzf-obc.bash"
+[ -r $_fzf_script ] && source $_fzf_script
