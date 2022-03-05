@@ -18,10 +18,8 @@ COMPLETED_DIR := $(HOME)/.completed
 GREEN_ECHO_PREFIX = '\033[92m'
 GREEN_ECHO_SUFFIX = '\033[0m'
 
-ifndef LINKING_DRY_RUN
-	FLAG = ''
-else
-	FLAG = '-d'
+ifdef LINKING_DRY_RUN
+	FLAG = -d
 endif
 
 .PHONY: $(shell sed -n -e '/^$$/ { n ; /^[^ .\#][^ ]*:/ { s/:.*$$// ; p ; } ; }' $(MAKEFILE_LIST))
