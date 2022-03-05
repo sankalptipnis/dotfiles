@@ -10,6 +10,9 @@ function usage {
     echo ""
     echo "This utility removes any symlinks from the"
     echo "target directory to the source directory."
+    echo ""
+    echo "If the -d option is specified, the commands are printed out"
+    echo "rather than being executed."
     exit 1
 }
 
@@ -17,29 +20,85 @@ if [[ $1 = "help" ]] || [[ $1 = "-h" ]] || [[ $1 = "--help" ]]; then
 	usage
 fi
 
+DEBUG="FALSE"
+
+while getopts ':cxd' flag; do
+  case "${flag}" in
+	d) DEBUG="TRUE";;
+    *) usage
+  esac
+done
+
+shift $((OPTIND -1))
+
 SOURCE_DIR=$1
 TARGET_DIR=$2
 
 [[ -z "$SOURCE_DIR" ]] && usage
 [[ -z "$TARGET_DIR" ]] && usage
 
+[[ ! -d "$SOURCE_DIR" ]] && echo "The source directory does not exist!" && usage
+
+if [[ $DEBUG == "TRUE" ]]; then
+	echo ""	
+	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	echo "!!!!!!!!!!!!!!!! PERFORMING DRY RUN !!!!!!!!!!!!!!!!"
+	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+fi
+
 if [[ -d "$TARGET_DIR" ]]; then
 
-	cd "$TARGET_DIR"
+	echo ""
+	echo "##############################"
+	echo "########## CLEANING ##########"
+	echo "##############################"
+
+	cd "$TARGET_DIR" || ( echo "Could not cd into the target directory!" && usage )
+	echo ""
+	echo "TARGET DIRECTORY: $TARGET_DIR"
+	echo ""
 	for FILE in * .[^.]*; do
 		if [[ ! -e "$TARGET_DIR/$FILE" && -h "$TARGET_DIR/$FILE" ]]; then
-			rm -rfv "$TARGET_DIR/$FILE"
+			echo "------------------------------"
+			echo "File: $FILE"
+			echo "------------------------------"
+			echo "rm -rfv $TARGET_DIR/$FILE"
+			[[ $DEBUG == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILE"
+			echo ""
 		fi
 	done
 	
-	cd "$SOURCE_DIR"
+	echo ""
+	echo "##############################"
+	echo "######### UNLINKING ##########"
+	echo "##############################"
+
+	cd "$SOURCE_DIR" || ( echo "Could not cd into the source directory!" && usage )
+	echo ""
+	echo "SOURCE DIRECTORY: $SOURCE_DIR"
+	echo "TARGET DIRECTORY: $TARGET_DIR"
+	echo ""
 	for FILE in * .[^.]*; do
+		echo "------------------------------"
+		echo "File: $FILE"
+		echo "------------------------------"
 		if [[ -e "$TARGET_DIR/$FILE" && -h "$TARGET_DIR/$FILE" ]]; then
 			if [[ "$TARGET_DIR/$FILE" -ef "$SOURCE_DIR/$FILE" ]]; then
-				cp -Lrv "$TARGET_DIR/$FILE" "$TARGET_DIR/$FILE".temp
-				rm -rf "$TARGET_DIR/$FILE"
-				rm -rf "$TARGET_DIR/$FILE".bak
-				mv "$TARGET_DIR/$FILE".temp "$TARGET_DIR/$FILE"
+				echo "~~~ COMMAND: cp -Lrv $TARGET_DIR/$FILE $TARGET_DIR/$FILE.temp"
+				[[ $DEBUG == "FALSE" ]] && cp -Lrv "$TARGET_DIR/$FILE" "$TARGET_DIR/$FILE".temp
+				echo ""
+				
+				echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILE"
+				[[ $DEBUG == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILE"
+				echo ""
+				
+				echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILE.bak"
+				[[ $DEBUG == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILE".bak
+				echo ""
+				
+				echo "~~~ COMMAND: mv -v $TARGET_DIR/$FILE.temp $TARGET_DIR/$FILE"
+				[[ $DEBUG == "FALSE" ]] && mv -v "$TARGET_DIR/$FILE".temp "$TARGET_DIR/$FILE"
+				echo ""
 			fi
 		fi
 	done
