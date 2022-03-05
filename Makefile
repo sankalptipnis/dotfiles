@@ -158,6 +158,22 @@ ifndef DEBUG
 	|| $(BIN)/echo-color red "  Failed to link Bash dotfiles";
 endif
 
+link-p10k: cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking powerlevel10k dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	$(BIN)/stowup -x $(FLAG) $(DOTFILES_DIR)/p10k $(HOME) \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| $(BIN)/echo-color red "  Failed to link powerlevel10k dotfiles";
+endif
+
+link-zsh: cleanup link-shell link-p10k
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking ZSH dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	$(BIN)/stowup -x $(FLAG) $(DOTFILES_DIR)/zsh $(HOME) \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| $(BIN)/echo-color red "  Failed to link ZSH dotfiles";
+endif
+
 link-git: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Git dotfiles"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
