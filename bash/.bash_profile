@@ -14,7 +14,7 @@ export DOTFILES_DIR="$HOME/dotfiles"
 [ -r "$DOTFILES_DIR/bash/.bash_prompt" ] && source "$DOTFILES_DIR/bash/.bash_prompt"
 
 # Load history settings
-[ -r "$DOTFILES_DIR/bash/.bash_history" ] && source "$DOTFILES_DIR/bash/.bash_history"
+[ -r "$DOTFILES_DIR/bash/.bash_hist" ] && source "$DOTFILES_DIR/bash/.bash_history"
 
 # Load exports, aliases, functions, and PATH
 for file in $DOTFILES_DIR/shell/.{exports,aliases,functions,path}; do
