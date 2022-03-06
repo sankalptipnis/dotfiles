@@ -160,9 +160,7 @@ local applicationHotkeys = {
   o = 'Microsoft Outlook',
   p = '1Password 7',
   v = 'Visual Studio Code',
-  k = 'Keep',
-  g = 'Mimestream',
-  m = 'Sublime Merge'
+  m = 'Mimestream'
 }
 
 for key, app in pairs(applicationHotkeys) do
