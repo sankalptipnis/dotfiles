@@ -138,7 +138,7 @@ endif
 # Linking of dotfiles							      					      #
 ###############################################################################
 
-link: link-bash link-git link-xquartz link-kerberos link-ssh link-hammerspoon link-karabiner
+link: link-bash link-git link-conda link-xquartz link-kerberos link-ssh link-hammerspoon link-karabiner
 
 link-shell: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking supplementary shell dotfiles"$(GREEN_ECHO_SUFFIX)
@@ -178,6 +178,14 @@ ifndef DEBUG
 	$(BIN)/stowup -x $(FLAG) $(DOTFILES_DIR)/git $(HOME) \
 	&& $(BIN)/echo-color yellow "  Success!" \
 	|| $(BIN)/echo-color red "  Failed to link Git dotfiles";
+endif
+
+link-conda: cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking conda dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	$(BIN)/stowup -x $(FLAG) $(DOTFILES_DIR)/conda $(HOME) \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| $(BIN)/echo-color red "  Failed to link conda dotfiles";
 endif
 
 link-xquartz: cleanup
