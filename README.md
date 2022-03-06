@@ -45,16 +45,13 @@ from within it.
    3. SSH
    4. XQuartz
    5. Kerberos
-   6. Spotifyd
-   7. Hammerspoon
+   6. Hammerspoon
 4. Sets sensible macOS defaults: defined [here](macos/defaults.sh)
 5. Installs apps using [Homebrew](https://brew.sh/) and [`mas-cli`](https://github.com/mas-cli/mas)
-   1. Binaries: defined in [Brewfile](homebrew/Brewfile)
-   2. Apps, fonts & quicklook plugins: defined in [Caskfile](homebrew/Caskfile)
-   3. App store apps: defined in [Masfile](homebrew/Masfile) (`mas-cli` is installed as part of this step)
-6. Removes the quarantine attribute from the installed quicklook plugins
-7. Configures the dock using [Dockutil](https://github.com/kcrawford/dockutil): configuration is defined [here](macos/dock.sh)
-8. Configures select apps:    
+   1. Binaries, apps, fonts & quicklook plugins: defined in [Brewfile](homebrew/Brewfile)
+   2. App store apps: defined in [Masfile](homebrew/Masfile) (`mas-cli` is installed as part of this step)
+6. Configures the dock using [Dockutil](https://github.com/kcrawford/dockutil): configuration is defined [here](macos/dock.sh)
+7. Configures select apps:    
    1. VSCode:
       * Installs extensions: defined [here](apps/vscode/vscode-extensions.list) 
       * Creates a symlink to be able to open VSCode using `code` on the command line
@@ -62,8 +59,7 @@ from within it.
    3. Sublime Text: Creates a symlink to be able to open Sublime Text using `subl` on the command line
    4. Sublime Merge: Creates a symlink to be able to open Sublime Merge using `smerge` on the command line
    5. mamba: Installs mamba into the base miniforge environment
-   6. mopidy: Starts mopidy as a service
-9.  Sets default apps for select filetypes using [Duti](https://github.com/moretension/duti): defined in [Dutifile](duti/Dutifile)
+8.  Sets default apps for select filetypes using [Duti](https://github.com/moretension/duti): defined in [Dutifile](duti/Dutifile)
 
  
 PS : For full instructions (including all the manual steps + the above automated installation) to set up a new macOS system, see [here](instructions/setup.md).
