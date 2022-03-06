@@ -5,3 +5,9 @@ Icon?
 Brewfile.lock.json
 Caskfile.lock.json
 Masfile.lock.json
+Package Control.last-run
+Package Control.ca-list
+Package Control.ca-bundle
+Package Control.system-ca-bundle
+Package Control.cache/
+Package Control.ca-certs/
