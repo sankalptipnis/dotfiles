@@ -17,6 +17,7 @@
     - [VSCode](#vscode-1)
     - [Sublime Text](#sublime-text)
   - [Disk Usage Apps](#disk-usage-apps)
+  - [Command Line Tools Path](#command-line-tools-path)
 
 
 ## Shell
@@ -248,8 +249,18 @@
     ```bash
     brew install duc
     ```
-7. [dutree](https://github.com/nachoparker/dutree): LS colorized overview of file sizes
-    ```bash
-    brew install rust
-    cargo install dutree
-    ```
+
+### Command Line Tools Path
+- Set to standalone command line tools:
+  ```bash
+  xcode-select --switch "/Library/Developer/CommandLineTools"
+  ```
+
+- Set to XCode:
+  1. Either run:
+     ```bash
+     xcode-select --switch "/Applications/Xcode.app/Contents/Developer"
+     ```
+  2. Or:
+       - Open the XCode app
+       - XCode (menubar) -> Preferences -> Locations -> Locations -> Command Line Tools -> Select "XCode xx.x.x"
