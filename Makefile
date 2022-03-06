@@ -337,22 +337,6 @@ ifndef DEBUG
 endif
 
 ###############################################################################
-# Removing quarantine from quicklook plugins 							      #
-###############################################################################
-
-quicklook:
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Removing quarantine from quicklook plugins"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG	
-	if [ -d $(HOME)/Library/QuickLook ]; then \
-		xattr -d -r com.apple.quarantine $(HOME)/Library/QuickLook \
-		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to remove quarantine from quicklook plugins"; \
-	else \
-		$(BIN)/echo-color yellow "  $(HOME)/Library/QuickLook does not exist"; \
-	fi
-endif
-
-###############################################################################
 # Dock setup 				      					 					      #
 ###############################################################################
 
