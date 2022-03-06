@@ -6,7 +6,7 @@ BIN_NAME=$(basename "$0")
 
 function usage {
     echo "Usage:"
-    echo "$BIN_NAME target_dir source_dir"
+    echo "$BIN_NAME source_dir target_dir"
     echo ""
     echo "This utility removes any symlinks from the"
     echo "target directory to the source directory."
