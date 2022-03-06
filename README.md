@@ -28,7 +28,6 @@ My dotfiles for macOS. Feel free to use at your own risk. Your mileage may vary.
    - Install XCode
    - Open XCode and accept the license agreement
    
-
 ## Installation
 The automated installation is managed by a GNU [Makefile](Makefile). To install everything, clone this repository and run 
 ```bash
