@@ -394,7 +394,7 @@ ifndef DEBUG
 		else \
 			$(BIN)/echo-color yellow "  code is already a symlink"; \
 		fi; \
-		(cat $(DOTFILES_DIR)/apps/vscode/vscode-extensions.list | xargs -L1 code --install-extension) \
+		(cat $(DOTFILES_DIR)/vscode/Codefile | xargs -L1 code --install-extension) \
 		&& $(BIN)/echo-color yellow "  Success: Installed VSCode extensions!" \
 		|| $(BIN)/echo-color red "  Failed to install all the VSCode extensions"; \
 	else \
@@ -485,7 +485,7 @@ iterm: iterm-install completed
 ifndef DEBUG
 	if (ls /Applications | grep "iTerm.app"); then \
 		if [ ! -f $(COMPLETED_DIR)/itermcol ]; then \
-			$(DOTFILES_DIR)/apps/iterm/import-color-schemes.sh \
+			$(DOTFILES_DIR)/iterm/import-color-schemes.sh \
 			&& touch $(COMPLETED_DIR)/itermcol \
 			&& $(BIN)/echo-color yellow "  Success!" \
 			|| $(BIN)/echo-color red "  Failed to import iTerm color schemes"; \

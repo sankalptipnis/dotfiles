@@ -1,9 +1,0 @@
-{
-    // "cmd": ["/Library/TeX/texbin/pdflatex", "-shell-escape", "$file"],
-    "cmd": ["pdflatex", "-shell-escape", "$file"],
-    "selector": "text.tex.latex",
-    "osx":
-    {
-        "path": "$PATH:/Library/TeX/texbin:/usr/texbin:/usr/local/bin:/opt/local/bin"
-    },
-}

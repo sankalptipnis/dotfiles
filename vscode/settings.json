@@ -31,10 +31,22 @@
         "terminal.ansiBrightCyan": "#5ffdff",
         "terminal.ansiBrightWhite": "#feffff"
     },
+    "git.confirmSync": false,
+    "remote.SSH.serverInstallPath": {
+        "211": "\/unix\/atlastracking\/stipnis",
+        "215": "\/unix\/atlastracking\/stipnis",
+        "2112": "\/unix\/atlastracking\/stipnis",
+        "2152": "\/unix\/atlastracking\/stipnis"
+    },
     "markdown.extension.math.enabled": false,
+    "markdown-preview-enhanced.mathRenderingOption": "MathJax",
+    "markdown-preview-enhanced.previewTheme": "atom-dark.css",
     "latex-workshop.intellisense.citation.backend": "biblatex",
     "latex-workshop.latex.autoBuild.run": "never",
     "latex-workshop.latex.outDir": "../build",
     "latex-workshop.view.pdf.viewer": "tab",
-    "latex-workshop.view.pdf.invert": 0.9
+    "latex-workshop.view.pdf.invert": 0.9,
+    "cmake.configureOnOpen": false,
+    "cmake.configureOnEdit": false
+
 }

@@ -6,10 +6,10 @@
 	"installed_packages":
 	[
 		"AdvancedNewFile",
-		"Anaconda",
 		"GitSavvy",
 		"LaTeXTools",
 		"LaTeXYZ",
+		"LiveReload",
 		"Markdown Extended",
 		"MarkdownEditing",
 		"MarkdownPreview",
@@ -19,7 +19,5 @@
 		"PackageResourceViewer",
 		"RemoteSubl",
 		"SideBarEnhancements",
-		"Sublime Tutor",
-		"Terminus",
 	],
 }

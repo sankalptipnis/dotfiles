@@ -1,12 +1,11 @@
 {
-	"color_scheme": "Packages/Monokai Extended/Monokai Extended Origin.tmTheme",
-	"font_size": 15,
 	"ignored_packages":
 	[
-		"LaTeXYZ",
 		"Markdown",
 		"Vintage",
 	],
 	"theme": "Adaptive.sublime-theme",
+	"color_scheme": "Packages/Monokai Extended/Monokai Extended.tmTheme",
+	"font_size": 15,
 	"update_check": true,
 }
