@@ -72,19 +72,19 @@ fi
 alias ls="ls ${colorflag}"
 
 # List files colorized in long format
-alias l="ls -lhF ${colorflag} --group-directories-first"
+alias l="ls -lhF --group-directories-first"
 
 # List all files colorized in long format, including dot files
-alias la="ls -lhAF ${colorflag} --group-directories-first"
+alias la="ls -lhAF --group-directories-first"
 
 # List only directories
-alias lsd="ls -lhF ${colorflag} --group-directories-first | grep --color=never '^d'"
+alias lsd="ls -lhF --group-directories-first | grep --color=never '^d'"
 
 # List all directories
-alias lad="ls -lhAF ${colorflag} --group-directories-first | grep --color=never '^d'"
+alias lad="ls -lhAF --group-directories-first | grep --color=never '^d'"
 
 # List only dotfiles
-alias ldot="ls -ld .* --group-directories-first ${colorflag}"
+alias ldot="ls -ld .* --group-directories-first"
 
 # broot with sensible options
 alias bra="br -sdph"
