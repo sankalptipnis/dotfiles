@@ -11,32 +11,75 @@
 # Remember to include a carriage return at the end of the last line of the file; 
 # otherwise, duti will complain that the last line is too long.
 
+# Shell
+com.sublimetext.4           sh            editor
+com.sublimetext.4           bash          editor
+com.sublimetext.4           bashrc        editor
+com.sublimetext.4           zsh           editor
+com.sublimetext.4           zshrc         editor
+com.sublimetext.4           env           editor
+
+# Makefile
+com.sublimetext.4           make          editor
+
 # Text
 com.sublimetext.4           md            editor
-com.sublimetext.4           sh            editor
 com.sublimetext.4           txt           editor
+com.sublimetext.4           rst           editor
+
+# Data
 com.sublimetext.4           xml           editor
 com.sublimetext.4           json          editor
+com.sublimetext.4           csv           editor
+com.sublimetext.4           yml           editor
+com.sublimetext.4           hjson         editor
+
+# Python
 com.sublimetext.4           py            editor
+
+# C++
 com.sublimetext.4           cpp           editor
+com.sublimetext.4           cxx           editor
+com.sublimetext.4           c++           editor
 com.sublimetext.4           hpp           editor
+com.sublimetext.4           hxx           editor
+com.sublimetext.4           h++           editor
+
+# C
 com.sublimetext.4           c             editor
 com.sublimetext.4           h             editor
+
+# TeX
 com.sublimetext.4           tex           editor
 com.sublimetext.4           bib           editor
+com.sublimetext.4           cls           editor
+com.sublimetext.4           sty           editor
+com.sublimetext.4           toc           editor
+
+# Lua
 com.sublimetext.4           lua           editor
+
+# Javascript + Typescript
 com.sublimetext.4           js            editor
 com.sublimetext.4           ts            editor
-com.sublimetext.4           csv           editor
+
+# C#
 com.sublimetext.4           cs            editor
+
+# Java
 com.sublimetext.4           java          editor
+
+# PHP
 com.sublimetext.4           php           editor
+
+# Ruby
 com.sublimetext.4           rb            editor
+
+# Log / Configuration / Backup
 com.sublimetext.4           log           editor
 com.sublimetext.4           conf          editor
 com.sublimetext.4           bak           editor
 com.sublimetext.4           cfg           editor
-com.sublimetext.4           hjson         editor
 com.sublimetext.4           list          editor
 com.sublimetext.4           plist         editor
 
@@ -47,11 +90,10 @@ com.apple.Preview           png           editor
 com.apple.Preview           gif           editor
 com.apple.Preview           ico           editor
 com.apple.Preview           tif           editor
-com.apple.Preview           tif           editor
 com.apple.Preview           svg           editor
 com.apple.Preview           pdf           editor
 
-# # Videos
+# Videos
 com.movist.MovistPro        avi           all
 com.movist.MovistPro        m4v           all
 com.movist.MovistPro        mkv           all
@@ -61,7 +103,7 @@ com.movist.MovistPro        mpg           all
 com.movist.MovistPro        mpeg          all
 com.movist.MovistPro        wmv           all
 
-# # Audio
+# Audio
 com.movist.MovistPro        mp3           all
 com.movist.MovistPro        m4a           all
 com.movist.MovistPro        mpa           all
@@ -69,58 +111,3 @@ com.movist.MovistPro        ogg           all
 com.movist.MovistPro        wav           all
 com.movist.MovistPro        wma           all
 
-# Archives
-cx.c3.theunarchiver         zip           all
-cx.c3.theunarchiver         rar           all
-cx.c3.theunarchiver         r00           all
-cx.c3.theunarchiver         r01           all
-cx.c3.theunarchiver         7z            all
-cx.c3.theunarchiver         lha           all
-cx.c3.theunarchiver         lzh           all
-cx.c3.theunarchiver         zipx          all
-cx.c3.theunarchiver         sit           all
-cx.c3.theunarchiver         sitx          all
-cx.c3.theunarchiver         gz            all
-cx.c3.theunarchiver         gzip          all
-cx.c3.theunarchiver         tgz           all
-cx.c3.theunarchiver         tar-gz        all
-cx.c3.theunarchiver         bz2           all
-cx.c3.theunarchiver         bzip2         all
-cx.c3.theunarchiver         bz            all
-cx.c3.theunarchiver         tbz2          all
-cx.c3.theunarchiver         tbz           all
-cx.c3.theunarchiver         xz            all
-cx.c3.theunarchiver         txz           all
-cx.c3.theunarchiver         tar           all
-cx.c3.theunarchiver         gtar          all
-cx.c3.theunarchiver         z             all
-cx.c3.theunarchiver         taz           all
-cx.c3.theunarchiver         tar-z         all
-cx.c3.theunarchiver         lzma          all
-cx.c3.theunarchiver         xar           all
-cx.c3.theunarchiver         xip           all
-cx.c3.theunarchiver         ace           all
-cx.c3.theunarchiver         arj           all
-cx.c3.theunarchiver         arc           all
-cx.c3.theunarchiver         pac           all
-cx.c3.theunarchiver         spk           all
-cx.c3.theunarchiver         zoo           all
-cx.c3.theunarchiver         lbr           all
-cx.c3.theunarchiver         lqr           all
-cx.c3.theunarchiver         lzr           all
-cx.c3.theunarchiver         pma           all
-cx.c3.theunarchiver         cab           all
-cx.c3.theunarchiver         rpm           all
-cx.c3.theunarchiver         deb           all
-cx.c3.theunarchiver         alz           all
-cx.c3.theunarchiver         dd            all
-cx.c3.theunarchiver         cpt           all
-cx.c3.theunarchiver         pit           all
-cx.c3.theunarchiver         now           all
-cx.c3.theunarchiver         sea           all
-cx.c3.theunarchiver         tar           all
-cx.c3.theunarchiver         gtar          all
-cx.c3.theunarchiver         z             all
-cx.c3.theunarchiver         taz           all
-cx.c3.theunarchiver         tar-z         all
-cx.c3.theunarchiver         lzma          all
