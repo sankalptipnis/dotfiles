@@ -6,15 +6,25 @@ Host hep2
 	HostName plus2.hep.ucl.ac.uk
 	User stipnis
 
+Host 204
+	HostName pc204.hep.ucl.ac.uk
+	User stipnis
+  	ProxyJump hep1
+	  
 Host 211
 	HostName pc211.hep.ucl.ac.uk
 	User stipnis
-  ProxyJump hep1
+  	ProxyJump hep1
 
 Host 215
 	HostName pc215.hep.ucl.ac.uk
 	User stipnis
 	ProxyJump hep1
+
+Host 2042
+	HostName pc204.hep.ucl.ac.uk
+	User stipnis
+  	ProxyJump hep2
 
 Host 2112
 	HostName pc211.hep.ucl.ac.uk
