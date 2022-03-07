@@ -8,11 +8,23 @@ function usage {
     echo "Usage:"
     echo "$BIN_NAME source_dir target_dir"
     echo ""
-    echo "This utility removes any symlinks from the"
-    echo "target directory to the source directory."
+    echo "This utility removes any symlinks from the target directory "
+    echo "to files in the source directory. The source and target"
+	echo "directory inputs need to be absolute paths."
+	echo ""
+    echo "COMMAND LINE OPTIONS:"
+	echo ""
+	echo "-D"
+	echo "	Removes any symlink in the target directory to the "
+	echo "	source directory itself (instead of to files in the source directory)"
+	echo ""
+	echo "-x"
+    echo "	Broken symlinks in the target directory are removed"
+    echo "	before proceeding."
+	echo ""
+	echo "-d"
+    echo "	The commands are printed out rather than being executed."
     echo ""
-    echo "If the -d option is specified, the commands are printed out"
-    echo "rather than being executed."
     exit 1
 }
 
@@ -20,12 +32,15 @@ if [[ $1 = "help" ]] || [[ $1 = "-h" ]] || [[ $1 = "--help" ]]; then
 	usage
 fi
 
+DIR="FALSE"
+CLEAN="FALSE"
 DEBUG="FALSE"
 
-while getopts ':cxd' flag; do
+while getopts ':Dxd' flag; do
   case "${flag}" in
+	D) DIR="TRUE";;
+	x) CLEAN="TRUE";;
 	d) DEBUG="TRUE";;
-    *) usage
   esac
 done
 
@@ -40,11 +55,47 @@ TARGET_DIR=$2
 [[ ! -d "$SOURCE_DIR" ]] && echo "The source directory does not exist!" && usage
 
 if [[ $DEBUG == "TRUE" ]]; then
-	echo ""	
-	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	echo ""
 	echo "!!!!!!!!!!!!!!!! PERFORMING DRY RUN !!!!!!!!!!!!!!!!"
-	echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+	echo ""
 fi
+
+function process_file() { 
+	local FILE=$1
+	local TARGET_DIR=$2
+	local DEBUG=$3
+
+	local FILENAME=$(basename "$FILE")
+
+	# file exists in the the target dir and is a symlink
+	if [[ -e "$TARGET_DIR/$FILENAME" && -h "$TARGET_DIR/$FILENAME" ]]; then
+		# the symlink is the same file as the input file
+		if [[ "$TARGET_DIR/$FILENAME" -ef "$FILE" ]]; then
+			
+			# make a copy of the contents of the file
+			echo "~~~ COMMAND: cp -fLrv $TARGET_DIR/$FILENAME{,.temp}"					
+			if [[ $DEBUG == "FALSE" ]]; then
+				cp -fLrv "$TARGET_DIR/$FILENAME"{,.temp} || ( echo "Failed to create a backup copy!" && exit 1 )		
+			fi
+			echo ""
+			
+			# remove the symlink
+			echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILENAME"
+			[[ $DEBUG == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME"
+			echo ""
+			
+			# remove any potential backups of the file
+			echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILENAME.bak"
+			[[ $DEBUG == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME".bak
+			echo ""
+			
+			# rename the copy from to the original name of the file
+			echo "~~~ COMMAND: mv -v $TARGET_DIR/$FILENAME.temp $TARGET_DIR/$FILENAME"
+			[[ $DEBUG == "FALSE" ]] && mv -v "$TARGET_DIR/$FILENAME".temp "$TARGET_DIR/$FILENAME"
+			echo ""
+		fi
+	fi
+}
 
 if [[ -d "$TARGET_DIR" ]]; then
 
@@ -53,53 +104,44 @@ if [[ -d "$TARGET_DIR" ]]; then
 	echo "########## CLEANING ##########"
 	echo "##############################"
 
-	cd "$TARGET_DIR" || ( echo "Could not cd into the target directory!" && usage )
-	echo ""
-	echo "TARGET DIRECTORY: $TARGET_DIR"
-	echo ""
-	for FILE in * .[^.]*; do
-		if [[ ! -e "$TARGET_DIR/$FILE" && -h "$TARGET_DIR/$FILE" ]]; then
-			echo "------------------------------"
-			echo "File: $FILE"
-			echo "------------------------------"
-			echo "rm -rfv $TARGET_DIR/$FILE"
-			[[ $DEBUG == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILE"
-			echo ""
-		fi
-	done
+	if [[ $CLEAN == "TRUE" ]]; then
+		echo ""
+		echo "TARGET DIRECTORY: $TARGET_DIR"
+		for FILE in $TARGET_DIR/* $TARGET_DIR/.[^.]*; do
+			# source file is a broken link
+			if [[ ! -e "$FILE" && -h "$FILE" ]]; then 						
+				echo ""
+				echo "------------------------------"
+				echo "File: $FILE"
+				echo "------------------------------"
+				# remove broken link
+				echo "~~~ COMMAND: rm -rfv $FILE"
+				[[ $DEBUG == "FALSE" ]] && rm -rfv "$FILE"		
+				echo ""						 
+			fi
+		done
+	fi
 	
 	echo ""
 	echo "##############################"
 	echo "######### UNLINKING ##########"
 	echo "##############################"
 
-	cd "$SOURCE_DIR" || ( echo "Could not cd into the source directory!" && usage )
 	echo ""
 	echo "SOURCE DIRECTORY: $SOURCE_DIR"
 	echo "TARGET DIRECTORY: $TARGET_DIR"
 	echo ""
-	for FILE in * .[^.]*; do
-		echo "------------------------------"
-		echo "File: $FILE"
-		echo "------------------------------"
-		if [[ -e "$TARGET_DIR/$FILE" && -h "$TARGET_DIR/$FILE" ]]; then
-			if [[ "$TARGET_DIR/$FILE" -ef "$SOURCE_DIR/$FILE" ]]; then
-				echo "~~~ COMMAND: cp -Lrv $TARGET_DIR/$FILE $TARGET_DIR/$FILE.temp"
-				[[ $DEBUG == "FALSE" ]] && cp -Lrv "$TARGET_DIR/$FILE" "$TARGET_DIR/$FILE".temp
-				echo ""
-				
-				echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILE"
-				[[ $DEBUG == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILE"
-				echo ""
-				
-				echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILE.bak"
-				[[ $DEBUG == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILE".bak
-				echo ""
-				
-				echo "~~~ COMMAND: mv -v $TARGET_DIR/$FILE.temp $TARGET_DIR/$FILE"
-				[[ $DEBUG == "FALSE" ]] && mv -v "$TARGET_DIR/$FILE".temp "$TARGET_DIR/$FILE"
-				echo ""
-			fi
-		fi
-	done
+
+	if [[ $DIR == "FALSE" ]]; then
+		for FILE in $SOURCE_DIR/* $SOURCE_DIR/.[^.]*; do
+			
+			echo "------------------------------"
+			echo "File: $FILE"
+			echo "------------------------------"
+
+			process_file $FILE $TARGET_DIR $DEBUG
+		done
+	else
+		process_file $SOURCE_DIR $TARGET_DIR $DEBUG
+	fi
 fi
