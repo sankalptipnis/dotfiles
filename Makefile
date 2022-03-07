@@ -138,7 +138,8 @@ endif
 # Linking of dotfiles							      					      #
 ###############################################################################
 
-link: link-bash link-git link-conda link-xquartz link-kerberos link-ssh link-hammerspoon link-karabiner
+link: link-bash link-git link-conda link-xquartz link-kerberos link-ssh link-hammerspoon \
+link-sublime-text link-vsc link-karabiner
 
 link-shell: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking supplementary shell dotfiles"$(GREEN_ECHO_SUFFIX)
@@ -223,13 +224,30 @@ ifndef DEBUG
 	|| $(BIN)/echo-color red "  Failed to link Hammerspoon files";
 endif
 
-link-karabiner: KARABINER_DIR := $(CONFIG_DIR)/karabiner
+link-vsc: VSC_DIR := "$(HOME)/Library/Application Support/Code/User"
+link-vsc: cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking VSC files"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	$(BIN)/stowup -x $(FLAG) $(DOTFILES_DIR)/vscode/settings $(VSC_DIR) \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| $(BIN)/echo-color red "  Failed to link VSC files";
+endif
+
+link-sublime-text: ST_DIR := "$(HOME)/Library/Application Support/Sublime Text/Packages"
+link-sublime-text: cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Sublime Text files"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	$(BIN)/stowup -x -D $(FLAG) $(DOTFILES_DIR)/sublime-text/User $(ST_DIR) \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| $(BIN)/echo-color red "  Failed to link  Sublime Text files";
+endif
+
 link-karabiner: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Karabiner files"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	$(BIN)/stowup -x $(FLAG) $(DOTFILES_DIR)/karabiner $(KARABINER_DIR) \
+	$(BIN)/stowup -x -D $(FLAG) $(DOTFILES_DIR)/karabiner $(CONFIG_DIR) \
 	&& $(BIN)/echo-color yellow "  Success!" \
-	|| $(BIN)/echo-color red "  Failed to link Hammerspoon files";
+	|| $(BIN)/echo-color red "  Failed to link Karabiner files";
 endif
 
 ###############################################################################
