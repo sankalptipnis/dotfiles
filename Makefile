@@ -33,7 +33,7 @@ else
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ DEBUG MODE"$(GREEN_ECHO_SUFFIX)
 endif
 
-all: completed sudo core cleanup link macos-defaults packages quicklook dock app-setup default-apps
+all: completed sudo core cleanup link macos-defaults packages dock default-apps
 
 ###############################################################################
 # Creation of ~/.completed 			                                          #
@@ -272,7 +272,7 @@ endif
 # Package and app installations	 				      					      #
 ###############################################################################
 
-packages: brew-apps mas-apps rust-apps gdu
+packages: brew-apps gdu mas-apps mamba-pkgs vsc-extensions iterm-colors
 
 brew-apps: brew svn
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew binaries and Cask apps"$(GREEN_ECHO_SUFFIX)
@@ -306,7 +306,7 @@ ifndef DEBUG
 	fi
 endif
 
-mas-apps: brew mas
+mas-apps: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing macOS App Store apps"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if $(BIN)/is-executable mas; then \
@@ -318,92 +318,38 @@ ifndef DEBUG
 	fi
 endif
 
-mas: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mas-cli"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG	
-	if ! $(BIN)/is-executable mas; then \
-		brew install mas \
-		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to install mas-cli"; \
-	else \
-		$(BIN)/echo-color yellow "  mas-cli is already installed"; \
-	fi
-endif
-
-rust-apps: brew rust
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Rust apps"$(GREEN_ECHO_SUFFIX)
+mamba-pkgs: mamba-install
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Creating mamba/conda environemnts"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if $(BIN)/is-executable cargo; then \
-		(cat $(DOTFILES_DIR)/rust/Cargofile | xargs -L1 cargo install) \
+	if $(BIN)/is-executable mamba; then \
+		$(DOTFILES_DIR)/conda/scripts/conda-envs-create.sh $(DOTFILES_DIR)/conda/envs \
 		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to install all the Rust apps"; \
+		|| $(BIN)/echo-color red "  Failed to create all the mamba/conda environemnts"; \
 	else \
-		$(BIN)/echo-color red "  Rust is not installed"; \
+		$(BIN)/echo-color red "  mamba is not installed"; \
 	fi
 endif
 
-rust: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Rust"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG	
-	if ! $(BIN)/is-executable cargo; then \
-		brew install rust \
-		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to install Rust"; \
-	else \
-		$(BIN)/echo-color yellow "  Rust is already installed"; \
-	fi
-endif
-
-###############################################################################
-# Dock setup 				      					 					      #
-###############################################################################
-
-dock: dockutil
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Organising the dock"$(GREEN_ECHO_SUFFIX)
+mamba-install:
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mamba in the base conda environment"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-		if $(BIN)/is-executable dockutil; then \
-			$(DOTFILES_DIR)/macos/dock.sh \
+	if $(BIN)/is-executable conda; then \
+		if ! conda list | grep -q ^mamba; then \
+			conda install -y mamba -n base -c conda-forge \
 			&& $(BIN)/echo-color yellow "  Success!" \
-			|| $(BIN)/echo-color red "  Failed to set up the dock"; \
+			|| $(BIN)/echo-color red "  Failed to install mamba"; \
 		else \
-			$(BIN)/echo-color red "  dockutil is not installed"; \
-		fi
-endif
-
-dockutil: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing dockutil"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG	
-	if ! $(BIN)/is-executable dockutil; then \
-		brew install dockutil \
-		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to install dockutil"; \
+			$(BIN)/echo-color yellow "  mamba is already installed"; \
+		fi; \
 	else \
-		$(BIN)/echo-color yellow "  dockutil is already installed"; \
+		$(BIN)/echo-color red "  miniforge is not installed"; \
 	fi
 endif
 
-###############################################################################
-# App setup 				      					 					      #
-###############################################################################
-
-app-setup: vscode subl smerge iterm mamba
-
-vscode: CODE := '/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code'
-vscode: vscode-install
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up VSCode"$(GREEN_ECHO_SUFFIX)
+vsc-extensions:
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing VSCode extensions"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if (ls /Applications | grep -q "Visual Studio Code.app"); then \
-		if ! $(BIN)/is-executable code; then \
-			if [ -e $(CODE) ]; then \
-				ln -s $(CODE) /usr/local/bin/ \
-				&& $(BIN)/echo-color yellow "  Success: Symlinked code!" \
-				|| $(BIN)/echo-color red "  Failed to symlink code"; \
-			else \
-				$(BIN)/echo-color red "  Failed to symlink code: $(CODE) does not exist "; \
-			fi; \
-		else \
-			$(BIN)/echo-color yellow "  code is already a symlink"; \
-		fi; \
 		(cat $(DOTFILES_DIR)/vscode/extensions/Codefile | xargs -L1 code --install-extension) \
 		&& $(BIN)/echo-color yellow "  Success: Installed VSCode extensions!" \
 		|| $(BIN)/echo-color red "  Failed to install all the VSCode extensions"; \
@@ -412,90 +358,12 @@ ifndef DEBUG
 	fi	
 endif
 
-vscode-install: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing VSCode"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	if ! (ls /Applications | grep "Visual Studio Code.app"); then \
-		brew install vscode \
-		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to install VSCode"; \
-	else \
-	  	$(BIN)/echo-color yellow "  VSCode is already installed"; \
-  	fi
-endif
-
-subl: SUBL := '/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl'
-subl: subl-install
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up Sublime Text"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	if (ls /Applications | grep -q "Sublime Text.app"); then \
-		if ! $(BIN)/is-executable subl; then \
-			if [ -e $(SUBL) ]; then \
-				ln -s $(SUBL) /usr/local/bin/ \
-				&& $(BIN)/echo-color yellow "  Success: Symlinked subl!" \
-				|| $(BIN)/echo-color red "  Failed to symlink subl"; \
-			else \
-				$(BIN)/echo-color red "  Failed to symlink subl: $(SUBL) does not exist "; \
-			fi; \
-		else \
-			$(BIN)/echo-color yellow "  subl is already a symlink"; \
-		fi; \
-	else \
-		$(BIN)/echo-color red "  Sublime Text is not installed"; \
-	fi	
-endif
-
-subl-install: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Sublime Text"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	if ! (ls /Applications | grep "Sublime Text.app"); then \
-		brew install sublime-text \
-		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to install Sublime Text"; \
-	else \
-	  	$(BIN)/echo-color yellow "  Sublime Text is already installed"; \
-  	fi
-endif
-
-smerge: SMERGE := '/Applications/Sublime Merge.app/Contents/SharedSupport/bin/smerge'
-smerge: smerge-install
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up Sublime Merge"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	if (ls /Applications | grep -q "Sublime Merge.app"); then \
-		if ! $(BIN)/is-executable smerge; then \
-			if [ -e $(SMERGE) ]; then \
-				ln -s $(SMERGE) /usr/local/bin/ \
-				&& $(BIN)/echo-color yellow "  Success: Symlinked smerge!" \
-				|| $(BIN)/echo-color red "  Failed to symlink smerge"; \
-			else \
-				$(BIN)/echo-color red "  Failed to symlink smerge: $(SMERGE) does not exist "; \
-			fi; \
-		else \
-			$(BIN)/echo-color yellow "  smerge is already a symlink"; \
-		fi; \
-	else \
-		$(BIN)/echo-color red "  Sublime Merge is not installed"; \
-	fi	
-endif
-
-smerge-install: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Sublime Merge"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	if ! (ls /Applications | grep "Sublime Merge.app"); then \
-		brew install sublime-merge \
-		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to install Sublime Merge"; \
-	else \
-	  	$(BIN)/echo-color yellow "  Sublime Merge is already installed"; \
-  	fi
-endif
-
-iterm: iterm-install completed
+iterm-colors:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Importing iTerm color schemes"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if (ls /Applications | grep "iTerm.app"); then \
 		if [ ! -f $(COMPLETED_DIR)/itermcol ]; then \
-			$(DOTFILES_DIR)/iterm/import-color-schemes.sh \
+			$(DOTFILES_DIR)/iterm/scripts/import-color-schemes.sh \
 			&& touch $(COMPLETED_DIR)/itermcol \
 			&& $(BIN)/echo-color yellow "  Success!" \
 			|| $(BIN)/echo-color red "  Failed to import iTerm color schemes"; \
@@ -508,51 +376,27 @@ ifndef DEBUG
   	fi
 endif
 
-iterm-install: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing iTerm"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	if ! (ls /Applications | grep "iTerm.app"); then \
-		brew install iterm \
-		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to install iTerm"; \
-	else \
-	  	$(BIN)/echo-color yellow "  iTerm is already installed"; \
-  	fi
-endif
+###############################################################################
+# Dock setup 				      					 					      #
+###############################################################################
 
-mamba: miniforge
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mamba in the base conda environment"$(GREEN_ECHO_SUFFIX)
+dock:
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Organising the dock"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if $(BIN)/is-executable conda; then \
-		if ! conda list | grep -q ^mamba; then \
-			conda install -y mamba -n base -c conda-forge \
+		if $(BIN)/is-executable dockutil; then \
+			$(DOTFILES_DIR)/macos/dock.sh \
 			&& $(BIN)/echo-color yellow "  Success!" \
-			|| $(BIN)/echo-color red "  Failed to install mamba"; \
+			|| $(BIN)/echo-color red "  Failed to set up the dock"; \
 		else \
-			$(BIN)/echo-color yellow "  mamba is already installed"; \
-		fi; \
-	else \
-		$(BIN)/echo-color red "  conda is not installed"; \
-	fi
-endif
-
-miniforge: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing miniforge"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	if ! $(BIN)/is-executable conda; then \
-		brew install miniforge \
-		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to install miniforge"; \
-	else \
-		$(BIN)/echo-color yellow "  miniforge is already installed"; \
-	fi
+			$(BIN)/echo-color red "  dockutil is not installed"; \
+		fi
 endif
 
 ###############################################################################
 # Default apps 				      					 					      #
 ###############################################################################
 
-default-apps: duti
+default-apps:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up default apps for various filetypes"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if $(BIN)/is-executable duti; then \
@@ -561,18 +405,6 @@ ifndef DEBUG
 		|| $(BIN)/echo-color red "  Failed to set default apps"; \
 	else \
 		$(BIN)/echo-color red "  duti is not installed"; \
-	fi
-endif
-
-duti: brew
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing duti"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	if ! $(BIN)/is-executable duti; then \
-		brew install duti \
-		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to install duti"; \
-	else \
-		$(BIN)/echo-color yellow "  duti is already installed"; \
 	fi
 endif
 
