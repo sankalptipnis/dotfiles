@@ -18,17 +18,17 @@ fi
 export DOTFILES_DIR="$HOME/dotfiles"
 
 # Load color definitions
-[ -r "$DOTFILES_DIR/zsh/.zsh_colors" ] && source "$DOTFILES_DIR/zsh/.zsh_colors"
+[ -r "$DOTFILES_DIR/zsh/.zsh_colors.zsh" ] && source "$DOTFILES_DIR/zsh/.zsh_colors.zsh"
 
 # Load exports, aliases, functions, and PATH
-for file in $DOTFILES_DIR/shell/.{exports,aliases,functions,path}; do
+for file in $DOTFILES_DIR/shell/.{exports,aliases,functions,path}.sh; do
 	[ -r "$file" ] && source "$file"
 done
 unset file
 
 # Load LS_COLORS
 if is-executable dircolors; then
-	[ -r $DOTFILES_DIR/shell/.dircolors ] && eval "$(dircolors $DOTFILES_DIR/shell/.dircolors)"
+	[ -r $DOTFILES_DIR/shell/.dircolors.sh ] && eval "$(dircolors $DOTFILES_DIR/shell/.dircolors.sh)"
 fi
 
 # Add global ROOT to PYTHONPATH so it is accessible from conda envs
