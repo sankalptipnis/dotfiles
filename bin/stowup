@@ -75,10 +75,10 @@ fi
 mkdir -p "$TARGET_DIR"
 
 function process_file() { 
-	local FILE=$1
-	local TARGET_DIR=$2
-	local COPY=$3
-	local DEBUG=$4
+	local FILE="$1"
+	local TARGET_DIR="$2"
+	local COPY="$3"
+	local DEBUG="$4"
 
 	local FILENAME=$(basename "$FILE")
 
@@ -141,11 +141,14 @@ function process_file() {
 
 		# target file and source file are different
 		else 																					
-			# remove any old backup
-			echo "~~~ COMMAND: cp -fLv $TARGET_DIR/$FILENAME.bak"
-			[[ $DEBUG == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME.bak"
-			echo ""
-
+			# old backup exists
+			if [[ -e "$TARGET_DIR/$FILENAME.bak" ]]; then
+				# remove old backup
+				echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILENAME.bak"
+				[[ $DEBUG == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME.bak"
+				echo ""
+			fi
+			
 			# back up current source file
 			echo "~~~ COMMAND: cp -fLv $TARGET_DIR/$FILENAME{,.bak}"
 			if [[ $DEBUG == "FALSE" ]]; then
@@ -208,14 +211,17 @@ echo ""
 
 # linking to / copying files in the source directory
 if [[ $DIR == "FALSE" ]]; then
+	OLDIFS=$IFS
+	IFS=$'\n'
 	for FILE in $SOURCE_DIR/* $SOURCE_DIR/.[^.]*; do
 		
 		echo "------------------------------"
 		echo "File: $FILE"
 		echo "------------------------------"
 
-		process_file $FILE $TARGET_DIR $COPY $DEBUG
+		process_file "$FILE" "$TARGET_DIR" "$COPY" "$DEBUG"
 	done
+	IFS=$OLDIFS
 else
-	process_file $SOURCE_DIR $TARGET_DIR $COPY $DEBUG
+	process_file "$SOURCE_DIR" "$TARGET_DIR" "$COPY" "$DEBUG"
 fi
