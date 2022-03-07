@@ -386,7 +386,7 @@ ifndef DEBUG
 		else \
 			$(BIN)/echo-color yellow "  code is already a symlink"; \
 		fi; \
-		(cat $(DOTFILES_DIR)/vscode/Codefile | xargs -L1 code --install-extension) \
+		(cat $(DOTFILES_DIR)/vscode/extensions/Codefile | xargs -L1 code --install-extension) \
 		&& $(BIN)/echo-color yellow "  Success: Installed VSCode extensions!" \
 		|| $(BIN)/echo-color red "  Failed to install all the VSCode extensions"; \
 	else \
