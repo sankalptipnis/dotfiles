@@ -27,11 +27,13 @@
     ```
 2. Add (e.g. /usr/local/bin/bash) to list of approved shells (part of automated installation):
     ```bash
-    echo /usr/local/bin/bash | sudo tee -a /private/etc/shells
+    _SHELL=/usr/local/bin/bash
+    echo $_SHELL | sudo tee -a /private/etc/shells
     ```
 3. Change default shell for the current user (to e.g. /usr/local/bin/bash) (part of automated installation)
     ```bash
-    sudo chsh -s /usr/local/bin/bash $(id -un)
+    _SHELL=/usr/local/bin/bash
+    sudo chsh -s $_SHELL $(id -un)
     ```
 
 ## Sudo
@@ -40,83 +42,6 @@
     ```bash
     echo "$(id -un) ALL=(ALL) NOPASSWD:ALL" | sudo tee -a /etc/sudoers.d/sudoers
     ```
-
-## Spotifyd and Spotify TUI
-(based on https://jonathanchang.org/blog/setting-up-spotifyd-on-macos/)
-1. Install spotifyd (part of automated installation):
-    ```bash
-    brew install spotifyd
-    ```
-2. Create a config file `~/.config/spotifyd/spotifyd.conf` with at least the following contents (part of automated installation):
-    ```bash
-    [global]
-    # Your Spotify account name.
-    username = "sankalptipnis"
-
-    # Your Spotify account password.
-    password = ""
-
-    # How this machine shows up in Spotify Connect.
-    device_name = "spotifyd"
-    device_type = "computer"
-
-    # Various playback options. Tweak these if Spotify is too quiet.
-    bitrate = 320
-    volume_normalisation = true
-    normalisation_pregain = -10
-
-    # These need to be set, but don't need to be changed.
-    backend = "portaudio"
-    mixer = "PCM"
-    volume_controller = "softvol"
-    zeroconf_port = 1234
-    ```
-3. Fill out your Spotify password into the file from step 2
-4. Start spotifyd:
-    ```bash
-    brew services start spotifyd
-    ```
-5. To test that spotifyd is working, open the official Spotify client on your phone or laptop, and confirm that there’s a new device in Spotify Connect:
-   
-    ![](images/spotify.png)
-   
-6. Install Spotify TUI (part of automated installation):
-    ```bash
-    brew install spotify-tui
-    ```
-7. Follow the instructions to connect to Spotify's API which will be displayed when you first run Spotify TUI:
-    ```bash
-    spt
-    ```
-    The instructions will be along the following lines:
-   1. Go to the Spotify dashboard
-   2. Click Create an app
-   3. You now can see your Client ID and Client Secret
-   4.  Now click Edit Settings
-   5.  Add http://localhost:8888/callback to the Redirect URIs
-   6.  Scroll down and click Save
-   7.  You are now ready to authenticate with Spotify!
-   8.  Go back to the terminal
-   9.  Run spt
-   10. Enter your Client ID
-   11. Enter your Client Secret
-   12. Press enter to confirm the default port (8888) or enter a custom port
-   13. You will be redirected to an official Spotify webpage to ask you for permissions.
-   14. After accepting the permissions, you'll be redirected to localhost. If all goes well, the redirect URL will be parsed automatically and now you're done. If the local webserver fails for some reason you'll be redirected to a blank webpage that might say something like "Connection Refused" since no server is running. Regardless, copy the URL and paste into the prompt in the terminal.
-
-8. Re-run Spotify TUI, press d, and select the `spotifyd` device
-
-9.  [OPTIONAL] Use keychain to store Spotify password for spotifyd:
-    1. Remove the "password" tag from the file `~/.config/spotifyd/spotifyd.conf`
-    2. Add the following tag to the same file `~/.config/spotifyd/spotifyd.conf`:
-        ```bash
-        # You'll be using the macOS keychain to specify your password.
-        use_keyring = true
-        ```
-    3. Add your Spotify password to the system password manager, keychain:
-        ```bash
-        security add-generic-password -s spotifyd -D rust-keyring -a sankalptipnis -w <your password>
-        ```
 
 ## XQuartz
 1. Add colour by adding an `.Xdefaults` file with the following contents into the `HOME` directory (part of automated installation):
@@ -129,7 +54,8 @@
 ## Duti
 1. Get default application information for e.g. jpg files:
     ```bash
-    duti -x jpg 
+    _EXT=jpg
+    duti -x $_EXT
     ```
 
 ## LaTeX
@@ -151,7 +77,7 @@
 ## VSCode
 1. Save list of installed extensions
     ```bash
-    code --list-extensions > vscode-extensions.list
+    code --list-extensions > Codefile
     ```
 
 ## CERN
@@ -213,7 +139,7 @@
 1. Markdown All In One: Improved editing, like auto numbered lists etc.
 2. Markdown+Math: Dedicated math support as recommended by Markdown All In One docs
 3. Markdown Preview Enhanced: Different preview (e.g. themes) to in-house one + export to pdf using pandoc + some extra functions (some redundant), uses own math rendering
-4. Markdown Tables: Better support for formatting tables
+4. Markdown Table: Better support for formatting tables
 
 ### Sublime Text
 1. Markdown Extended: Better Markdown syntax highlighting
