@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-# defaults delete NSGlobalDomain NSAutomaticWindowAnimationsEnabled
-# can be used to reset
-# defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+# EXAMPLES:
+# Read: defaults read NSGlobalDomain NSAutomaticWindowAnimationsEnabled
+# Write: defaults write NSGlobalDomain NSAutomaticWindowAnimationsEnabled -bool false
+# Delete: defaults delete NSGlobalDomain NSAutomaticWindowAnimationsEnabled
  
 COMPUTER_NAME="ST-MBP"
 
@@ -274,6 +275,25 @@ defaults write com.apple.terminal StringEncodings -array 4
 defaults write com.apple.Terminal ShowLineMarks -int 0
 
 ###############################################################################
+# iTerm2 				                                                      #
+###############################################################################
+
+# Use custom directory to load settings
+defaults write com.googlecode.iterm2 LoadPrefsFromCustomFolder -bool true
+
+# Path to directory containing the settings
+defaults write com.googlecode.iterm2 PrefsCustomFolder -string "$HOME/dotfiles/iterm/settings"
+
+# Dont ask on exit if changes exist
+defaults write com.googlecode.iterm2 NoSyncNeverRemindPrefsChangesLostForFile -bool true
+
+# Save changes when quitting iTerm (0 -> When quitting, 1 -> Manually, 2 -> Automatically)
+defaults write com.googlecode.iterm2 NoSyncNeverRemindPrefsChangesLostForFile_selection -int 0
+
+# Auto-hide the scrollbars
+defaults write com.googlecode.iterm2 HideScrollbar -bool true
+
+###############################################################################
 # Kill affected applications                                                  #
 ###############################################################################
 
@@ -285,6 +305,7 @@ for app in "Activity Monitor" \
 	"Disk Utility" \
 	"Calculator" \
 	"SystemUIServer" \
+	"iTerm2" \
 	"Finder"; do
 	killall "${app}" &> /dev/null
 done
