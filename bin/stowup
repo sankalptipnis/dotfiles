@@ -10,8 +10,7 @@ function usage {
     echo "$BIN_NAME [-cDxd] source_dir target_dir"
     echo
     echo "This utility creates symlinks in the target directory"
-    echo "pointing to all the files in the source directory. The "
-	echo "source and target directory inputs need to be absolute paths."
+    echo "pointing to all the files in the source directory."
 	echo
 	echo "COMMAND LINE OPTIONS:"
 	echo
@@ -20,7 +19,7 @@ function usage {
     echo "	target directory (instead instead of being symlinked to)."
     echo
 	echo "-D"
-	echo "	A [symlink pointing to|copy of] the source directory"
+	echo "	A [ symlink pointing to | copy of ] the source directory"
 	echo "	is created (instead of the files in the source directory)"
     echo
 	echo "-x"
@@ -81,95 +80,97 @@ function process_file() {
 	local DEBUG="$4"
 
 	local FILENAME=$(basename "$FILE")
+	local SOURCE_FILE_ABS=$(realpath -e "$FILE")
+	local TARGET_FILE_ABS="$TARGET_DIR/$FILENAME"
 
 	# file with the same name as the source file DOES NOT exist in the target directory
-	if [[ ! -e "$TARGET_DIR/$FILENAME" ]]; then
+	if [[ ! -e "$TARGET_FILE_ABS" ]]; then
 		if [[ "$COPY" == "FALSE" ]]; then
 			# create a symlink
-			echo "~~~ COMMAND: ln -sv $FILE $TARGET_DIR/$FILENAME"
-			[[ "$DEBUG" == "FALSE" ]] && ln -sv "$FILE" "$TARGET_DIR/$FILENAME" 			
+			echo "~~~ COMMAND: ln -sv $SOURCE_FILE_ABS $TARGET_FILE_ABS"
+			[[ "$DEBUG" == "FALSE" ]] && ln -sv "$SOURCE_FILE_ABS" "$TARGET_FILE_ABS" 			
 			echo
 		else
 			# create a copy
-			echo "~~~ COMMAND: cp -rfv $FILE $TARGET_DIR"
-			[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$FILE" "$TARGET_DIR" 			
+			echo "~~~ COMMAND: cp -rfv $SOURCE_FILE_ABS $TARGET_DIR"
+			[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$SOURCE_FILE_ABS" "$TARGET_DIR" 			
 			echo 
 		fi
 	# file with the same name as the source file DOES exist in the target directory
 	else
 		# target file is the same as the source file
-		if [[ "$TARGET_DIR/$FILENAME" -ef "$FILE" ]]; then 								
+		if [[ "$TARGET_FILE_ABS" -ef "$SOURCE_FILE_ABS" ]]; then 								
 			
 			# create a temporary copy of the file
-			echo "~~~ COMMAND: cp -fLrv $TARGET_DIR/$FILENAME{,.temp}"					
+			echo "~~~ COMMAND: cp -fLrv $TARGET_FILE_ABS{,.temp}"					
 			if [[ "$DEBUG" == "FALSE" ]]; then
-				cp -fLrv "$TARGET_DIR/$FILENAME"{,.temp} || ( echo "Failed to create a backup!" && exit 1 )		
+				cp -fLrv "$TARGET_FILE_ABS"{,.temp} || ( echo "Failed to create a backup!" && exit 1 )		
 			fi
 			echo
 			
 			# target needs to be a symlink but it is a copy
-			if [[ "$COPY" == "FALSE" && ! -h "$TARGET_DIR/$FILENAME" ]]; then 						
+			if [[ "$COPY" == "FALSE" && ! -h "$TARGET_FILE_ABS" ]]; then 						
 				
 				# remove the copy
-				echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILENAME"
-				[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME"	
+				echo "~~~ COMMAND: rm -rfv $TARGET_FILE_ABS"
+				[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_FILE_ABS"	
 				echo
 				
 				# create a symlink
-				echo "~~~ COMMAND: ln -sv $FILE $TARGET_DIR/$FILENAME"
-				[[ "$DEBUG" == "FALSE" ]] && ln -sv "$FILE" "$TARGET_DIR/$FILENAME"
+				echo "~~~ COMMAND: ln -sv $SOURCE_FILE_ABS $TARGET_FILE_ABS"
+				[[ "$DEBUG" == "FALSE" ]] && ln -sv "$SOURCE_FILE_ABS" "$TARGET_FILE_ABS"
 				echo
 			
 			# target needs to be a copy but it is a symlink
-			elif [[ "$COPY" == "TRUE" && -h "$TARGET_DIR/$FILENAME" ]]; then 							
+			elif [[ "$COPY" == "TRUE" && -h "$TARGET_FILE_ABS" ]]; then 							
 				
 				# remove the symlink
-				echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILENAME"
-				[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME"
+				echo "~~~ COMMAND: rm -rfv $TARGET_FILE_ABS"
+				[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_FILE_ABS"
 				echo
 
 				# create a copy
-				echo "~~~ COMMAND: cp -rfv $FILE $TARGET_DIR"
-				[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$FILE" "$TARGET_DIR"
+				echo "~~~ COMMAND: cp -rfv $SOURCE_FILE_ABS $TARGET_DIR"
+				[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$SOURCE_FILE_ABS" "$TARGET_DIR"
 				echo
 			fi
 			
 			# remove the temporary copy of the file
-			echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILENAME.temp"
-			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME.temp"
+			echo "~~~ COMMAND: rm -rfv $TARGET_FILE_ABS.temp"
+			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_FILE_ABS.temp"
 			echo
 
 		# target file and source file are different
 		else 																					
 			# old backup exists
-			if [[ -e "$TARGET_DIR/$FILENAME.bak" ]]; then
+			if [[ -e "$TARGET_FILE_ABS.bak" ]]; then
 				# remove old backup
-				echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILENAME.bak"
-				[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME.bak"
+				echo "~~~ COMMAND: rm -rfv $TARGET_FILE_ABS.bak"
+				[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_FILE_ABS.bak"
 				echo
 			fi
 			
 			# back up current source file
-			echo "~~~ COMMAND: cp -fLv $TARGET_DIR/$FILENAME{,.bak}"
+			echo "~~~ COMMAND: cp -fLv $TARGET_FILE_ABS{,.bak}"
 			if [[ "$DEBUG" == "FALSE" ]]; then
-				cp -fLrv "$TARGET_DIR/$FILENAME"{,.bak} || ( echo "Failed to create a backup!" && exit 1 )
+				cp -fLrv "$TARGET_FILE_ABS"{,.bak} || ( echo "Failed to create a backup!" && exit 1 )
 			fi
 			echo
 			
 			# remove current source file
-			echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILENAME"
-			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME" 								
+			echo "~~~ COMMAND: rm -rfv $TARGET_FILE_ABS"
+			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_FILE_ABS" 								
 			echo
 								
 			if [[ "$COPY" == "FALSE" ]]; then
 				# create a symlink
-				echo "~~~ COMMAND: ln -sv $FILE $TARGET_DIR/$FILENAME"
-				[[ "$DEBUG" == "FALSE" ]] && ln -sv "$FILE" "$TARGET_DIR/$FILENAME" 		
+				echo "~~~ COMMAND: ln -sv $SOURCE_FILE_ABS $TARGET_FILE_ABS"
+				[[ "$DEBUG" == "FALSE" ]] && ln -sv "$SOURCE_FILE_ABS" "$TARGET_FILE_ABS" 		
 				echo
 			else
 				# create a copy
-				echo "~~~ COMMAND: cp -rfv $FILE $TARGET_DIR"
-				[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$FILE" "$TARGET_DIR" 			
+				echo "~~~ COMMAND: cp -rfv $SOURCE_FILE_ABS $TARGET_DIR"
+				[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$SOURCE_FILE_ABS" "$TARGET_DIR" 			
 				echo
 			fi
 		fi
