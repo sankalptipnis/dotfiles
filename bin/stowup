@@ -5,31 +5,31 @@ shopt -s nullglob
 BIN_NAME=$(basename "$0")
 
 function usage {
-    echo ""
+    echo
     echo "Usage:"
     echo "$BIN_NAME [-cDxd] source_dir target_dir"
-    echo ""
+    echo
     echo "This utility creates symlinks in the target directory"
     echo "pointing to all the files in the source directory. The "
 	echo "source and target directory inputs need to be absolute paths."
-	echo ""
+	echo
 	echo "COMMAND LINE OPTIONS:"
-	echo ""
+	echo
 	echo "-c"
     echo "	The files from the source directory are copied to the"
     echo "	target directory (instead instead of being symlinked to)."
-    echo ""
+    echo
 	echo "-D"
 	echo "	A [symlink pointing to|copy of] the source directory"
 	echo "	is created (instead of the files in the source directory)"
-    echo ""
+    echo
 	echo "-x"
     echo "	Broken symlinks in the target directory are removed"
     echo "	before proceeding."
-	echo ""
+	echo
 	echo "-d"
     echo "	The commands are printed out rather than being executed."
-    echo ""
+    echo
     exit 1
 }
 
@@ -67,9 +67,9 @@ usage
 [[ ! -d "$SOURCE_DIR" ]] && echo "The source directory does not exist!" && usage
 
 if [[ "$DEBUG" == "TRUE" ]]; then
-	echo ""
+	echo
 	echo "!!!!!!!!!!!!!!!! PERFORMING DRY RUN !!!!!!!!!!!!!!!!"
-	echo ""
+	echo
 fi
 
 mkdir -p "$TARGET_DIR"
@@ -88,12 +88,12 @@ function process_file() {
 			# create a symlink
 			echo "~~~ COMMAND: ln -sv $FILE $TARGET_DIR/$FILENAME"
 			[[ "$DEBUG" == "FALSE" ]] && ln -sv "$FILE" "$TARGET_DIR/$FILENAME" 			
-			echo ""
+			echo
 		else
 			# create a copy
 			echo "~~~ COMMAND: cp -rfv $FILE $TARGET_DIR"
 			[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$FILE" "$TARGET_DIR" 			
-			echo "" 
+			echo 
 		fi
 	# file with the same name as the source file DOES exist in the target directory
 	else
@@ -105,7 +105,7 @@ function process_file() {
 			if [[ "$DEBUG" == "FALSE" ]]; then
 				cp -fLrv "$TARGET_DIR/$FILENAME"{,.temp} || ( echo "Failed to create a backup!" && exit 1 )		
 			fi
-			echo ""
+			echo
 			
 			# target needs to be a symlink but it is a copy
 			if [[ "$COPY" == "FALSE" && ! -h "$TARGET_DIR/$FILENAME" ]]; then 						
@@ -113,12 +113,12 @@ function process_file() {
 				# remove the copy
 				echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILENAME"
 				[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME"	
-				echo ""
+				echo
 				
 				# create a symlink
 				echo "~~~ COMMAND: ln -sv $FILE $TARGET_DIR/$FILENAME"
 				[[ "$DEBUG" == "FALSE" ]] && ln -sv "$FILE" "$TARGET_DIR/$FILENAME"
-				echo ""
+				echo
 			
 			# target needs to be a copy but it is a symlink
 			elif [[ "$COPY" == "TRUE" && -h "$TARGET_DIR/$FILENAME" ]]; then 							
@@ -126,18 +126,18 @@ function process_file() {
 				# remove the symlink
 				echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILENAME"
 				[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME"
-				echo ""
+				echo
 
 				# create a copy
 				echo "~~~ COMMAND: cp -rfv $FILE $TARGET_DIR"
 				[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$FILE" "$TARGET_DIR"
-				echo ""
+				echo
 			fi
 			
 			# remove the temporary copy of the file
 			echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILENAME.temp"
 			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME.temp"
-			echo ""
+			echo
 
 		# target file and source file are different
 		else 																					
@@ -146,7 +146,7 @@ function process_file() {
 				# remove old backup
 				echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILENAME.bak"
 				[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME.bak"
-				echo ""
+				echo
 			fi
 			
 			# back up current source file
@@ -154,60 +154,60 @@ function process_file() {
 			if [[ "$DEBUG" == "FALSE" ]]; then
 				cp -fLrv "$TARGET_DIR/$FILENAME"{,.bak} || ( echo "Failed to create a backup!" && exit 1 )
 			fi
-			echo ""
+			echo
 			
 			# remove current source file
 			echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILENAME"
 			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME" 								
-			echo ""
+			echo
 								
 			if [[ "$COPY" == "FALSE" ]]; then
 				# create a symlink
 				echo "~~~ COMMAND: ln -sv $FILE $TARGET_DIR/$FILENAME"
 				[[ "$DEBUG" == "FALSE" ]] && ln -sv "$FILE" "$TARGET_DIR/$FILENAME" 		
-				echo ""
+				echo
 			else
 				# create a copy
 				echo "~~~ COMMAND: cp -rfv $FILE $TARGET_DIR"
 				[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$FILE" "$TARGET_DIR" 			
-				echo ""
+				echo
 			fi
 		fi
 	fi
 }
 
-echo ""
+echo
 echo "##############################"
 echo "########## CLEANING ##########"
 echo "##############################"
 
 if [[ "$CLEAN" == "TRUE" ]]; then
-	echo ""
+	echo
 	echo "TARGET DIRECTORY: $TARGET_DIR"
 	for FILE in "$TARGET_DIR"/* "$TARGET_DIR"/.[^.]*; do
 		# source file is a broken link
 		if [[ ! -e "$FILE" && -h "$FILE" ]]; then 						
-			echo ""
+			echo
 			echo "------------------------------"
 			echo "File: $FILE"
 			echo "------------------------------"
 			# remove broken link
 			echo "~~~ COMMAND: rm -rfv $FILE"
 			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$FILE"		
-			echo ""						 
+			echo						 
 		fi
 	done
 fi
 
-echo ""
+echo
 echo "##############################"
 echo "##### LINKING / COPYING ######"
 echo "##############################"
 
-echo ""
+echo
 echo "SOURCE DIRECTORY: $SOURCE_DIR"
 echo "TARGET DIRECTORY: $TARGET_DIR"
-echo ""
+echo
 
 # linking to / copying files in the source directory
 if [[ "$DIR" == "FALSE" ]]; then
