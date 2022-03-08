@@ -250,14 +250,6 @@ ifndef DEBUG
 	|| $(BIN)/echo-color red "  Failed to link Karabiner files";
 endif
 
-link-conda: cleanup
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking conda dotfiles"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	$(BIN)/stowup -x $(FLAG) $(DOTFILES_DIR)/conda/settings $(HOME) \
-	&& $(BIN)/echo-color yellow "  Success!" \
-	|| $(BIN)/echo-color red "  Failed to link conda dotfiles";
-endif
-
 ###############################################################################
 # macOS defaults       							      					      #
 ###############################################################################
