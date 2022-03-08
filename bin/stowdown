@@ -9,8 +9,7 @@ function usage {
     echo "$BIN_NAME source_dir target_dir"
     echo
     echo "This utility removes any symlinks from the target directory "
-    echo "to files in the source directory. The source and target"
-	echo "directory inputs need to be absolute paths."
+    echo "to files in the source directory."
 	echo
     echo "COMMAND LINE OPTIONS:"
 	echo
@@ -66,32 +65,34 @@ function process_file() {
 	local DEBUG="$3"
 
 	local FILENAME=$(basename "$FILE")
+	local SOURCE_FILE_ABS=$(realpath -e "$FILE")
+	local TARGET_FILE_ABS="$TARGET_DIR/$FILENAME"
 
 	# file exists in the the target dir and is a symlink
-	if [[ -e "$TARGET_DIR/$FILENAME" && -h "$TARGET_DIR/$FILENAME" ]]; then
+	if [[ -e "$TARGET_FILE_ABS" && -h "$TARGET_FILE_ABS" ]]; then
 		# the symlink is the same file as the input file
-		if [[ "$TARGET_DIR/$FILENAME" -ef "$FILE" ]]; then
+		if [[ "$TARGET_FILE_ABS" -ef "$SOURCE_FILE_ABS" ]]; then
 			
 			# make a copy of the contents of the file
-			echo "~~~ COMMAND: cp -fLrv $TARGET_DIR/$FILENAME{,.temp}"					
+			echo "~~~ COMMAND: cp -fLrv $TARGET_FILE_ABS{,.temp}"					
 			if [[ "$DEBUG" == "FALSE" ]]; then
-				cp -fLrv "$TARGET_DIR/$FILENAME"{,.temp} || ( echo "Failed to create a backup copy!" && exit 1 )		
+				cp -fLrv "$TARGET_FILE_ABS"{,.temp} || ( echo "Failed to create a backup copy!" && exit 1 )		
 			fi
 			echo
 			
 			# remove the symlink
-			echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILENAME"
-			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME"
+			echo "~~~ COMMAND: rm -rfv $TARGET_FILE_ABS"
+			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_FILE_ABS"
 			echo
 			
 			# remove any potential backups of the file
-			echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILENAME.bak"
-			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME".bak
+			echo "~~~ COMMAND: rm -rfv $TARGET_FILE_ABS.bak"
+			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_FILE_ABS".bak
 			echo
 			
 			# rename the copy from to the original name of the file
-			echo "~~~ COMMAND: mv -v $TARGET_DIR/$FILENAME.temp $TARGET_DIR/$FILENAME"
-			[[ "$DEBUG" == "FALSE" ]] && mv -v "$TARGET_DIR/$FILENAME".temp "$TARGET_DIR/$FILENAME"
+			echo "~~~ COMMAND: mv -v $TARGET_FILE_ABS.temp $TARGET_FILE_ABS"
+			[[ "$DEBUG" == "FALSE" ]] && mv -v "$TARGET_FILE_ABS".temp "$TARGET_FILE_ABS"
 			echo
 		fi
 	fi
