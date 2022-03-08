@@ -40,7 +40,23 @@ brew 'zsh-autosuggestions'
 brew 'zsh-syntax-highlighting'
 brew 'zsh'
 
-# Binaries
+# Archive utilities
+brew 'lzip'
+brew 'plzip'
+
+brew 'bzip2'
+brew 'lbzip2'
+brew 'pbzip2'
+
+brew 'pigz'
+brew 'unar'
+brew 'xz'
+brew 'zopfli'
+
+# OpenSSH with GSSAPI support
+brew 'rdp/homebrew-openssh-gssapi/openssh-patched', args: ['with-gssapi-support']
+
+# Other binaries
 brew 'ack'
 brew 'bat'
 brew 'boost'
@@ -67,15 +83,11 @@ brew 'htop'
 brew 'hyperfine'
 brew 'imagemagick'
 brew 'lazygit'
-brew 'lbzip2'
-brew 'lzip'
 brew 'mackup'
 brew 'mas'
 brew 'neofetch'
 brew 'neovim'
 brew 'pandoc'
-brew 'pbzip2'
-brew 'pigz'
 brew 'pygments'
 brew 'ripgrep'
 brew 'romkatv/gitstatus/gitstatus'
@@ -88,15 +100,9 @@ brew 'thefuck'
 brew 'the-unarchiver'
 brew 'tmux'
 brew 'tree'
-brew 'unar'
 brew 'vim'
 brew 'watch'
-brew 'xz'
-brew 'zopfli'
 brew 'zoxide'
-
-# OpenSSH with GSSAPI support
-brew 'rdp/homebrew-openssh-gssapi/openssh-patched', args: ['with-gssapi-support']
 
 # Optional binaries
 # brew 'dimentium/autoraise/autoraise', restart_service: true
@@ -146,7 +152,7 @@ cask 'visual-studio-code'
 cask 'xquartz'
 cask 'zoom'
 
-# Optional Homebrew Cask apps
+# Optional Cask apps
 # cask 'discord'
 # cask 'notable'
 # cask 'notion'
