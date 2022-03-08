@@ -8,8 +8,8 @@ GREEN='\033[1;92m'
 YELLOW='\033[1;93m'
 RESET='\033[0m'
 
-if [[ ! "$COMMAND_NAME" ]] || [[ "$COMMAND_NAME" = "help" ]] || [[ "$COMMAND_NAME" = "-h" ]] || [[ "$COMMAND_NAME" = "--help" ]]; then
-	echo -e "$ARROW Usage: ${YELLOW}$BIN_NAME <command>${RESET}"
+if [[ -z "$COMMAND_NAME" ]] || [[ "$COMMAND_NAME" == "help" ]] || [[ "$COMMAND_NAME" == "-h" ]] || [[ "$COMMAND_NAME" == "--help" ]]; then
+	echo -e "${ARROW} Usage: ${YELLOW}${BIN_NAME} <command>${RESET}"
     echo
     echo "Commands:"
     echo "   help             This help message"
@@ -28,7 +28,7 @@ if [[ "$COMMAND_NAME" == "list" ]]; then
 fi
 
 if [[ "$COMMAND_NAME" == "list-keys" ]]; then
-	echo -e "${YELLOW}$ARROW List of available SSH keys:${RESET}"
+	echo -e "${YELLOW}${ARROW} List of available SSH keys:${RESET}"
 
 	for file in "$HOME"/.ssh/*.pub
 	do
@@ -37,7 +37,7 @@ if [[ "$COMMAND_NAME" == "list-keys" ]]; then
 fi
 
 if [[ "$COMMAND_NAME" == "list-hosts" ]]; then
-	echo -e "${YELLOW}$ARROW List of hosts defined in the SSH config:${RESET}"
+	echo -e "${YELLOW}${ARROW} List of hosts defined in the SSH config:${RESET}"
 
 	awk '/Host (.*)/ { print "- "$2 }' "$HOME/.ssh/config"
 fi
@@ -47,32 +47,32 @@ if [[ "$COMMAND_NAME" == "copy" ]]; then
 	key="$2"
 
 	if [[ -z "$key" ]]; then
-		echo -e "${RED}$ARROW Error: You have to pass a key name. Usage: $BIN_NAME copy <name>${RESET}"
+		echo -e "${RED}${ARROW} Error: You have to pass a key name. Usage: $BIN_NAME copy <name>${RESET}"
 	else
 		key="id_ed25519_$key.pub"
 
 		if [[ ! -f "$folder$key" ]]; then
-	        echo -e "${RED}$ARROW Error: Key $key does not exists in $folder.${RESET}"
+	        echo -e "${RED}${ARROW} Error: Key $key does not exists in $folder.${RESET}"
 	    else
-			cat "$folder$key" | pbcopy && echo -e "${GREEN}$ARROW Success: Your public SSH key $key was successfully copied to the clipboard.${RESET}"
+			cat "${folder}${key}" | pbcopy && echo -e "${GREEN}${ARROW} Success: Your public SSH key $key was successfully copied to the clipboard.${RESET}"
 	    fi
 	fi
 fi
 
 if [[ "$COMMAND_NAME" == "new" ]]; then
 	while true; do
-		read -p "$(echo -e "${YELLOW}$ARROW Enter key file name:${RESET} ")" key
+		read -p "$(echo -e "${YELLOW}${ARROW} Enter key file name:${RESET} ")" key
 
 		if [[ -f "$HOME/.ssh/id_ed25519_$key" ]]; then
-			echo -e "${RED}$ARROW Error: Key with this file name already exists.${RESET}"
+			echo -e "${RED}${ARROW} Error: Key with this file name already exists.${RESET}"
 		else
 			break
 		fi
 	done
 
-	read -p "$(echo -e "${YELLOW}$ARROW Enter key comment:${RESET} ")" comment
+	read -p "$(echo -e "${YELLOW}${ARROW} Enter key comment:${RESET} ")" comment
 
 	ssh-keygen -o -a 100 -t ed25519 -f "$HOME/.ssh/id_ed25519_$key" -C "$comment"
 
-	echo -e "${GREEN}$ARROW Success: SSH key '$key' was successfully created with comment '$comment'.${RESET}"
+	echo -e "${GREEN}${ARROW} Success: SSH key '$key' was successfully created with comment '$comment'.${RESET}"
 fi
