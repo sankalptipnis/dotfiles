@@ -64,9 +64,10 @@ function process_file() {
 	local TARGET_DIR="$2"
 	local DEBUG="$3"
 
-	local FILENAME=$(basename "$FILE")
-	local SOURCE_FILE_ABS=$(realpath -e "$FILE")
-	local TARGET_FILE_ABS="$TARGET_DIR/$FILENAME"
+	local SOURCE_FILE_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" $FILE)
+	local FILENAME=$(basename "$SOURCE_FILE_ABS")
+	local TARGET_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" $TARGET_DIR)
+	local TARGET_FILE_ABS="$TARGET_DIR_ABS/$FILENAME"
 
 	# file exists in the the target dir and is a symlink
 	if [[ -e "$TARGET_FILE_ABS" && -h "$TARGET_FILE_ABS" ]]; then

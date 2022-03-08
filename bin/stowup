@@ -79,9 +79,10 @@ function process_file() {
 	local COPY="$3"
 	local DEBUG="$4"
 
-	local FILENAME=$(basename "$FILE")
-	local SOURCE_FILE_ABS=$(realpath -e "$FILE")
-	local TARGET_FILE_ABS="$TARGET_DIR/$FILENAME"
+	local SOURCE_FILE_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" $FILE)
+	local FILENAME=$(basename "$SOURCE_FILE_ABS")
+	local TARGET_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" $TARGET_DIR)
+	local TARGET_FILE_ABS="$TARGET_DIR_ABS/$FILENAME"
 
 	# file with the same name as the source file DOES NOT exist in the target directory
 	if [[ ! -e "$TARGET_FILE_ABS" ]]; then
@@ -92,8 +93,8 @@ function process_file() {
 			echo
 		else
 			# create a copy
-			echo "~~~ COMMAND: cp -rfv $SOURCE_FILE_ABS $TARGET_DIR"
-			[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$SOURCE_FILE_ABS" "$TARGET_DIR" 			
+			echo "~~~ COMMAND: cp -rfv $SOURCE_FILE_ABS $TARGET_DIR_ABS"
+			[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$SOURCE_FILE_ABS" "$TARGET_DIR_ABS" 			
 			echo 
 		fi
 	# file with the same name as the source file DOES exist in the target directory
@@ -130,8 +131,8 @@ function process_file() {
 				echo
 
 				# create a copy
-				echo "~~~ COMMAND: cp -rfv $SOURCE_FILE_ABS $TARGET_DIR"
-				[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$SOURCE_FILE_ABS" "$TARGET_DIR"
+				echo "~~~ COMMAND: cp -rfv $SOURCE_FILE_ABS $TARGET_DIR_ABS"
+				[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$SOURCE_FILE_ABS" "$TARGET_DIR_ABS"
 				echo
 			fi
 			
@@ -169,8 +170,8 @@ function process_file() {
 				echo
 			else
 				# create a copy
-				echo "~~~ COMMAND: cp -rfv $SOURCE_FILE_ABS $TARGET_DIR"
-				[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$SOURCE_FILE_ABS" "$TARGET_DIR" 			
+				echo "~~~ COMMAND: cp -rfv $SOURCE_FILE_ABS $TARGET_DIR_ABS"
+				[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$SOURCE_FILE_ABS" "$TARGET_DIR_ABS" 			
 				echo
 			fi
 		fi
