@@ -107,58 +107,58 @@ TEXT="$@"
 if [[ "$BOLD" == "FALSE" ]]; then
     case "$INPUT_COLOR" in
         black)
-            COLOR=$IBlack
+            COLOR="$IBlack"
             ;;
         red)
-            COLOR=$IRed
+            COLOR="$IRed"
             ;;
         green)
-            COLOR=$IGreen
+            COLOR="$IGreen"
             ;;
         yellow)
-            COLOR=$IYellow
+            COLOR="$IYellow"
             ;;
         blue)
-            COLOR=$IBlue
+            COLOR="$IBlue"
             ;;
         purple)
-            COLOR=$IPurple
+            COLOR="$IPurple"
             ;;
         cyan)
-            COLOR=$ICyan
+            COLOR="$ICyan"
             ;;
         white)
-            COLOR=$IWhite
+            COLOR="$IWhite"
             ;;
         *)
             usage
             ;;
     esac
 else
-    case $INPUT_COLOR in
+    case "$INPUT_COLOR" in
         black)
-            COLOR=$BIBlack
+            COLOR="$BIBlack"
             ;;
         red)
-            COLOR=$BIRed
+            COLOR="$BIRed"
             ;;
         green)
-            COLOR=$BIGreen
+            COLOR="$BIGreen"
             ;;
         yellow)
-            COLOR=$BIYellow
+            COLOR="$BIYellow"
             ;;
         blue)
-            COLOR=$BIBlue
+            COLOR="$BIBlue"
             ;;
         purple)
-            COLOR=$BIPurple
+            COLOR="$BIPurple"
             ;;
         cyan)
-            COLOR=$BICyan
+            COLOR="$BICyan"
             ;;
         white)
-            COLOR=$BIWhite
+            COLOR="$BIWhite"
             ;;
         *)
             usage
