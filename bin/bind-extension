@@ -8,22 +8,22 @@ function usage {
     exit 1
 }
 
-if [[ $1 = "help" ]] || [[ $1 = "-h" ]] || [[ $1 = "--help" ]]; then
+if [[ "$1" = "help" ]] || [[ "$1" = "-h" ]] || [[ "$1" = "--help" ]]; then
 	usage
 fi
 
-APP=$1
-EXTENSION=$2
+APP="$1"
+EXTENSION="$2"
 
-[[ -z $APP ]] && usage
-[[ -z $EXTENSION ]] && usage
+[[ -z "$APP" ]] && usage
+[[ -z "$EXTENSION" ]] && usage
 
 BUNDLE_ID=$(osascript -e "id of app \"$APP\"")
 RETURN_CODE=$?
 
-if [[ $RETURN_CODE = "1" ]]; then
+if [[ "$RETURN_CODE" == "1" ]]; then
     echo "App $APP not found"
-    exit $RETURN_CODE
+    exit "$RETURN_CODE"
 fi
 
-duti -s $BUNDLE_ID $EXTENSION all
+duti -s "$BUNDLE_ID" "$EXTENSION" all

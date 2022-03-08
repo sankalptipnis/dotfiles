@@ -28,7 +28,7 @@ unset file
 
 # Load LS_COLORS
 if is-executable dircolors; then
-	[ -r $DOTFILES_DIR/shell/.dircolors.sh ] && eval "$(dircolors $DOTFILES_DIR/shell/.dircolors.sh)"
+	[ -r "$DOTFILES_DIR/shell/.dircolors.sh" ] && eval "$(dircolors $DOTFILES_DIR/shell/.dircolors.sh)"
 fi
 
 # Add global ROOT to PYTHONPATH so it is accessible from conda envs
@@ -40,7 +40,7 @@ ROOT_LIB_DIR=${ROOT_LIB_DIR%"$suffix"}
 ROOT_LIB_DIR="$(brew --prefix)${ROOT_LIB_DIR}/lib/root"
 PYTHONPATH="$ROOT_LIB_DIR:$PYTHONPATH"
 PYTHONPATH=${PYTHONPATH%":"}
-[ -d $ROOT_LIB_DIR ] && export PYTHONPATH
+[ -d "$ROOT_LIB_DIR" ] && export PYTHONPATH
 
 # Shell settings
 setopt NO_CASE_GLOB
@@ -65,15 +65,15 @@ setopt HIST_REDUCE_BLANKS
 
 # Conda initialize
 _conda_script="$HOMEBREW_PREFIX/Caskroom/miniforge/base/etc/profile.d/conda.sh"
-[[ -r $_conda_script ]] && source $_conda_script
+[[ -r "$_conda_script" ]] && source "$_conda_script"
 
 # Zoxide initialize
 eval "$(zoxide init zsh)"
 
 # Auto completion initialize
 _auto_complete_script="$DOTFILES_DIR/submodules/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
-if [[ -r $_auto_complete_script ]]; then
-	source $_auto_complete_script
+if [[ -r "$_auto_complete_script" ]]; then
+	source "$_auto_complete_script"
 	zstyle ':autocomplete:*' min-input 1
 	zstyle ':autocomplete:*' insert-unambiguous yes
 	zstyle ':autocomplete:*' widget-style menu-complete
@@ -81,13 +81,13 @@ fi
 
 # powerlevel10k initialize
 _powerline_script="$HOMEBREW_PREFIX/opt/powerlevel10k/powerlevel10k.zsh-theme"
-[[ -r $_powerline_script ]] && source $_powerline_script
+[[ -r "$_powerline_script" ]] && source "$_powerline_script"
 
 # Auto suggestions initialize
 _auto_suggestions_script="$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
 
-if [[ -r $_auto_suggestions_script ]]; then
-	source $_auto_suggestions_script
+if [[ -r "$_auto_suggestions_script" ]]; then
+	source "$_auto_suggestions_script"
 	export ZSH_AUTOSUGGEST_STRATEGY=(history)
 	bindkey '^[pick_auto_suggestion' autosuggest-accept
 	# uncomment below line if ZSH_AUTOSUGGEST_STRATEGY includes 'completion'
@@ -96,7 +96,7 @@ fi
 
 # Auto syntax highlight initialize
 _auto_syntax_highlight_script="$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
-[[ -r $_auto_syntax_highlight_script ]] && source $_auto_syntax_highlight_script
+[[ -r "$_auto_syntax_highlight_script" ]] && source "$_auto_syntax_highlight_script"
 
 # Prompt initialize 
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f "$DOTFILES_DIR/p10k/.p10k.zsh" ]] || source "$DOTFILES_DIR/p10k/.p10k.zsh"

@@ -24,7 +24,7 @@ unset file
 
 # Load LS_COLORS
 if is-executable dircolors; then
-	[ -r $DOTFILES_DIR/shell/.dircolors.sh ] && eval "$(dircolors $DOTFILES_DIR/shell/.dircolors.sh)"
+	[ -r "$DOTFILES_DIR/shell/.dircolors.sh" ] && eval "$(dircolors $DOTFILES_DIR/shell/.dircolors.sh)"
 fi
 
 # Add tab completion for Bash commands
@@ -55,7 +55,7 @@ done
 
 # Initialize conda
 _conda_script="${HOMEBREW_PREFIX}/Caskroom/miniforge/base/etc/profile.d/conda.sh"
-[ -r $_conda_script ] && source $_conda_script
+[ -r "$_conda_script" ] && source "$_conda_script"
 
 # Add global ROOT to PYTHONPATH so it is accessible from conda envs
 prefix=".."
@@ -67,8 +67,8 @@ ROOT_LIB_DIR="${HOMEBREW_PREFIX}${ROOT_LIB_DIR}/lib/root"
 PYTHONPATH="$ROOT_LIB_DIR:$PYTHONPATH"
 PYTHONPATH=${PYTHONPATH%":"}
 PYTHONPATH=$(echo -n $PYTHONPATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}')
-[ -d $ROOT_LIB_DIR ] && export PYTHONPATH
+[ -d "$ROOT_LIB_DIR" ] && export PYTHONPATH
 
 # Initilize fzf-obc
 _fzf_script="$DOTFILES_DIR/submodules/fzf-obc/bin/fzf-obc.bash"
-[ -r $_fzf_script ] && source $_fzf_script
+[ -r "$_fzf_script" ] && source "$_fzf_script"

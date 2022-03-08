@@ -196,7 +196,7 @@ function allcolors(){
 
 # Prepend dirictory (if it exists) to the PATH variable
 function prepend-path() {
-  	[ -d $1 ] && PATH="$1:$PATH"
+  	[ -d "$1" ] && PATH="$1:$PATH"
 }
 
 # Use macOS Preview to open a man page in a more handsome format
@@ -239,27 +239,27 @@ function renametab () {
 
 # Extract archives - use: extract <file>
 function extract() {
-	if [ -f $1 ]; then
+	if [ -f "$1" ]; then
 		if command -v unar &>/dev/null; then
-			unar $1
+			unar "$1"
 		else
-			case $1 in
-				*.tar.bz2) tar xjf $1 ;;
-				*.tar.gz) tar xzf $1 ;;
-				*.bz2) bunzip2 $1 ;;
-				*.rar) rar x $1 ;;
-				*.gz) gunzip $1 ;;
-				*.tar) tar xf $1 ;;
-				*.tbz2) tar xjf $1 ;;
-				*.tgz) tar xzf $1 ;;
-				*.zip) unzip $1 ;;
-				*.Z) uncompress $1 ;;
-				*.7z) 7z x $1 ;;
-				*) echo "'$1' cannot be extracted via extract()" ;;
+			case "$1" in
+				*.tar.bz2) tar xjf "$1" ;;
+				*.tar.gz) tar xzf "$1" ;;
+				*.bz2) bunzip2 "$1" ;;
+				*.rar) rar x "$1" ;;
+				*.gz) gunzip "$1" ;;
+				*.tar) tar xf "$1" ;;
+				*.tbz2) tar xjf "$1" ;;
+				*.tgz) tar xzf "$1" ;;
+				*.zip) unzip "$1" ;;
+				*.Z) uncompress "$1" ;;
+				*.7z) 7z x "$1" ;;
+				*) echo "$1 cannot be extracted via extract()" ;;
 			esac
 		fi
 	else
-		echo "'$1' is not a valid file"
+		echo "$1 is not a valid file"
 	fi
 }
 

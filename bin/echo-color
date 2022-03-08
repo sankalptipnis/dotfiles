@@ -81,7 +81,7 @@ function usage {
     exit 1
 }
 
-if [[ $1 = "help" ]] || [[ $1 = "-h" ]] || [[ $1 = "--help" ]]; then
+if [[ "$1" = "help" ]] || [[ "$1" = "-h" ]] || [[ "$1" = "--help" ]]; then
 	usage
 fi
 
@@ -96,16 +96,16 @@ done
 
 shift $((OPTIND -1))
 
-INPUT_COLOR=$1
+INPUT_COLOR="$1"
 shift
 
-TEXT=$@
+TEXT="$@"
 
-[[ -z $INPUT_COLOR ]] && usage
-[[ -z $TEXT ]] && usage
+[[ -z "$INPUT_COLOR" ]] && usage
+[[ -z "$TEXT" ]] && usage
 
-if [[ $BOLD == "FALSE" ]]; then
-    case $INPUT_COLOR in
+if [[ "$BOLD" == "FALSE" ]]; then
+    case "$INPUT_COLOR" in
         black)
             COLOR=$IBlack
             ;;

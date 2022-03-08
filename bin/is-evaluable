@@ -15,11 +15,11 @@ function usage {
     exit 1
 }
 
-if [[ $1 = "help" ]] || [[ $1 = "-h" ]] || [[ $1 = "--help" ]]; then
+if [[ "$1" = "help" ]] || [[ "$1" = "-h" ]] || [[ "$1" = "--help" ]]; then
 	usage
 fi
 
-[[ -z $1 ]] && usage
+[[ -z "$1" ]] && usage
 
 if [[ $# -eq 1 ]]; then
 	if eval "$1" > /dev/null 2>&1; then 

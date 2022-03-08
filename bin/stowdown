@@ -28,7 +28,7 @@ function usage {
     exit 1
 }
 
-if [[ $1 = "help" ]] || [[ $1 = "-h" ]] || [[ $1 = "--help" ]]; then
+if [[ "$1" = "help" ]] || [[ "$1" = "-h" ]] || [[ "$1" = "--help" ]]; then
 	usage
 fi
 
@@ -46,15 +46,15 @@ done
 
 shift $((OPTIND -1))
 
-SOURCE_DIR=$1
-TARGET_DIR=$2
+SOURCE_DIR="$1"
+TARGET_DIR="$2"
 
 [[ -z "$SOURCE_DIR" ]] && usage
 [[ -z "$TARGET_DIR" ]] && usage
 
 [[ ! -d "$SOURCE_DIR" ]] && echo "The source directory does not exist!" && usage
 
-if [[ $DEBUG == "TRUE" ]]; then
+if [[ "$DEBUG" == "TRUE" ]]; then
 	echo ""
 	echo "!!!!!!!!!!!!!!!! PERFORMING DRY RUN !!!!!!!!!!!!!!!!"
 	echo ""
@@ -74,24 +74,24 @@ function process_file() {
 			
 			# make a copy of the contents of the file
 			echo "~~~ COMMAND: cp -fLrv $TARGET_DIR/$FILENAME{,.temp}"					
-			if [[ $DEBUG == "FALSE" ]]; then
+			if [[ "$DEBUG" == "FALSE" ]]; then
 				cp -fLrv "$TARGET_DIR/$FILENAME"{,.temp} || ( echo "Failed to create a backup copy!" && exit 1 )		
 			fi
 			echo ""
 			
 			# remove the symlink
 			echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILENAME"
-			[[ $DEBUG == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME"
+			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME"
 			echo ""
 			
 			# remove any potential backups of the file
 			echo "~~~ COMMAND: rm -rfv $TARGET_DIR/$FILENAME.bak"
-			[[ $DEBUG == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME".bak
+			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_DIR/$FILENAME".bak
 			echo ""
 			
 			# rename the copy from to the original name of the file
 			echo "~~~ COMMAND: mv -v $TARGET_DIR/$FILENAME.temp $TARGET_DIR/$FILENAME"
-			[[ $DEBUG == "FALSE" ]] && mv -v "$TARGET_DIR/$FILENAME".temp "$TARGET_DIR/$FILENAME"
+			[[ "$DEBUG" == "FALSE" ]] && mv -v "$TARGET_DIR/$FILENAME".temp "$TARGET_DIR/$FILENAME"
 			echo ""
 		fi
 	fi
@@ -104,7 +104,7 @@ if [[ -d "$TARGET_DIR" ]]; then
 	echo "########## CLEANING ##########"
 	echo "##############################"
 
-	if [[ $CLEAN == "TRUE" ]]; then
+	if [[ "$CLEAN" == "TRUE" ]]; then
 		echo ""
 		echo "TARGET DIRECTORY: $TARGET_DIR"
 		for FILE in $TARGET_DIR/* $TARGET_DIR/.[^.]*; do
@@ -116,7 +116,7 @@ if [[ -d "$TARGET_DIR" ]]; then
 				echo "------------------------------"
 				# remove broken link
 				echo "~~~ COMMAND: rm -rfv $FILE"
-				[[ $DEBUG == "FALSE" ]] && rm -rfv "$FILE"		
+				[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$FILE"		
 				echo ""						 
 			fi
 		done
@@ -132,8 +132,8 @@ if [[ -d "$TARGET_DIR" ]]; then
 	echo "TARGET DIRECTORY: $TARGET_DIR"
 	echo ""
 
-	if [[ $DIR == "FALSE" ]]; then
-		OLDIFS=$IFS
+	if [[ "$DIR" == "FALSE" ]]; then
+		OLDIFS="$IFS"
 		IFS=$'\n'
 		for FILE in $SOURCE_DIR/* $SOURCE_DIR/.[^.]*; do
 			
@@ -143,7 +143,7 @@ if [[ -d "$TARGET_DIR" ]]; then
 
 			process_file "$FILE"" $TARGET_DIR" "$DEBUG"
 		done
-		IFS=$OLDIFS
+		IFS="$OLDIFS"
 	else
 		process_file "$SOURCE_DIR" "$TARGET_DIR" "$DEBUG"
 	fi
