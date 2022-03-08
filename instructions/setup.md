@@ -86,6 +86,8 @@ Copy the private key and the public key to `~/.ssh`.
     1.  Mail.app -> Preferences -> Default email reader -> Google Chrome.app
     2.  Google Chrome.app -> Privacy and Security -> Site Settings -> Additional Permissions -> Protocol Handlers -> Sites can ask to handle protocols
     3.  Go the the [Gmail website](https://mail.google.com/mail/u/0/#inbox) -> Click on diamond icon on the right of the status bar -> Set "Allow mail.google.com to open all email links?" to Allow
+3. Import Reddit Enhancement Suite settings from a backup file in the following [directory](../res/)
+4. Set up other extensions
 
 ## Kerberos Access to LXPLUS
 Create a keytab file containing your password that will be fed to the kinit command in order to obtain a Kerberos ticket. On macOS X (which comes with the Heimdal flavor of Kerberos, and not MIT’s) the command to add a password for CERN’s account is:
