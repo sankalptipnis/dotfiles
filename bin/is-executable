@@ -20,7 +20,7 @@ function usage {
     exit 1
 }
 
-if [[ "$1" = "help" ]] || [[ "$1" = "-h" ]] || [[ "$1" = "--help" ]]; then
+if [[ "$1" == "help" ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
 	usage
 fi
 
@@ -38,14 +38,14 @@ COMMAND="$1"
 
 [[ -z "$COMMAND" ]] && "No input command specified!" && usage
 
-COLOR_OFF='\033[0m'      
+RESET='\033[0m'      
 RED='\033[1;91m'
 GREEN='\033[1;92m'
 
 if command -v "$COMMAND" >/dev/null 2>&1; then
-	[[ "$QUIET" == "FALSE" ]] && echo -e "${GREEN}${COMMAND}: command exists${COLOR_OFF}"
+	[[ "$QUIET" == "FALSE" ]] && echo -e "${GREEN}${COMMAND}: command exists${RESET}"
 	exit 0
 else
-	[[ "$QUIET" == "FALSE" ]] && echo -e "${RED}${COMMAND}: command does not exist${COLOR_OFF}"
+	[[ "$QUIET" == "FALSE" ]] && echo -e "${RED}${COMMAND}: command does not exist${RESET}"
 	exit 1
 fi

@@ -40,7 +40,7 @@ function fsbw() {
 # Colorized size of the contents of the current directory
 # Use gfs (symlinked to /opt/homebrew/Cellar/gdu/5.13.0/bin/gdu) to run gdu
 function fs() {
-	if [ $# -eq 0 ]; then
+	if [[ $# -eq 0 ]]; then
 		paste \
 		<((du --summarize --human-readable .[!.]* * | sort -k2) | sed 's/\s.*//') \
 		<(ls --color=always -1 --almost-all) \
@@ -64,7 +64,7 @@ function s() {
 # `v` with no arguments opens the current directory in VSCode, otherwise
 # opens the given location
 function v() {
-	if [ $# -eq 0 ]; then
+	if [[ $# -eq 0 ]]; then
 		code .
 	else
 		code "$@"
@@ -74,7 +74,7 @@ function v() {
 # `o` with no arguments opens the current directory, otherwise opens the given
 # location
 function o() {
-	if [ $# -eq 0 ]; then
+	if [[ $# -eq 0 ]]; then
 		open .
 	else
 		open "$@"
@@ -196,7 +196,7 @@ function allcolors(){
 
 # Prepend dirictory (if it exists) to the PATH variable
 function prepend-path() {
-  	[ -d "$1" ] && PATH="$1:$PATH"
+  	[[ -d "$1" ]] && PATH="$1:$PATH"
 }
 
 # Use macOS Preview to open a man page in a more handsome format

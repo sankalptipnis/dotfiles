@@ -7,10 +7,10 @@ prepend-path "/usr/local/bin"
 prepend-path "$HOME/.cargo/bin"
 
 # Add Homebrew installed binaries
-eval "$(${HOMEBREW_PREFIX}/bin/brew shellenv)"
+eval "$($HOMEBREW_PREFIX/bin/brew shellenv)"
 
 # Add GNU utils
-for d in ${HOMEBREW_PREFIX}/opt/*/libexec/gnubin; do prepend-path "$d"; done
+for d in "$HOMEBREW_PREFIX"/opt/*/libexec/gnubin; do prepend-path "$d"; done
 
 # Make own utilities available
 prepend-path "$DOTFILES_DIR/bin"

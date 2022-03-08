@@ -6,7 +6,7 @@ elif infocmp xterm-256color >/dev/null 2>&1; then
 	export TERM='xterm-256color'
 fi
 
-if [ -r "$HOMEBREW_PREFIX/opt/gitstatus/gitstatus.plugin.sh" ]; then
+if [[ -r "$HOMEBREW_PREFIX/opt/gitstatus/gitstatus.plugin.sh" ]]; then
 	source "$HOMEBREW_PREFIX/opt/gitstatus/gitstatus.plugin.sh"
 	gitstatus_stop && gitstatus_start -s -1 -u -1 -c -1 -d -1
 	prompt_git() {
@@ -28,7 +28,7 @@ if [ -r "$HOMEBREW_PREFIX/opt/gitstatus/gitstatus.plugin.sh" ]; then
 		(( VCS_STATUS_HAS_UNSTAGED  )) && s+='!'
 		(( VCS_STATUS_HAS_UNTRACKED )) && s+='?'
 
-		[ -n "${s}" ] && s=" [${s}]"
+		[[ -n "${s}" ]] && s=" [${s}]"
 
 		echo -e "${1}${branchName}${2}${s}"
 	}
@@ -73,7 +73,7 @@ else
 			fi
 		fi
 
-		[ -n "${s}" ] && s=" [${s}]"
+		[[ -n "${s}" ]] && s=" [${s}]"
 
 		echo -e "${1}${branchName}${2}${s}"
 	}
@@ -136,7 +136,7 @@ fi
 PS1="\[${bold}\]"; # bold
 PS1+="\[${userStyle}\]\u" # username
 
-if [[ "${SSH_TTY}" ]]; then 
+if [[ -n "${SSH_TTY}" ]]; then 
 	PS1+="\[${brightwhite}\] at "
 	PS1+="\[${brightyellow}\]\h" # hostname
 fi

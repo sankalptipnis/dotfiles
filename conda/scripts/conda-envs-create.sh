@@ -5,13 +5,13 @@ shopt -s nullglob
 BIN_NAME=$(basename "$0")
 
 function usage {
-    echo ""
+    echo
     echo "Usage:"
     echo "$BIN_NAME env_dir"
-    echo ""
+    echo
     echo "This utility creates conda environments as defined"
     echo "by the files in the input directory. "
-    echo ""
+    echo
     exit 1
 }
 
@@ -27,5 +27,5 @@ for FILE in "$ENV_DIR"/*; do
 
     mamba env create -f "$FILE"
     
-    echo ""						 
+    echo						 
 done

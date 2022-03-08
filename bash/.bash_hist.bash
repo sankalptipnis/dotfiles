@@ -2,7 +2,7 @@
 
 # Increase Bash history size. Allow 32³ entries; the default is 500.
 export HISTSIZE='32768'
-export HISTFILESIZE="${HISTSIZE}"
+export HISTFILESIZE="$HISTSIZE"
 
 # 1. Append to history immediately after command
 # 2. Clear current history
