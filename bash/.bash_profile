@@ -23,7 +23,7 @@ done
 unset file
 
 # Load LS_COLORS
-if is-executable dircolors; then
+if is-executable -q dircolors; then
 	[ -r "$DOTFILES_DIR/shell/.dircolors.sh" ] && eval "$(dircolors $DOTFILES_DIR/shell/.dircolors.sh)"
 fi
 

@@ -88,7 +88,7 @@ core: brew brew-path bash
 brew: sudo
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if ! $(BIN)/is-executable brew; then \
+	if ! $(BIN)/is-executable -q brew; then \
 		(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash) \
 		&& $(BIN)/echo-color yellow "  Success!" \
 		|| ($(BIN)/echo-color red "  Failed to install Homebrew" && exit 1); \
@@ -285,7 +285,7 @@ endif
 svn: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing SVN"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if ! $(BIN)/is-executable svn; then \
+	if ! $(BIN)/is-executable -q svn; then \
 		brew install svn \
 		&& $(BIN)/echo-color yellow "  Success!" \
 		|| $(BIN)/echo-color red "  Failed to install SVN"; \
@@ -309,7 +309,7 @@ endif
 mas-apps: brew
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing macOS App Store apps"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if $(BIN)/is-executable mas; then \
+	if $(BIN)/is-executable -q mas; then \
 		brew bundle -v --file=$(DOTFILES_DIR)/homebrew/Masfile \
 		&& $(BIN)/echo-color yellow "  Success!" \
 		|| $(BIN)/echo-color red "  Failed to install all the macOS App Store apps"; \
@@ -321,7 +321,7 @@ endif
 mamba-pkgs: mamba-install
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Creating mamba/conda environemnts"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if $(BIN)/is-executable mamba; then \
+	if $(BIN)/is-executable -q mamba; then \
 		$(DOTFILES_DIR)/conda/scripts/conda-envs-create.sh $(DOTFILES_DIR)/conda/envs \
 		&& $(BIN)/echo-color yellow "  Success!" \
 		|| $(BIN)/echo-color red "  Failed to create all the mamba/conda environemnts"; \
@@ -333,7 +333,7 @@ endif
 mamba-install:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mamba in the base conda environment"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if $(BIN)/is-executable conda; then \
+	if $(BIN)/is-executable -q conda; then \
 		if ! conda list | grep -q ^mamba; then \
 			conda install -y mamba -n base -c conda-forge \
 			&& $(BIN)/echo-color yellow "  Success!" \
@@ -383,7 +383,7 @@ endif
 dock:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Organising the dock"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-		if $(BIN)/is-executable dockutil; then \
+		if $(BIN)/is-executable -q dockutil; then \
 			$(DOTFILES_DIR)/macos/dock.sh \
 			&& $(BIN)/echo-color yellow "  Success!" \
 			|| $(BIN)/echo-color red "  Failed to set up the dock"; \
@@ -399,7 +399,7 @@ endif
 default-apps:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up default apps for various filetypes"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if $(BIN)/is-executable duti; then \
+	if $(BIN)/is-executable -q duti; then \
 		duti -v $(DOTFILES_DIR)/duti/Dutifile \
 		&& $(BIN)/echo-color yellow "  Success!" \
 		|| $(BIN)/echo-color red "  Failed to set default apps"; \
