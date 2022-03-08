@@ -42,12 +42,14 @@ shopt -s histappend
 # Autocorrect typos in path names when using `cd`
 shopt -s cdspell
 
+# Patterns which match no files to expand to a null string, 
+# rather than themselves (breaks fzf-obc if enabled)
+# shopt -s nullglob
+
 # Enable some Bash 4 features when possible:
 # * `autocd`, e.g. `**/qux` will enter `./foo/bar/baz/qux`
 # * Recursive globbing, e.g. `echo **/*.txt`
-# * Patterns which match no files to expand to a null string, 
-#   rather than themselves
-for option in autocd globstar nullglob; do
+for option in autocd globstar; do
 	shopt -s "$option" 2> /dev/null
 done
 
