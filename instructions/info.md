@@ -105,28 +105,31 @@
 (based on https://frankenthal.dev/post/ssh_kerberos_keytabs_macos/)
 1. Install the correct [SSH binary](https://github.com/rdp/homebrew-openssh-gssapi) which supports GSSAPI authentication (part of automated installation):
     ```bash
-    $ brew tap rdp/homebrew-openssh-gssapi
-    $ brew install rdp/homebrew-openssh-gssapi/openssh-patched --with-gssapi-support
+    brew tap rdp/homebrew-openssh-gssapi
+    brew install rdp/homebrew-openssh-gssapi/openssh-patched --with-gssapi-support
     ```
     It is **NOT** necessary to follow the instructions on the terminal screen after the installation.
 2. Place the [`krb5.conf`](../kerberos/krb5.conf) file in `/etc/` (part of automated installation).
 3. Edit the [`~/.ssh/config`](../ssh/config) file to include GSSAPI authentication for LXPLUS (part of automated installation).
 4. Make a keytab file with your encrypted password. This step is to create a keytab file containing your password that will be fed to the kinit command in order to obtain a Kerberos ticket. On macOS X (which comes with the Heimdal flavor of Kerberos, and not MIT’s) the command to add a password for CERN’s account is:
     ```bash
-    $ /usr/sbin/ktutil -k ~/.ssh/keytab add -p stipnis@CERN.CH -e arcfour-hmac-md5 -V 3
-    $ (type your password)
+    /usr/sbin/ktutil -k ~/.ssh/keytab add -p stipnis@CERN.CH -e arcfour-hmac-md5 -V 3
+    
+    (type your password)
     ```
 5. This step should have already been done as part of a previous LXPLUS keytab creation. If not, make your keytab file when logged in to one of the LXPLUS machines:
     ```bash
-    $ ktutil 
-    $ addent -password -p stipnis@CERN.CH -k 3 -e arcfour-hmac-md5
-    $ (type your password)
-    $ wkt keytab
-    $ quit
+    ktutil 
+    addent -password -p stipnis@CERN.CH -k 3 -e arcfour-hmac-md5
+    
+    (type your password)
+    
+    wkt keytab
+    quit
     ```
 6. The follwing command can now be used to grant Kerberos tickets without having to type a password:
     ```bash
-    $ /usr/bin/kinit -kt ~/.ssh/keytab stipnis@CERN.CH
+    /usr/bin/kinit -kt ~/.ssh/keytab stipnis@CERN.CH
     ```
 
 ## Sublime Text
