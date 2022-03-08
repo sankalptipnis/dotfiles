@@ -5,13 +5,14 @@ BIN_NAME=$(basename "$0")
 function usage {
     echo "Usage:"
     echo "$BIN_NAME expr [print_if_fail] [print_if_success]"
-    echo ""
+    echo
     echo "If one argument is provided, this utility succeeds if the"
     echo "expression can be evaluated, otherwise it fails."
-    echo ""
+    echo
     echo "If three arguments are provided, this utility prints and"
     echo "returns the second argumet if the first argument can be evaluated,"
     echo "otherwise it prints and returns the third argument."
+	echo
     exit 1
 }
 
