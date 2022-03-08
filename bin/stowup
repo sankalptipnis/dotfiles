@@ -59,11 +59,17 @@ TARGET_DIR="$2"
 [[ -z "$SOURCE_DIR" ]] && echo "Source directory not specified!" && usage
 [[ -z "$TARGET_DIR" ]] && echo "Target directory not specified!" && usage
 
-[[ "$SOURCE_DIR" == "$TARGET_DIR" ]] && \
+SOURCE_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" $SOURCE_DIR)
+TARGET_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" $TARGET_DIR)
+
+[[ -z "$SOURCE_DIR_ABS" ]] && echo "Source directory is null!" && usage
+[[ -z "$TARGET_DIR_ABS" ]] && echo "Target directory is null!" && usage
+
+[[ "$SOURCE_DIR_ABS" == "$TARGET_DIR_ABS" ]] && \
 echo "Target directory cannot be the same as the source directory!" && \
 usage
 
-[[ ! -d "$SOURCE_DIR" ]] && echo "The source directory does not exist!" && usage
+[[ ! -d "$SOURCE_DIR_ABS" ]] && echo "The source directory does not exist!" && usage
 
 if [[ "$DEBUG" == "TRUE" ]]; then
 	echo
@@ -71,17 +77,20 @@ if [[ "$DEBUG" == "TRUE" ]]; then
 	echo
 fi
 
-mkdir -p "$TARGET_DIR"
+mkdir -p "$TARGET_DIR_ABS" || ( echo "Unable to create target directory!" && usage )
+
+# echo "$SOURCE_DIR_ABS"
+# echo "$TARGET_DIR_ABS"
+
+# exit 0
 
 function process_file() { 
-	local FILE="$1"
-	local TARGET_DIR="$2"
+	local SOURCE_FILE_ABS="$1"
+	local TARGET_DIR_ABS="$2"
 	local COPY="$3"
 	local DEBUG="$4"
 
-	local SOURCE_FILE_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" $FILE)
 	local FILENAME=$(basename "$SOURCE_FILE_ABS")
-	local TARGET_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" $TARGET_DIR)
 	local TARGET_FILE_ABS="$TARGET_DIR_ABS/$FILENAME"
 
 	# file with the same name as the source file DOES NOT exist in the target directory
@@ -207,23 +216,23 @@ echo "##### LINKING / COPYING ######"
 echo "##############################"
 
 echo
-echo "SOURCE DIRECTORY: $SOURCE_DIR"
-echo "TARGET DIRECTORY: $TARGET_DIR"
+echo "SOURCE DIRECTORY: $SOURCE_DIR_ABS"
+echo "TARGET DIRECTORY: $TARGET_DIR_ABS"
 echo
 
 # linking to / copying files in the source directory
 if [[ "$DIR" == "FALSE" ]]; then
 	OLDIFS="$IFS"
 	IFS=$'\n'
-	for FILE in "$SOURCE_DIR"/* "$SOURCE_DIR"/.[^.]*; do
+	for FILE in "$SOURCE_DIR_ABS"/* "$SOURCE_DIR_ABS"/.[^.]*; do
 		
 		echo "------------------------------"
 		echo "File: $FILE"
 		echo "------------------------------"
 
-		process_file "$FILE" "$TARGET_DIR" "$COPY" "$DEBUG"
+		process_file "$FILE" "$TARGET_DIR_ABS" "$COPY" "$DEBUG"
 	done
 	IFS="$OLDIFS"
 else
-	process_file "$SOURCE_DIR" "$TARGET_DIR" "$COPY" "$DEBUG"
+	process_file "$SOURCE_DIR_ABS" "$TARGET_DIR_ABS" "$COPY" "$DEBUG"
 fi

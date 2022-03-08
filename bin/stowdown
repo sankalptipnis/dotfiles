@@ -51,7 +51,13 @@ TARGET_DIR="$2"
 [[ -z "$SOURCE_DIR" ]] && usage
 [[ -z "$TARGET_DIR" ]] && usage
 
-[[ ! -d "$SOURCE_DIR" ]] && echo "The source directory does not exist!" && usage
+SOURCE_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" $SOURCE_DIR)
+TARGET_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" $TARGET_DIR)
+
+[[ -z "$SOURCE_DIR_ABS" ]] && echo "Source directory is null!" && usage
+[[ -z "$TARGET_DIR_ABS" ]] && echo "Target directory is null!" && usage
+
+[[ ! -d "$SOURCE_DIR_ABS" ]] && echo "The source directory does not exist!" && usage
 
 if [[ "$DEBUG" == "TRUE" ]]; then
 	echo
@@ -60,13 +66,12 @@ if [[ "$DEBUG" == "TRUE" ]]; then
 fi
 
 function process_file() { 
-	local FILE="$1"
-	local TARGET_DIR="$2"
+	
+	local SOURCE_FILE_ABS="$1"
+	local TARGET_DIR_ABS="$2"
 	local DEBUG="$3"
 
-	local SOURCE_FILE_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" $FILE)
 	local FILENAME=$(basename "$SOURCE_FILE_ABS")
-	local TARGET_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" $TARGET_DIR)
 	local TARGET_FILE_ABS="$TARGET_DIR_ABS/$FILENAME"
 
 	# file exists in the the target dir and is a symlink
@@ -99,7 +104,7 @@ function process_file() {
 	fi
 }
 
-if [[ -d "$TARGET_DIR" ]]; then
+if [[ -d "$TARGET_DIR_ABS" ]]; then
 
 	echo
 	echo "##############################"
@@ -108,8 +113,8 @@ if [[ -d "$TARGET_DIR" ]]; then
 
 	if [[ "$CLEAN" == "TRUE" ]]; then
 		echo
-		echo "TARGET DIRECTORY: $TARGET_DIR"
-		for FILE in "$TARGET_DIR"/* "$TARGET_DIR"/.[^.]*; do
+		echo "TARGET DIRECTORY: $TARGET_DIR_ABS"
+		for FILE in "$TARGET_DIR_ABS"/* "$TARGET_DIR_ABS"/.[^.]*; do
 			# source file is a broken link
 			if [[ ! -e "$FILE" && -h "$FILE" ]]; then 						
 				echo
@@ -130,23 +135,23 @@ if [[ -d "$TARGET_DIR" ]]; then
 	echo "##############################"
 
 	echo
-	echo "SOURCE DIRECTORY: $SOURCE_DIR"
-	echo "TARGET DIRECTORY: $TARGET_DIR"
+	echo "SOURCE DIRECTORY: $SOURCE_DIR_ABS"
+	echo "TARGET DIRECTORY: $TARGET_DIR_ABS"
 	echo
 
 	if [[ "$DIR" == "FALSE" ]]; then
 		OLDIFS="$IFS"
 		IFS=$'\n'
-		for FILE in "$SOURCE_DIR"/* "$SOURCE_DIR"/.[^.]*; do
+		for FILE in "$SOURCE_DIR_ABS"/* "$SOURCE_DIR_ABS"/.[^.]*; do
 			
 			echo "------------------------------"
 			echo "File: $FILE"
 			echo "------------------------------"
 
-			process_file "$FILE"" $TARGET_DIR" "$DEBUG"
+			process_file "$FILE" "$TARGET_DIR_ABS" "$DEBUG"
 		done
 		IFS="$OLDIFS"
 	else
-		process_file "$SOURCE_DIR" "$TARGET_DIR" "$DEBUG"
+		process_file "$SOURCE_DIR_ABS" "$TARGET_DIR_ABS" "$DEBUG"
 	fi
 fi
