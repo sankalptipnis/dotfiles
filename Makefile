@@ -139,7 +139,7 @@ endif
 ###############################################################################
 
 link: link-bash link-git link-conda link-xquartz link-kerberos link-ssh link-hammerspoon \
-link-sublime-text link-vsc link-karabiner
+link-sublime-text link-vsc link-karabiner link-conda
 
 link-shell: cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking supplementary shell dotfiles"$(GREEN_ECHO_SUFFIX)
@@ -248,6 +248,14 @@ ifndef DEBUG
 	$(BIN)/stowup -x -D $(FLAG) $(DOTFILES_DIR)/karabiner $(CONFIG_DIR) \
 	&& $(BIN)/echo-color yellow "  Success!" \
 	|| $(BIN)/echo-color red "  Failed to link Karabiner files";
+endif
+
+link-conda: cleanup
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking conda dotfiles"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	$(BIN)/stowup -x $(FLAG) $(DOTFILES_DIR)/conda/settings $(HOME) \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| $(BIN)/echo-color red "  Failed to link conda dotfiles";
 endif
 
 ###############################################################################
