@@ -17,7 +17,7 @@ export DOTFILES_DIR="$HOME/dotfiles"
 [ -r "$DOTFILES_DIR/bash/.bash_hist.bash" ] && source "$DOTFILES_DIR/bash/.bash_hist.bash"
 
 # Load exports, aliases, functions, and PATH
-for file in $DOTFILES_DIR/shell/.{exports,aliases,functions,path}.sh; do
+for file in "$DOTFILES_DIR"/shell/.{exports,aliases,functions,path}.sh; do
 	[ -r "$file" ] && source "$file"
 done
 unset file

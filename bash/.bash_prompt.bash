@@ -6,8 +6,8 @@ elif infocmp xterm-256color >/dev/null 2>&1; then
 	export TERM='xterm-256color'
 fi
 
-if [ -r "${HOMEBREW_PREFIX}/opt/gitstatus/gitstatus.plugin.sh" ]; then
-	source "${HOMEBREW_PREFIX}/opt/gitstatus/gitstatus.plugin.sh"
+if [ -r "$HOMEBREW_PREFIX/opt/gitstatus/gitstatus.plugin.sh" ]; then
+	source "$HOMEBREW_PREFIX/opt/gitstatus/gitstatus.plugin.sh"
 	gitstatus_stop && gitstatus_start -s -1 -u -1 -c -1 -d -1
 	prompt_git() {
 		local s=''
@@ -126,7 +126,7 @@ fi
 
 
 # Highlight the user name when logged in as root.
-if [[ "${USER}" == "root" ]]; then
+if [[ "$USER" == "root" ]]; then
 	userStyle="${bold}${red}";
 else
 	userStyle="${brightblue}";

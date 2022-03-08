@@ -15,12 +15,12 @@ function usage {
     exit 1
 }
 
-ENV_DIR=$1
+ENV_DIR="$"1
 
 [[ -z "$ENV_DIR" ]] && echo "Environment directory not specified!" && usage
 [[ ! -d "$ENV_DIR" ]] && echo "The environment directory does not exist!" && usage
 
-for FILE in $ENV_DIR/*; do
+for FILE in "$ENV_DIR"/*; do
     echo "--------------------------------------------------------------------------------------------------"
     echo "Attempting to create a conda env from file: $FILE"
     echo "--------------------------------------------------------------------------------------------------"

@@ -184,7 +184,7 @@ echo "##############################"
 if [[ "$CLEAN" == "TRUE" ]]; then
 	echo ""
 	echo "TARGET DIRECTORY: $TARGET_DIR"
-	for FILE in $TARGET_DIR/* $TARGET_DIR/.[^.]*; do
+	for FILE in "$TARGET_DIR"/* "$TARGET_DIR"/.[^.]*; do
 		# source file is a broken link
 		if [[ ! -e "$FILE" && -h "$FILE" ]]; then 						
 			echo ""
@@ -213,7 +213,7 @@ echo ""
 if [[ "$DIR" == "FALSE" ]]; then
 	OLDIFS="$IFS"
 	IFS=$'\n'
-	for FILE in $SOURCE_DIR/* $SOURCE_DIR/.[^.]*; do
+	for FILE in "$SOURCE_DIR"/* "$SOURCE_DIR"/.[^.]*; do
 		
 		echo "------------------------------"
 		echo "File: $FILE"

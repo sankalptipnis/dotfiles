@@ -21,7 +21,7 @@ export DOTFILES_DIR="$HOME/dotfiles"
 [ -r "$DOTFILES_DIR/zsh/.zsh_colors.zsh" ] && source "$DOTFILES_DIR/zsh/.zsh_colors.zsh"
 
 # Load exports, aliases, functions, and PATH
-for file in $DOTFILES_DIR/shell/.{exports,aliases,functions,path}.sh; do
+for file in "$DOTFILES_DIR"/shell/.{exports,aliases,functions,path}.sh; do
 	[ -r "$file" ] && source "$file"
 done
 unset file
