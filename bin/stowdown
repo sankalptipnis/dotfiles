@@ -51,8 +51,8 @@ TARGET_DIR="$2"
 [[ -z "$SOURCE_DIR" ]] && usage
 [[ -z "$TARGET_DIR" ]] && usage
 
-SOURCE_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" $SOURCE_DIR)
-TARGET_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" $TARGET_DIR)
+SOURCE_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" "$SOURCE_DIR")
+TARGET_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" "$TARGET_DIR")
 
 [[ -z "$SOURCE_DIR_ABS" ]] && echo "Source directory is null!" && usage
 [[ -z "$TARGET_DIR_ABS" ]] && echo "Target directory is null!" && usage

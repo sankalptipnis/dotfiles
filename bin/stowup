@@ -59,8 +59,8 @@ TARGET_DIR="$2"
 [[ -z "$SOURCE_DIR" ]] && echo "Source directory not specified!" && usage
 [[ -z "$TARGET_DIR" ]] && echo "Target directory not specified!" && usage
 
-SOURCE_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" $SOURCE_DIR)
-TARGET_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" $TARGET_DIR)
+SOURCE_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" "$SOURCE_DIR")
+TARGET_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" "$TARGET_DIR")
 
 [[ -z "$SOURCE_DIR_ABS" ]] && echo "Source directory is null!" && usage
 [[ -z "$TARGET_DIR_ABS" ]] && echo "Target directory is null!" && usage
@@ -78,11 +78,6 @@ if [[ "$DEBUG" == "TRUE" ]]; then
 fi
 
 mkdir -p "$TARGET_DIR_ABS" || ( echo "Unable to create target directory!" && usage )
-
-# echo "$SOURCE_DIR_ABS"
-# echo "$TARGET_DIR_ABS"
-
-# exit 0
 
 function process_file() { 
 	local SOURCE_FILE_ABS="$1"
