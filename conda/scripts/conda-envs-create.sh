@@ -15,7 +15,7 @@ function usage {
     exit 1
 }
 
-ENV_DIR="$"1
+ENV_DIR="$1"
 
 [[ -z "$ENV_DIR" ]] && echo "Environment directory not specified!" && usage
 [[ ! -d "$ENV_DIR" ]] && echo "The environment directory does not exist!" && usage
