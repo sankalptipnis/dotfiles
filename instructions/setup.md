@@ -143,7 +143,7 @@ Install apps which cannot be installed using Homebrew or mas-cli manually:
     3. Mathematica
 
 ## App Setup
-Open (and sign into, if required) and configure remaining installed apps
+Open (and sign into, if required) and configure remaining installed apps.
 
 
 
