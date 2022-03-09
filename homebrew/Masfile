@@ -9,6 +9,7 @@ mas 'Microsoft Outlook', id:985367838
 mas 'Microsoft Powerpoint', id:462062816
 mas 'Microsoft Word', id:462054704
 mas 'NordVPN', id:905953485
+mas 'Yoink', id:457622435
 
 # Install optional macOS App Store apps
 # mas 'Dato', id: 1470584107
