@@ -2,8 +2,8 @@
 mas 'Amphetamine', id: 937984704
 mas 'Bear', id:1091189122
 mas 'Craft', id: 1487937127
+mas 'Dato', id: 1470584107
 mas 'DjVu Reader Pro', id:895264364
-mas 'Fantastical', id:975937182
 mas 'Microsoft Excel', id:462058435
 mas 'Microsoft Outlook', id:985367838
 mas 'Microsoft Powerpoint', id:462062816
@@ -12,8 +12,8 @@ mas 'NordVPN', id:905953485
 mas 'Yoink', id:457622435
 
 # Install optional macOS App Store apps
-# mas 'Dato', id: 1470584107
 # mas 'Evernote', id:406056744
+# mas 'Fantastical', id:975937182
 # mas 'Mimir', id:1508343025
 # mas 'Taskheat', id:1431995750
 # mas 'Trello', id:1278508951
