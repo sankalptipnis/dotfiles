@@ -153,6 +153,7 @@ cask 'xquartz'
 cask 'zoom'
 
 # Optional Cask apps
+# cask 'cron'
 # cask 'discord'
 # cask 'notable'
 # cask 'notion'
