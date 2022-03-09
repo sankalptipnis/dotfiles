@@ -190,6 +190,8 @@ echo "##############################"
 if [[ "$CLEAN" == "TRUE" ]]; then
 	echo
 	echo "TARGET DIRECTORY: $TARGET_DIR"
+	OLDIFS="$IFS"
+	IFS=$'\n'
 	for FILE in "$TARGET_DIR"/* "$TARGET_DIR"/.[^.]*; do
 		# source file is a broken link
 		if [[ ! -e "$FILE" && -h "$FILE" ]]; then 						
@@ -203,6 +205,7 @@ if [[ "$CLEAN" == "TRUE" ]]; then
 			echo						 
 		fi
 	done
+	IFS="$OLDIFS"
 fi
 
 echo
