@@ -8,6 +8,7 @@
   - [Automated Installation](#automated-installation)
   - [System](#system)
   - [Better Touch Tool](#better-touch-tool)
+  - [Keyboard Shortcuts](#keyboard-shortcuts)
   - [SSH](#ssh)
   - [Chrome and Gmail](#chrome-and-gmail)
   - [Kerberos Access to LXPLUS](#kerberos-access-to-lxplus)
@@ -75,7 +76,16 @@
    5. Enable `Install system data files and security updates`
 
 ## Better Touch Tool
-Import settings from [file](../apps/btt/triggers/Default.bttpreset).
+Import settings from this [file](../apps/btt/triggers/Default.bttpreset).
+
+## Keyboard Shortcuts
+Set keyboard shortcuts:
+1. macOS keyboard shortcuts: System Preferences -> Keyboard -> Shortcuts
+2. AltTab app
+3. Raycast (Command + Space)
+4. Alfred (Option + Space)
+5. Bartender (Command + Option + Control + .)
+6. 1Password Mini (Command + Option + P)
 
 ## SSH
 Copy the private key and the public key to `~/.ssh`.
