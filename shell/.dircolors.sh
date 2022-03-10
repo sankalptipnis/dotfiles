@@ -141,9 +141,18 @@ STICKY 01;94					# st: dir with the sticky bit set (+t) and not other-writable
 .ra 00;91
 .wav 00;91
 
+#+--- Shell ---+
+.sh 1;32
+.bash 1;32
+.bash_profile 1;32
+.bashrc 1;32
+.inputrc 1;32
+.hushlogin 1;32
+.zsh 1;32
+.zshrc 1;32
+
 #+--- Code ---+
 .md 1;32 
-.sh 1;32 
 .xml 1;32
 .py 1;32 
 .cpp 1;32
