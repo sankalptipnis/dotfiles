@@ -1,15 +1,25 @@
+# macOS
 .DS_Store
+
+# Google Drive
 Icon?
 .tmp.driveupload
 .tmp.drivedownload
+
+# Homebrew Bundle
 Brewfile.lock.json
 Caskfile.lock.json
 Masfile.lock.json
+
+# Sublime Text
 Package Control.last-run
 Package Control.ca-list
 Package Control.ca-bundle
+Package Control.user-ca-bundle
 Package Control.system-ca-bundle
 Package Control.cache/
 Package Control.ca-certs/
+
+# Karabiner
 karabiner/*
 !karabiner/karabiner.json
