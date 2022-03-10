@@ -7,10 +7,10 @@ function usage {
     echo "$BIN_NAME expr [print_if_fail] [print_if_success]"
     echo
     echo "If one argument is provided, this utility succeeds if the"
-    echo "expression can be evaluated, otherwise it fails."
+    echo "expression can be successfully evaluated, otherwise it fails."
     echo
-    echo "If three arguments are provided, this utility prints and"
-    echo "returns the second argumet if the first argument can be evaluated,"
+    echo "If three arguments are provided, this utility prints and returns the"
+    echo "second argumet if the first argument can be successfully evaluated,"
     echo "otherwise it prints and returns the third argument."
 	echo
     exit 1
