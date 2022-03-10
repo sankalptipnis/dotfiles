@@ -20,7 +20,6 @@ VALUE="$4"
 [[ -z "$PLIST" ]] && usage
 [[ -z "$ACTION" ]] && usage
 [[ -z "$KEY" ]] && usage
-[[ -z "$VALUE" ]] && usage
 
 if [[ -f "$HOME/Library/Preferences/$PLIST.plist" ]]; then
 	/usr/libexec/PlistBuddy -c "$ACTION $KEY $VALUE" "$HOME/Library/Preferences/$PLIST.plist"
