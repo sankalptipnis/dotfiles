@@ -110,6 +110,8 @@ brew 'zoxide'
 # brew 'trash-cli'
 
 # Taps for casks
+tap 'homebrew/cask'
+tap 'homebrew/services'
 tap 'homebrew/cask-fonts'
 tap 'buo/cask-upgrade'
 
