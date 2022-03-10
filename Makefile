@@ -33,7 +33,7 @@ else
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ DEBUG MODE"$(GREEN_ECHO_SUFFIX)
 endif
 
-all: completed sudo core cleanup link macos-defaults packages dock default-apps
+all: completed sudo core cleanup link macos-defaults packages quicklook dock default-apps
 
 ###############################################################################
 # Creation of ~/.completed 			                                          #
@@ -374,6 +374,23 @@ ifndef DEBUG
 	else \
 		$(BIN)/echo-color red "  iTerm is not installed"; \
   	fi
+endif
+
+
+###############################################################################
+# Removing quarantine from quicklook directory 							      #
+###############################################################################
+
+quicklook:
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Removing quarantine from quicklook plugins"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG	
+	if [ -d $(HOME)/Library/QuickLook ]; then \
+		xattr -d -r com.apple.quarantine $(HOME)/Library/QuickLook \
+		&& $(BIN)/echo-color yellow "  Success!" \
+		|| $(BIN)/echo-color red "  Failed to remove quarantine from quicklook plugins"; \
+	else \
+		$(BIN)/echo-color yellow "  $(HOME)/Library/QuickLook does not exist"; \
+	fi
 endif
 
 ###############################################################################
