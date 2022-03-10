@@ -1,4 +1,8 @@
-# Taps for binaries
+# Taps
+tap 'homebrew/cask'
+tap 'homebrew/services'
+tap 'homebrew/cask-fonts'
+tap 'buo/cask-upgrade'
 tap 'martido/homebrew-graph'
 tap 'rdp/homebrew-openssh-gssapi'
 tap 'romkatv/gitstatus'
@@ -108,12 +112,6 @@ brew 'zoxide'
 # brew 'trash'
 # brew 'macos-trash'
 # brew 'trash-cli'
-
-# Taps for casks
-tap 'homebrew/cask'
-tap 'homebrew/services'
-tap 'homebrew/cask-fonts'
-tap 'buo/cask-upgrade'
 
 # Cask apps
 cask '1password'
