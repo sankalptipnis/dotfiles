@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+# Based on:
+# 1. https://hotoo.github.io/blog/post/rm-to-trash
+# 2. https://github.com/hotoo/rm-trash
+
+YELLOW='\033[1;93m'
+RESET='\033[0m'
+BIN_NAME=$(basename "$0")
+
+function usage {
+    echo    "Usage:"
+    echo -e "${YELLOW}${BIN_NAME}${RESET} file(s)"
+    echo
+    echo    "This utility moves the specified files/directories to the macOS Trash. "
+    echo
+    exit 1
+}
+
+if [[ $# -eq 0 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+	usage
+fi
+
+function move_to_trash() {
+
+    local F="$1"
+
+    ( osascript -e "tell app \"Finder\" to move {POSIX file \""${F}"\"} to trash" > /dev/null && \
+    echo "Moved $F to trash." ) || echo "Failed to move $F to trash."
+
+}
+
+for FILE in "$@"; do
+    ABS_FILE_PATH="$(abspath "$FILE")"
+    if [[ ! -e "$ABS_FILE_PATH" ]]; then
+        echo "${ABS_FILE_PATH}: No such file or directory"
+    else
+        move_to_trash "$ABS_FILE_PATH"
+    fi
+done
