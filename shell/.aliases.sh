@@ -116,10 +116,7 @@ alias pumpitup="osascript -e 'set volume output volume 100'"
 alias reload="unset PATH;exec -l "$SHELL";clear"
 
 # Update macOS and Homebrew
-alias updateall="sudo softwareupdate -i -a; brew update; brew upgrade; brew cu; brew cleanup"
-
-# Update Homebrew
-alias update="brew update; brew upgrade; brew cu; brew cleanup"
+alias updateall="sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup"
 
 # Copy pwd to clipboard
 alias cpwd="pwd|tr -d '\n'|pbcopy"
