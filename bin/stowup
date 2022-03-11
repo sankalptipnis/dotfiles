@@ -32,7 +32,7 @@ function usage {
     exit 1
 }
 
-if [[ $# -eq 0 ]] || [[ "$1" == "help" ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+if [[ $# -eq 0 ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
 	usage
 fi
 
@@ -65,9 +65,9 @@ TARGET_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))"
 [[ -z "$SOURCE_DIR_ABS" ]] && echo "Source directory is null!" && usage
 [[ -z "$TARGET_DIR_ABS" ]] && echo "Target directory is null!" && usage
 
-[[ "$SOURCE_DIR_ABS" == "$TARGET_DIR_ABS" ]] && \
-echo "Target directory cannot be the same as the source directory!" && \
-usage
+if [[ "$SOURCE_DIR_ABS" == "$TARGET_DIR_ABS" ]]; then
+	echo "Target directory cannot be the same as the source directory!" && usage
+fi
 
 [[ ! -d "$SOURCE_DIR_ABS" ]] && echo "The source directory does not exist!" && usage
 

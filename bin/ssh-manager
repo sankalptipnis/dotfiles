@@ -9,7 +9,7 @@ YELLOW='\033[1;93m'
 RESET='\033[0m'
 
 if [[ -z "$COMMAND_NAME" ]] || [[ "$COMMAND_NAME" == "help" ]] || [[ "$COMMAND_NAME" == "-h" ]] || [[ "$COMMAND_NAME" == "--help" ]]; then
-	echo -e "${ARROW} Usage: ${YELLOW}${BIN_NAME} <command>${RESET}"
+	echo -e "Usage: ${YELLOW}${BIN_NAME}${RESET} <command>"
     echo
     echo "Commands:"
     echo "   help             This help message"
