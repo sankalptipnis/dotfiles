@@ -2,7 +2,7 @@
 # DEBUG = TRUE
 
 # Linking dry run: prints commands rather than executing them for linking targets
-# LINKING_DRY_RUN = TRUE
+# DRY = TRUE
 
 SHELL := /bin/bash
 
@@ -18,7 +18,7 @@ COMPLETED_DIR := $(HOME)/.completed
 GREEN_ECHO_PREFIX = '\033[92m'
 GREEN_ECHO_SUFFIX = '\033[0m'
 
-ifdef LINKING_DRY_RUN
+ifdef DRY
 	FLAG = -d
 endif
 
@@ -201,7 +201,7 @@ link-kerberos: KERBEROS_DIR := /etc
 link-kerberos: sudo cleanup
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Linking Kerberos files"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	sudo $(BIN)/stowup $(FLAG) $(DOTFILES_DIR)/kerberos $(KERBEROS_DIR) \
+	sudo $(BIN)/stowup -r $(FLAG) $(DOTFILES_DIR)/kerberos $(KERBEROS_DIR) \
 	&& $(BIN)/echo-color yellow "  Success!" \
 	|| $(BIN)/echo-color red "  Failed to link Kerberos files";
 endif

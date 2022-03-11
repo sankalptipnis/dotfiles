@@ -7,7 +7,7 @@ BIN_NAME=$(basename "$0")
 function usage {
     echo
     echo "Usage:"
-    echo "$BIN_NAME [-cDxd] source_dir target_dir"
+    echo "$BIN_NAME [-cDxdr] source_dir target_dir"
     echo
     echo "This utility creates symlinks in the target directory"
     echo "pointing to all the files in the source directory."
@@ -16,7 +16,7 @@ function usage {
 	echo
 	echo "-c"
     echo "	The files from the source directory are copied to the"
-    echo "	target directory (instead instead of being symlinked to)."
+    echo "	target directory (instead instead of being symlinked to)"
     echo
 	echo "-D"
 	echo "	A [ symlink pointing to | copy of ] the source directory"
@@ -27,7 +27,10 @@ function usage {
     echo "	before proceeding."
 	echo
 	echo "-d"
-    echo "	The commands are printed out rather than being executed."
+    echo "	The commands are printed out rather than being executed"
+    echo
+	echo "-r"
+    echo "	rm is used instead of trash to delete files"
     echo
     exit 1
 }
@@ -40,13 +43,15 @@ COPY="FALSE"
 DIR="FALSE"
 CLEAN="FALSE"
 DEBUG="FALSE"
+USE_RM="FALSE"
 
-while getopts ':cDxd' flag; do
+while getopts ':cDxdr' flag; do
   case "${flag}" in
     c) COPY="TRUE";;
 	D) DIR="TRUE";;
 	x) CLEAN="TRUE";;
 	d) DEBUG="TRUE";;
+	r) USE_RM="TRUE";;
     *) usage
   esac
 done
@@ -59,8 +64,8 @@ TARGET_DIR="$2"
 [[ -z "$SOURCE_DIR" ]] && echo "Source directory not specified!" && usage
 [[ -z "$TARGET_DIR" ]] && echo "Target directory not specified!" && usage
 
-SOURCE_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" "$SOURCE_DIR")
-TARGET_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" "$TARGET_DIR")
+SOURCE_DIR_ABS="$(abspath "$SOURCE_DIR")"
+TARGET_DIR_ABS="$(abspath "$TARGET_DIR")"
 
 [[ -z "$SOURCE_DIR_ABS" ]] && echo "Source directory is null!" && usage
 [[ -z "$TARGET_DIR_ABS" ]] && echo "Target directory is null!" && usage
@@ -70,6 +75,12 @@ if [[ "$SOURCE_DIR_ABS" == "$TARGET_DIR_ABS" ]]; then
 fi
 
 [[ ! -d "$SOURCE_DIR_ABS" ]] && echo "The source directory does not exist!" && usage
+
+if [[ "$USE_RM" == "TRUE" ]]; then
+	DEL_CMD="rm -rfv"
+else
+	DEL_CMD="trash"
+fi
 
 if [[ "$DEBUG" == "TRUE" ]]; then
 	echo
@@ -112,13 +123,13 @@ function process_file() {
 				cp -fLrv "$TARGET_FILE_ABS"{,.temp} || ( echo "Failed to create a backup!" && exit 1 )		
 			fi
 			echo
-			
+
 			# target needs to be a symlink but it is a copy
 			if [[ "$COPY" == "FALSE" && ! -h "$TARGET_FILE_ABS" ]]; then 						
 				
 				# remove the copy
-				echo "~~~ COMMAND: rm -rfv $TARGET_FILE_ABS"
-				[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_FILE_ABS"	
+				echo "~~~ COMMAND: $DEL_CMD $TARGET_FILE_ABS"
+				[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$TARGET_FILE_ABS\""	
 				echo
 				
 				# create a symlink
@@ -130,8 +141,8 @@ function process_file() {
 			elif [[ "$COPY" == "TRUE" && -h "$TARGET_FILE_ABS" ]]; then 							
 				
 				# remove the symlink
-				echo "~~~ COMMAND: rm -rfv $TARGET_FILE_ABS"
-				[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_FILE_ABS"
+				echo "~~~ COMMAND: $DEL_CMD $TARGET_FILE_ABS"
+				[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$TARGET_FILE_ABS\""
 				echo
 
 				# create a copy
@@ -141,8 +152,8 @@ function process_file() {
 			fi
 			
 			# remove the temporary copy of the file
-			echo "~~~ COMMAND: rm -rfv $TARGET_FILE_ABS.temp"
-			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_FILE_ABS.temp"
+			echo "~~~ COMMAND: $DEL_CMD $TARGET_FILE_ABS.temp"
+			[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$TARGET_FILE_ABS.temp\""
 			echo
 
 		# target file and source file are different
@@ -150,8 +161,8 @@ function process_file() {
 			# old backup exists
 			if [[ -e "$TARGET_FILE_ABS.bak" ]]; then
 				# remove old backup
-				echo "~~~ COMMAND: rm -rfv $TARGET_FILE_ABS.bak"
-				[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_FILE_ABS.bak"
+				echo "~~~ COMMAND: $DEL_CMD $TARGET_FILE_ABS.bak"
+				[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$TARGET_FILE_ABS.bak\""
 				echo
 			fi
 			
@@ -163,8 +174,8 @@ function process_file() {
 			echo
 			
 			# remove current source file
-			echo "~~~ COMMAND: rm -rfv $TARGET_FILE_ABS"
-			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_FILE_ABS" 								
+			echo "~~~ COMMAND: $DEL_CMD $TARGET_FILE_ABS"
+			[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$TARGET_FILE_ABS\"" 								
 			echo
 								
 			if [[ "$COPY" == "FALSE" ]]; then
@@ -200,8 +211,8 @@ if [[ "$CLEAN" == "TRUE" ]]; then
 			echo "File: $FILE"
 			echo "------------------------------"
 			# remove broken link
-			echo "~~~ COMMAND: rm -rfv $FILE"
-			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$FILE"		
+			echo "~~~ COMMAND: $DEL_CMD $FILE"
+			[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$FILE\""		
 			echo						 
 		fi
 	done

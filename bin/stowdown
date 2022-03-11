@@ -6,7 +6,7 @@ BIN_NAME=$(basename "$0")
 
 function usage {
     echo "Usage:"
-    echo "$BIN_NAME source_dir target_dir"
+    echo "$BIN_NAME [-Dxdr] source_dir target_dir"
     echo
     echo "This utility removes any symlinks from the target directory "
     echo "to files in the source directory."
@@ -24,6 +24,9 @@ function usage {
 	echo "-d"
     echo "	The commands are printed out rather than being executed."
     echo
+	echo "-r"
+    echo "	rm is used instead of trash to delete files"
+	echo
     exit 1
 }
 
@@ -34,12 +37,14 @@ fi
 DIR="FALSE"
 CLEAN="FALSE"
 DEBUG="FALSE"
+USE_RM="FALSE"
 
-while getopts ':Dxd' flag; do
+while getopts ':Dxdr' flag; do
   case "${flag}" in
 	D) DIR="TRUE";;
 	x) CLEAN="TRUE";;
 	d) DEBUG="TRUE";;
+	r) USE_RM="TRUE";;
   esac
 done
 
@@ -51,13 +56,19 @@ TARGET_DIR="$2"
 [[ -z "$SOURCE_DIR" ]] && usage
 [[ -z "$TARGET_DIR" ]] && usage
 
-SOURCE_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" "$SOURCE_DIR")
-TARGET_DIR_ABS=$(python -c "import os,sys; print(os.path.realpath(sys.argv[1]))" "$TARGET_DIR")
+SOURCE_DIR_ABS="$(abspath "$SOURCE_DIR")"
+TARGET_DIR_ABS="$(abspath "$TARGET_DIR")"
 
 [[ -z "$SOURCE_DIR_ABS" ]] && echo "Source directory is null!" && usage
 [[ -z "$TARGET_DIR_ABS" ]] && echo "Target directory is null!" && usage
 
 [[ ! -d "$SOURCE_DIR_ABS" ]] && echo "The source directory does not exist!" && usage
+
+if [[ USE_RM == "TRUE" ]]; then
+	DEL_CMD="rm -rfv"
+else
+	DEL_CMD="trash"
+fi
 
 if [[ "$DEBUG" == "TRUE" ]]; then
 	echo
@@ -87,13 +98,13 @@ function process_file() {
 			echo
 			
 			# remove the symlink
-			echo "~~~ COMMAND: rm -rfv $TARGET_FILE_ABS"
-			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_FILE_ABS"
+			echo "~~~ COMMAND: $DEL_CMD $TARGET_FILE_ABS"
+			[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$TARGET_FILE_ABS\""
 			echo
 			
 			# remove any potential backups of the file
-			echo "~~~ COMMAND: rm -rfv $TARGET_FILE_ABS.bak"
-			[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$TARGET_FILE_ABS".bak
+			echo "~~~ COMMAND: $DEL_CMD $TARGET_FILE_ABS.bak"
+			[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$TARGET_FILE_ABS.bak\""
 			echo
 			
 			# rename the copy from to the original name of the file
@@ -124,8 +135,8 @@ if [[ -d "$TARGET_DIR_ABS" ]]; then
 				echo "File: $FILE"
 				echo "------------------------------"
 				# remove broken link
-				echo "~~~ COMMAND: rm -rfv $FILE"
-				[[ "$DEBUG" == "FALSE" ]] && rm -rfv "$FILE"		
+				echo "~~~ COMMAND: $DEL_CMD $FILE"
+				[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$FILE\""		
 				echo						 
 			fi
 		done
