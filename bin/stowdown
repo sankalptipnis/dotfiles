@@ -67,7 +67,7 @@ TARGET_DIR_ABS="$(abspath "$TARGET_DIR")"
 if [[ USE_RM == "TRUE" ]]; then
 	DEL_CMD="rm -rfv"
 else
-	DEL_CMD="trash"
+	DEL_CMD="delete"
 fi
 
 if [[ "$DEBUG" == "TRUE" ]]; then

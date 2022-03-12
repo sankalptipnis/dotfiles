@@ -92,6 +92,9 @@ alias bra="br -sdph"
 # Enable aliases to be sudo’ed
 alias sudo="sudo "
 
+# Alias for delete binary
+alias del="delete"
+
 # Trim new lines and copy to clipboard
 alias c="tr -d '\n' | pbcopy"
 
