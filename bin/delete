@@ -16,7 +16,7 @@ def print_usage():
     sys.stdout.write('%s%s%s FILE...\n\n' % (YELLOW, os.path.basename(sys.argv[0]), RESET))
     sys.stdout.write('This utility moves the specified files/directories to the macOS Trash.\n')
 
-if len(sys.argv) == 1 or sys.argv[1] in ["-h", "--help"]:
+if len(sys.argv) == 1 or sys.argv[1] in ["-h", "--help"] or sys.argv[1].isspace():
     print_usage()
     sys.exit(1)
 
