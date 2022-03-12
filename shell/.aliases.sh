@@ -108,9 +108,6 @@ alias emptytrash="osascript -e 'tell application \"Finder\" to empty trash'"
 # Also, clear Apple’s System Logs to improve shell startup speed.
 alias emptyall="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl;"
 
-# URL-encode strings
-alias urlencode='python -c "import urllib.parse, sys; print(urllib.parse.quote(sys.argv[1]))"'
-
 # Intuitive map function
 alias map="xargs -n1"
 
