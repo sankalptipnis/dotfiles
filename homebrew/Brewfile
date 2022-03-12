@@ -109,9 +109,6 @@ brew 'zoxide'
 
 # Optional binaries
 # brew 'dimentium/autoraise/autoraise', restart_service: true
-# brew 'trash'
-# brew 'macos-trash'
-# brew 'trash-cli'
 
 # Cask apps
 cask '1password'
