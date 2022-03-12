@@ -108,6 +108,10 @@ alias emptytrash="osascript -e 'tell application \"Finder\" to empty trash'"
 # Also, clear Apple’s System Logs to improve shell startup speed.
 alias emptyall="sudo rm -rfv /Volumes/*/.Trashes; sudo rm -rfv ~/.Trash; sudo rm -rfv /private/var/log/asl/*.asl;"
 
+# Eject all ejectale volumes
+# Based on: https://apple.stackexchange.com/questions/86005/shortcut-to-eject-all-external-hard-drives-but-not-mobilebackups/
+alias ejectall='osascript -e "tell application \"Finder\" to eject (every disk whose ejectable is true)"'
+
 # Intuitive map function
 alias map="xargs -n1"
 
