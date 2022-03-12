@@ -28,9 +28,18 @@ function cdf() { # short for `cdfinder`
 	cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
 }
 
+# Empty the Trash
+function emptytrash() { 
+	if eval "osascript -e 'tell application \"Finder\" to empty trash'"; then
+		echo "Successfully emptied the Trash"
+	else
+		echo "Failed to empty the Trash"
+	fi
+}
+
 # Determine size of a file/directory
 function fsbw() {
-	if [ $# -eq 0 ]; then
+	if [[ $# -eq 0 ]]; then
 		du -shc .[!.]* * | sort -hr
 	else
 		du -shc -- "$@" | sort -hr	
@@ -53,7 +62,7 @@ function fs() {
 # `s` with no arguments opens the current directory in Sublime Text, otherwise
 # opens the given location
 function s() {
-	if [ $# -eq 0 ]; then
+	if [[ $# -eq 0 ]]; then
 		subl .
 	else
 		subl "$@"
@@ -86,6 +95,88 @@ function o() {
 # small enough for one screen.
 function tre() {
 	tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX
+}
+
+# Prepend dirictory (if it exists) to the PATH variable
+function prepend-path() {
+  	[[ -d "$1" ]] && PATH="$1:$PATH"
+}
+
+# Use macOS Preview to open a man page in a more handsome format
+function manp() {
+  	man -t "$1" | open -f -a Preview
+}
+
+# Do a Matrix movie effect of falling characters
+function matrix() {
+	echo -e "\e[1;40m" ; clear ; while :; do echo "$LINES" "$COLUMNS" $(( "$RANDOM" % "$COLUMNS")) $(( "$RANDOM" % 72 )) ;sleep 0.05; done|gawk '{ letters="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()"; c=$4; letter=substr(letters,c,1);a[$3]=0;for (x in a) {o=a[x];a[x]=a[x]+1; printf "\033[%s;%sH\033[2;32m%s",o,x,letter; printf "\033[%s;%sH\033[1;37m%s\033[0;0H",a[x],x,letter;if (a[x] >= $1) { a[x]=0; } }}'
+}
+
+function matrix2() {
+	echo -e "\e[1;40m" ; clear ; characters=$( jot -c 94 33 | tr -d '\n' ) ; while :; do echo "$LINES" "$COLUMNS" $(( "$RANDOM" % "$COLUMNS" )) $(( "$RANDOM" % 72 )) "$characters" ;sleep 0.05; done|gawk '{ letters=$5; c=$4; letter=substr(letters,c,1);a[$3]=0;for (x in a) {o=a[x];a[x]=a[x]+1; printf "\033[%s;%sH\033[2;32m%s",o,x,letter; printf "\033[%s;%sH\033[1;37m%s\033[0;0H",a[x],x,letter;if (a[x] >= $1) { a[x]=0; } }}'
+}
+
+# This function starts broot and executes the command
+# it produces, if any.
+# It's needed because some shell commands, like `cd`,
+# have no useful effect if executed in a subshell.
+# More information can be found in https://github.com/Canop/broot
+function br {
+    local cmd cmd_file code
+    cmd_file=$(mktemp)
+    if broot --outcmd "$cmd_file" "$@"; then
+        cmd=$(<"$cmd_file")
+        rm -f "$cmd_file"
+        eval "$cmd"
+    else
+        code=$?
+        rm -f "$cmd_file"
+        return "$code"
+    fi
+}
+
+# Rename iTerm tab
+function renametab () {
+    echo -ne "\033]0;$@\007"
+}
+
+# Extract archives - use: extract <file>
+function extract() {
+	if [ -f "$1" ]; then
+		if command -v unar &>/dev/null; then
+			unar "$1"
+		else
+			case "$1" in
+				*.tar.bz2) tar xjf "$1" ;;
+				*.tar.gz) tar xzf "$1" ;;
+				*.bz2) bunzip2 "$1" ;;
+				*.rar) rar x "$1" ;;
+				*.gz) gunzip "$1" ;;
+				*.tar) tar xf "$1" ;;
+				*.tbz2) tar xjf "$1" ;;
+				*.tgz) tar xzf "$1" ;;
+				*.zip) unzip "$1" ;;
+				*.Z) uncompress "$1" ;;
+				*.7z) 7z x "$1" ;;
+				*) echo "$1 cannot be extracted via extract()" ;;
+			esac
+		fi
+	else
+		echo "$1 is not a valid file"
+	fi
+}
+
+# Use Git’s colored diff when available
+if command -v git &>/dev/null; then
+	function diff() {
+		git diff --no-index "$@"
+	}
+fi
+
+# Get Bundle ID of an app (useful for duti)
+function bundleid () {
+	APP="$1"
+    echo $(osascript -e "id of app \"$APP\"")
 }
 
 # Print configured shell colors
@@ -192,86 +283,3 @@ function allcolors(){
 		done
 	done
 }
-
-# Prepend dirictory (if it exists) to the PATH variable
-function prepend-path() {
-  	[[ -d "$1" ]] && PATH="$1:$PATH"
-}
-
-# Use macOS Preview to open a man page in a more handsome format
-function manp() {
-  	man -t "$1" | open -f -a Preview
-}
-
-# Do a Matrix movie effect of falling characters
-function matrix() {
-	echo -e "\e[1;40m" ; clear ; while :; do echo "$LINES" "$COLUMNS" $(( "$RANDOM" % "$COLUMNS")) $(( "$RANDOM" % 72 )) ;sleep 0.05; done|gawk '{ letters="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()"; c=$4; letter=substr(letters,c,1);a[$3]=0;for (x in a) {o=a[x];a[x]=a[x]+1; printf "\033[%s;%sH\033[2;32m%s",o,x,letter; printf "\033[%s;%sH\033[1;37m%s\033[0;0H",a[x],x,letter;if (a[x] >= $1) { a[x]=0; } }}'
-}
-
-function matrix2() {
-	echo -e "\e[1;40m" ; clear ; characters=$( jot -c 94 33 | tr -d '\n' ) ; while :; do echo "$LINES" "$COLUMNS" $(( "$RANDOM" % "$COLUMNS" )) $(( "$RANDOM" % 72 )) "$characters" ;sleep 0.05; done|gawk '{ letters=$5; c=$4; letter=substr(letters,c,1);a[$3]=0;for (x in a) {o=a[x];a[x]=a[x]+1; printf "\033[%s;%sH\033[2;32m%s",o,x,letter; printf "\033[%s;%sH\033[1;37m%s\033[0;0H",a[x],x,letter;if (a[x] >= $1) { a[x]=0; } }}'
-}
-
-# This function starts broot and executes the command
-# it produces, if any.
-# It's needed because some shell commands, like `cd`,
-# have no useful effect if executed in a subshell.
-# More information can be found in https://github.com/Canop/broot
-function br {
-    local cmd cmd_file code
-    cmd_file=$(mktemp)
-    if broot --outcmd "$cmd_file" "$@"; then
-        cmd=$(<"$cmd_file")
-        rm -f "$cmd_file"
-        eval "$cmd"
-    else
-        code=$?
-        rm -f "$cmd_file"
-        return "$code"
-    fi
-}
-
-# Rename iTerm tab
-function renametab () {
-    echo -ne "\033]0;$@\007"
-}
-
-# Extract archives - use: extract <file>
-function extract() {
-	if [ -f "$1" ]; then
-		if command -v unar &>/dev/null; then
-			unar "$1"
-		else
-			case "$1" in
-				*.tar.bz2) tar xjf "$1" ;;
-				*.tar.gz) tar xzf "$1" ;;
-				*.bz2) bunzip2 "$1" ;;
-				*.rar) rar x "$1" ;;
-				*.gz) gunzip "$1" ;;
-				*.tar) tar xf "$1" ;;
-				*.tbz2) tar xjf "$1" ;;
-				*.tgz) tar xzf "$1" ;;
-				*.zip) unzip "$1" ;;
-				*.Z) uncompress "$1" ;;
-				*.7z) 7z x "$1" ;;
-				*) echo "$1 cannot be extracted via extract()" ;;
-			esac
-		fi
-	else
-		echo "$1 is not a valid file"
-	fi
-}
-
-# Use Git’s colored diff when available
-if command -v git &>/dev/null; then
-	function diff() {
-		git diff --no-index "$@"
-	}
-fi
-
-# Get Bundle ID of an app (useful for duti)
-function bundleid () {
-	APP="$1"
-    echo $(osascript -e "id of app \"$APP\"")
-}
-
