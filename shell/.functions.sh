@@ -195,77 +195,51 @@ function colors(){
 
 # Print all xterm 256 foreground colors
 function colors256(){
-		for bold in {0..1}; do
-			for color in {0..15}; do
-	    printf "\e[$bold;38;5;%sm  %3s  \e[0m" $color $color
-	    if [ $(($color % 8)) == 7 ]; then echo; fi
+	for bold in {0..1}; do
+		for color in {0..15}; do
+			printf "\e[$bold;38;5;%sm  %3s  \e[0m" $color $color
+			if [ $(($color % 8)) == 7 ]; then echo; fi
 		done
-
 		echo
-
-		for i in {0..5}; do
-		    for j in {16..33}; do
-		        color=$((j + 36*i))
-		        printf "\e[$bold;38;5;%sm  %3s  \e[0m" $color $color
-		        if [ $(($color % 18)) == 15 ]; then echo; fi
-		    done
-
-		done
-
+		for i in {0..5}; do for j in {16..33}; do
+			color=$((j + 36*i))
+			printf "\e[$bold;38;5;%sm  %3s  \e[0m" $color $color
+			if [ $(($color % 18)) == 15 ]; then echo; fi
+		done; done
 		echo
-
-		for i in {0..5}; do
-		    for j in {34..51}; do
-		        color=$((j + 36*i))
-		        printf "\e[$bold;38;5;%sm  %3s  \e[0m" $color $color
-		        if [ $(($color % 18)) == 15 ]; then echo; fi
-		    done
-
-		done
-
+		for i in {0..5}; do for j in {34..51}; do
+			color=$((j + 36*i))
+			printf "\e[$bold;38;5;%sm  %3s  \e[0m" $color $color
+			if [ $(($color % 18)) == 15 ]; then echo; fi
+		done; done
 		echo
-
 		for color in {232..255}; do
 		    printf "\e[$bold;38;5;%sm  %3s  \e[0m" $color $color
 		    if [ $(($color % 8)) == 7 ]; then echo; fi
 		done
-
 		echo
-
 	done
 }
 
 # Print all xterm 256 background colors
 function colors256b(){
 	for color in {0..15}; do
-    printf "\e[48;5;%sm  %3s  \e[0m" $color $color
-    if [ $(($color % 8)) == 7 ]; then echo; fi
+		printf "\e[48;5;%sm  %3s  \e[0m" $color $color
+		if [ $(($color % 8)) == 7 ]; then echo; fi
 	done
-
 	echo
-
-	for i in {0..5}; do
-	    for j in {16..33}; do
-	        color=$((j + 36*i))
-	        printf "\e[48;5;%sm  %3s  \e[0m" $color $color
-	        if [ $(($color % 18)) == 15 ]; then echo; fi
-	    done
-
-	done
-
+	for i in {0..5}; do for j in {16..33}; do
+		color=$((j + 36*i))
+		printf "\e[48;5;%sm  %3s  \e[0m" $color $color
+		if [ $(($color % 18)) == 15 ]; then echo; fi
+	done; done
 	echo
-
-	for i in {0..5}; do
-	    for j in {34..51}; do
-	        color=$((j + 36*i))
-	        printf "\e[48;5;%sm  %3s  \e[0m" $color $color
-	        if [ $(($color % 18)) == 15 ]; then echo; fi
-	    done
-
-	done
-
+	for i in {0..5}; do for j in {34..51}; do
+		color=$((j + 36*i))
+		printf "\e[48;5;%sm  %3s  \e[0m" $color $color
+		if [ $(($color % 18)) == 15 ]; then echo; fi
+	done; done
 	echo
-
 	for color in {232..255}; do
 	    printf "\e[48;5;%sm  %3s  \e[0m" $color $color
 	    if [ $(($color % 8)) == 7 ]; then echo; fi
