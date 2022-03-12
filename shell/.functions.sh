@@ -20,7 +20,7 @@ function mkd() {
 
 # Show directory contents when moving into it
 function cdls() {
-    builtin cd "$@" && la
+    cd "$@" && la
 }
 
 # Change working directory to the top-most Finder window location
