@@ -3,6 +3,8 @@
 shopt -s nullglob
 
 BIN_NAME=$(basename "$0")
+GREEN='\033[1;92m'
+RESET='\033[0m'
 
 function usage {
     echo
@@ -83,9 +85,10 @@ else
 fi
 
 if [[ "$DEBUG" == "TRUE" ]]; then
-	echo
-	echo "!!!!!!!!!!!!!!!! PERFORMING DRY RUN !!!!!!!!!!!!!!!!"
-	echo
+	echo -e "${GREEN}"
+	echo    "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+	echo    "+                               PERFORMING DRY RUN                             +"
+	echo -e "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++${RESET}"
 fi
 
 mkdir -p "$TARGET_DIR_ABS" || ( echo "Unable to create target directory!" && usage )
@@ -195,7 +198,7 @@ function process_file() {
 
 echo
 echo "##############################"
-echo "########## CLEANING ##########"
+echo "#          Cleaning          #"
 echo "##############################"
 
 if [[ "$CLEAN" == "TRUE" ]]; then
@@ -207,9 +210,9 @@ if [[ "$CLEAN" == "TRUE" ]]; then
 		# source file is a broken link
 		if [[ ! -e "$FILE" && -h "$FILE" ]]; then 						
 			echo
-			echo "------------------------------"
+			echo "------------------------------------------------------"
 			echo "File: $FILE"
-			echo "------------------------------"
+			echo "------------------------------------------------------"
 			# remove broken link
 			echo "~~~ COMMAND: $DEL_CMD $FILE"
 			[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$FILE\""		
@@ -221,7 +224,7 @@ fi
 
 echo
 echo "##############################"
-echo "##### LINKING / COPYING ######"
+echo "#     Linking / Copying      #"
 echo "##############################"
 
 echo
@@ -235,9 +238,9 @@ if [[ "$DIR" == "FALSE" ]]; then
 	IFS=$'\n'
 	for FILE in "$SOURCE_DIR_ABS"/* "$SOURCE_DIR_ABS"/.[^.]*; do
 		
-		echo "------------------------------"
+		echo "-------------------------------------------------------------------"
 		echo "File: $FILE"
-		echo "------------------------------"
+		echo "-------------------------------------------------------------------"
 
 		process_file "$FILE" "$TARGET_DIR_ABS" "$COPY" "$DEBUG"
 	done
