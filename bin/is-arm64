@@ -1,5 +1,26 @@
 #!/usr/bin/env bash
 
+BIN_NAME=$(basename "$0")
+YELLOW='\033[1;93m'
+RESET='\033[0m'
+
+function usage {
+    echo
+	echo "USAGE:"
+    echo -e "    ${YELLOW}${BIN_NAME}${RESET}"
+    echo
+	echo "DESCRIPTION:"
+    echo "    Simple utility which succeeds if the system is ARM-based,"
+    echo "    and fails otherwise."
+    exit 1
+}
+
+if [[ "$1" == "help" ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+	usage
+fi
+
+[[ $# -ne 0 ]] && usage
+
 if [[ "$(uname -m)" == "arm64" ]]; then
 	exit 0
 else

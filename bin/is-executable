@@ -1,22 +1,25 @@
 #!/usr/bin/env bash
 
 BIN_NAME=$(basename "$0")
+RED='\033[1;91m'
+YELLOW='\033[1;93m'
+RESET='\033[0m'
 
 function usage {
-    echo "Usage:"
-    echo "$BIN_NAME [-q] command"
     echo
-	echo "If the input command exists, this utility prints a green message confirming"
-    echo "the existence of the command, and exits with a success status code."
+	echo "USAGE:"
+    echo -e "    ${YELLOW}${BIN_NAME}${RESET} [-q] command"
+    echo
+	echo "DESCRIPTION:"
+	echo "    If the input command exists, this utility prints a green message confirming"
+    echo "    the existence of the command, and exits with a success status code."
 	echo
-	echo "Otherwise, the utility prints a red message confirming that the command"
-	echo "does not exists, and exits with a failure status code."
+	echo "    Otherwise, the utility prints a red message confirming that the command"
+	echo "    does not exists, and exits with a failure status code."
 	echo
     echo "COMMAND LINE OPTIONS:"
-	echo
-	echo "-q"
-	echo "    suppresses the printing of the summary message"
-    echo
+	echo -e "    ${YELLOW}-q${RESET}"
+	echo "        suppresses the printing of the summary message"
     exit 1
 }
 
@@ -36,7 +39,7 @@ shift $((OPTIND -1))
 
 COMMAND="$1"
 
-[[ -z "$COMMAND" ]] && "No input command specified!" && usage
+[[ -z "${COMMAND// }" ]] && echo -e "${RED}No input command specified!${RESET}" && usage
 
 RESET='\033[0m'      
 RED='\033[1;91m'

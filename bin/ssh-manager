@@ -8,17 +8,18 @@ GREEN='\033[1;92m'
 YELLOW='\033[1;93m'
 RESET='\033[0m'
 
-if [[ -z "$COMMAND_NAME" ]] || [[ "$COMMAND_NAME" == "help" ]] || [[ "$COMMAND_NAME" == "-h" ]] || [[ "$COMMAND_NAME" == "--help" ]]; then
-	echo -e "Usage: ${YELLOW}${BIN_NAME}${RESET} <command>"
-    echo
-    echo "Commands:"
-    echo "   help             This help message"
-    echo "   list             List of all the SSH keys and hosts in the SSH config"
-    echo "   list-keys        List of all the SSH keys"
-	echo "   list-hosts       List of all the hosts in the SSH config"
-    echo "   copy             Copy public SSH key"
-    echo "   new              Generate new SSH key"
+if [[ -z "${COMMAND_NAME// }" ]] || [[ "$COMMAND_NAME" == "help" ]] || [[ "$COMMAND_NAME" == "-h" ]] || [[ "$COMMAND_NAME" == "--help" ]]; then
 	echo
+	echo "USAGE:"
+	echo -e "    ${YELLOW}${BIN_NAME}${RESET} command"
+    echo
+    echo "COMMANDS:"
+    echo -e "    ${YELLOW}help${RESET}             This help message"
+    echo -e "    ${YELLOW}list${RESET}             List of all the SSH keys and hosts in the SSH config"
+    echo -e "    ${YELLOW}list-keys${RESET}        List of all the SSH keys"
+	echo -e "    ${YELLOW}list-hosts${RESET}       List of all the hosts in the SSH config"
+    echo -e "    ${YELLOW}copy${RESET}             Copy public SSH key"
+    echo -e "    ${YELLOW}new${RESET}              Generate new SSH key"
 fi
 
 if [[ "$COMMAND_NAME" == "list" ]]; then

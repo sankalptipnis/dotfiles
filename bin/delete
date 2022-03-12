@@ -12,9 +12,11 @@ YELLOW='\033[1;93m'
 RESET='\033[0m'
 
 def print_usage():
-    sys.stdout.write('Usage:\n')
-    sys.stdout.write('%s%s%s FILE...\n\n' % (YELLOW, os.path.basename(sys.argv[0]), RESET))
-    sys.stdout.write('This utility moves the specified files/directories to the macOS Trash.\n')
+    sys.stdout.write('\n')
+    sys.stdout.write('USAGE:\n')
+    sys.stdout.write('    %s%s%s FILE...\n\n' % (YELLOW, os.path.basename(sys.argv[0]), RESET))
+    sys.stdout.write('DESCRIPTION:\n')
+    sys.stdout.write('    This utility moves the specified files/directories to the macOS Trash.\n')
 
 if len(sys.argv) == 1 or sys.argv[1] in ["-h", "--help"] or sys.argv[1].isspace():
     print_usage()

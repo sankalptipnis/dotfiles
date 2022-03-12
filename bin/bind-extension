@@ -1,10 +1,22 @@
 #!/usr/bin/env bash
 
 BIN_NAME=$(basename "$0")
+RED='\033[1;91m'
+GREEN='\033[1;92m'
+YELLOW='\033[1;93m'
+RESET='\033[0m'
 
 function usage {
-    echo "Usage: $BIN_NAME [app] [extension]"
-    echo "Example: MacDown .md"
+    echo "USAGE:"
+    echo
+    echo -e "    ${YELLOW}${BIN_NAME}${RESET} app extension"
+    echo
+    echo "EXAMPLE:"
+    echo -e "    ${YELLOW}${BIN_NAME}${RESET} \"Sublime Text\" .md"
+    echo
+    echo "DESCRIPTION:"
+    echo "    This utility sets the input app as the default app"
+    echo "    associated with the input extension."
     exit 1
 }
 
@@ -15,15 +27,26 @@ fi
 APP="$1"
 EXTENSION="$2"
 
-[[ -z "$APP" ]] && usage
-[[ -z "$EXTENSION" ]] && usage
+[[ -z "${APP// }" ]] && echo -e "${RED}No app specified!${RESET}" && usage
+[[ -z "${EXTENSION// }" ]] && echo -e "${RED}No extension specified!${RESET}" && usage
 
 BUNDLE_ID=$(osascript -e "id of app \"$APP\"")
-RETURN_CODE=$?
 
+RETURN_CODE=$?
 if [[ "$RETURN_CODE" == "1" ]]; then
-    echo "App $APP not found"
+    echo -e "${RED}App \"${APP}\" not found!${RESET}"
     exit "$RETURN_CODE"
 fi
 
-duti -s "$BUNDLE_ID" "$EXTENSION" all
+duti -sv "$BUNDLE_ID" "$EXTENSION" all
+
+RETURN_CODE=$?
+RETURN_CODE=$?
+if [[ "$RETURN_CODE" == "1" ]]; then
+    echo -e "${RED}Failed to set \"${APP}\" as the default app to open \"${EXTENSION}\" files!${RESET}"
+    exit "$RETURN_CODE"
+else
+    echo -e "${GREEN}Successfully set \"${APP}\" as the default app to open \"${EXTENSION}\" files.${RESET}"
+fi
+
+

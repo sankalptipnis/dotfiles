@@ -1,18 +1,21 @@
 #!/usr/bin/env bash
 
 BIN_NAME=$(basename "$0")
+YELLOW='\033[1;93m'
+RESET='\033[0m'
 
 function usage {
-    echo "Usage:"
-    echo "$BIN_NAME expr [print_if_fail] [print_if_success]"
     echo
-    echo "If one argument is provided, this utility succeeds if the"
-    echo "expression can be successfully evaluated, otherwise it fails."
+	echo "USAGE:"
+    echo -e "    ${YELLOW}${BIN_NAME}${RESET} expr [print_if_fail] [print_if_success]"
     echo
-    echo "If three arguments are provided, this utility prints and returns the"
-    echo "second argumet if the first argument can be successfully evaluated,"
-    echo "otherwise it prints and returns the third argument."
-	echo
+	echo "DESCRIPTION:"
+    echo "    If one argument is provided, this utility succeeds if the"
+    echo "    expression can be successfully evaluated, otherwise it fails."
+    echo
+    echo "    If three arguments are provided, this utility prints and returns the"
+    echo "    second argumet if the first argument can be successfully evaluated,"
+    echo "    otherwise it prints and returns the third argument."
     exit 1
 }
 
@@ -20,7 +23,7 @@ if [[ "$1" == "help" ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
 	usage
 fi
 
-[[ -z "$1" ]] && usage
+[[ -z "${1// }" ]] && usage
 
 if [[ $# -eq 1 ]]; then
 	if eval "$1" > /dev/null 2>&1; then 

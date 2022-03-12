@@ -4,36 +4,36 @@ shopt -s nullglob
 
 BIN_NAME=$(basename "$0")
 GREEN='\033[0;92m'
+YELLOW='\033[1;93m'
 RESET='\033[0m'
 
 function usage {
     echo
-    echo "Usage:"
-    echo "$BIN_NAME [-cDxdr] source_dir target_dir"
+    echo "USAGE:"
+    echo -e "    ${YELLOW}${BIN_NAME}${RESET} [-cDxdr] source_dir target_dir"
     echo
-    echo "This utility creates symlinks in the target directory"
-    echo "pointing to all the files in the source directory."
+	echo "DESCRIPTION:"
+    echo "    This utility creates symlinks in the target directory"
+    echo "    pointing to all the files in the source directory."
 	echo
 	echo "COMMAND LINE OPTIONS:"
+	echo -e "    ${YELLOW}-c${RESET}"
+    echo "        The files from the source directory are copied to the"
+    echo "        target directory (instead instead of being symlinked to)"
+    echo
+	echo -e "    ${YELLOW}-D${RESET}"
+	echo "        A [ symlink pointing to | copy of ] the source directory"
+	echo "        is created (instead of the files in the source directory)"
+    echo
+	echo -e "    ${YELLOW}-x${RESET}"
+    echo "        Broken symlinks in the target directory are removed"
+    echo "        before proceeding"
 	echo
-	echo "-c"
-    echo "	The files from the source directory are copied to the"
-    echo "	target directory (instead instead of being symlinked to)"
+	echo -e "    ${YELLOW}-d${RESET}"
+    echo "        The commands are printed out rather than being executed"
     echo
-	echo "-D"
-	echo "	A [ symlink pointing to | copy of ] the source directory"
-	echo "	is created (instead of the files in the source directory)"
-    echo
-	echo "-x"
-    echo "	Broken symlinks in the target directory are removed"
-    echo "	before proceeding."
-	echo
-	echo "-d"
-    echo "	The commands are printed out rather than being executed"
-    echo
-	echo "-r"
-    echo "	rm is used instead of trash to delete files"
-    echo
+	echo -e "    ${YELLOW}-r${RESET}"
+    echo "        rm is used instead of trash to delete files"
     exit 1
 }
 
@@ -63,14 +63,14 @@ shift $((OPTIND -1))
 SOURCE_DIR="$1"
 TARGET_DIR="$2"
 
-[[ -z "$SOURCE_DIR" ]] && echo "Source directory not specified!" && usage
-[[ -z "$TARGET_DIR" ]] && echo "Target directory not specified!" && usage
+[[ -z "${SOURCE_DIR// }" ]] && echo "Source directory not specified!" && usage
+[[ -z "${TARGET_DIR// }" ]] && echo "Target directory not specified!" && usage
 
 SOURCE_DIR_ABS="$(abspath "$SOURCE_DIR")"
 TARGET_DIR_ABS="$(abspath "$TARGET_DIR")"
 
-[[ -z "$SOURCE_DIR_ABS" ]] && echo "Source directory is null!" && usage
-[[ -z "$TARGET_DIR_ABS" ]] && echo "Target directory is null!" && usage
+[[ -z "${SOURCE_DIR_ABS// }" ]] && echo "Source directory is null!" && usage
+[[ -z "${TARGET_DIR_ABS// }" ]] && echo "Target directory is null!" && usage
 
 if [[ "$SOURCE_DIR_ABS" == "$TARGET_DIR_ABS" ]]; then
 	echo "Target directory cannot be the same as the source directory!" && usage
