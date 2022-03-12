@@ -1,7 +1,7 @@
 # Debug mode: 
 # Prints out a summary of the targets being built, and does not run any commands
 # For linking targets, it additionally prints out the linking/copying commands
-# D = TRUE
+# d = TRUE
 
 SHELL := /bin/bash
 
@@ -17,7 +17,7 @@ COMPLETED_DIR := $(HOME)/.completed
 GREEN_ECHO_PREFIX = '\033[1;92m'
 GREEN_ECHO_SUFFIX = '\033[0m'
 
-ifdef D
+ifdef d
 	FLAG = -d
 	DEBUG = TRUE
 endif
