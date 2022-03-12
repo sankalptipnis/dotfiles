@@ -117,13 +117,13 @@ alias stfu="osascript -e 'set volume output muted true'"
 alias pumpitup="osascript -e 'set volume output volume 100'"
 
 # Reload the shell (i.e. invoke as a login shell)
-alias reload="unset PATH;exec -l "$SHELL";clear"
+alias reload="unset PATH; exec -l "$SHELL"; clear"
 
 # Update macOS and Homebrew
 alias updateall="sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup"
 
 # Copy pwd to clipboard
-alias cpwd="pwd|tr -d '\n'|pbcopy"
+alias cpwd="pwd | tr -d '\n'|pbcopy"
 
 # Get weather
 alias weather='curl wttr.in/London'
@@ -140,7 +140,7 @@ alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
 
 # Print sleep and wake log
-alias sleeplog='pmset -g log|grep -e " Sleep  " -e " Wake  "'
+alias sleeplog='pmset -g log | grep -e " Sleep  " -e " Wake  "'
 
 # Open diff in VSCode
 alias vdiff="code --diff"
