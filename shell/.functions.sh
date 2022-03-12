@@ -142,7 +142,7 @@ function renametab () {
 
 # Extract archives - use: extract <file>
 function extract() {
-	if [ -f "$1" ]; then
+	if [[ -f "$1" ]]; then
 		if command -v unar &>/dev/null; then
 			unar "$1"
 		else
