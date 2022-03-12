@@ -21,5 +21,5 @@ abs_path = os.path.abspath(sys.argv[1])
 
 print(abs_path)
 
-if not os.path.exists(abs_path):
+if not os.path.exists(abs_path) and not os.path.islink(abs_path):
     sys.exit(5)
