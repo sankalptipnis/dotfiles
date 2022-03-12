@@ -2,6 +2,7 @@
 
 import os
 import sys
+import getopt
 
 YELLOW='\033[1;93m'
 RESET='\033[0m'
@@ -9,18 +10,37 @@ RESET='\033[0m'
 def print_usage():
 	sys.stdout.write('\n')
 	sys.stdout.write('USAGE:\n')
-	sys.stdout.write('    %s%s%s path\n\n' % (YELLOW, os.path.basename(sys.argv[0]), RESET))
+	sys.stdout.write('    %s%s%s [-l] path\n' % (YELLOW, os.path.basename(sys.argv[0]), RESET))
+	sys.stdout.write('\n')
 	sys.stdout.write('DESCRIPTION:\n')
 	sys.stdout.write('    This utility converts a path to an absolute path and prints it out.\n\n')
 	sys.stdout.write('    The utility exits with a success status code (0) if the path/file actually exists.\n')
 	sys.stdout.write('    Otherwise, the utility exits with a failure status code (5).\n')
+	sys.stdout.write('\n')
+	sys.stdout.write('COMMAND LINE ARGUMENTS:\n')
+	sys.stdout.write('    %s-l%s\n' % (YELLOW, RESET))
+	sys.stdout.write('        Follow symbolic links.\n\n')
+	sys.exit(1)
+ 
+try:
+	opts, args = getopt.getopt(sys.argv[1:], ':hl', ["help"])
+except:
+	print_usage()
 
-if len(sys.argv) != 2 or sys.argv[1] in ["-h", "--help"] or sys.argv[1].isspace(): 
+if len(args) != 1:
     print_usage()
-    sys.exit(1)
 
-abs_path = os.path.abspath(sys.argv[1])
-
+follow_links = False
+for (o, a) in opts:
+    if o in ("-h", "--help"):
+        print_usage()
+    if o == '-l':
+        follow_links = True
+        
+abs_path = os.path.abspath(args[0])
+if follow_links:
+    abs_path = os.path.realpath(abs_path)
+    
 print(abs_path)
 
 if not os.path.exists(abs_path) and not os.path.islink(abs_path):

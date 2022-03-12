@@ -25,7 +25,7 @@ APP="$1"
 [[ -z "${APP// }" ]] && echo -e "${RED}No app specified!${RESET}" && usage
 
 FILE="$2"
-FILE_ABS="$(abspath "$FILE")"
+FILE_ABS="$(abspath -l "$FILE")"
 
 [[ -z "${FILE_ABS// }" ]] && echo -e "${RED}No file specified!${RESET}" && usage
 [[ ! -e "$FILE_ABS" ]] && echo -e "${RED}File ${FILE_ABS} does not exist!${RESET}" && usage
