@@ -3,7 +3,7 @@
 shopt -s nullglob
 
 BIN_NAME=$(basename "$0")
-GREEN='\033[1;92m'
+GREEN='\033[0;92m'
 RESET='\033[0m'
 
 function usage {
@@ -75,7 +75,7 @@ fi
 if [[ "$DEBUG" == "TRUE" ]]; then
 	echo -e "${GREEN}"
 	echo    "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-	echo    "+                               PERFORMING DRY RUN                             +"
+	echo    "+                               Performing Dry Run                             +"
 	echo    "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 	echo -e "${RESET}"
 fi
