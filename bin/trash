@@ -21,7 +21,7 @@ if len(sys.argv) == 1 or sys.argv[1] in ["-h", "--help"]:
     sys.exit(1)
 
 for arg in sys.argv[1:]:
-    if os.path.exists(arg):
+    if os.path.exists(arg) or os.path.islink(arg):
         p = os.path.abspath(arg).replace('\\', '\\\\').replace('"', '\\"')
         cmd = ['osascript', '-e', 'tell app "Finder" to move { the POSIX file "' + p + '"} to trash']
         r = subprocess.call(cmd, stdout=open(os.devnull, 'w'))
