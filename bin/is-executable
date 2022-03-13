@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 BIN_NAME=$(basename "$0")
-RED='\033[1;91m'
-YELLOW='\033[1;93m'
+RED='\033[0;91m'
+GREEN='\033[0;92m'
+YELLOW='\033[0;93m'
 RESET='\033[0m'
 
 function usage {
@@ -23,7 +24,7 @@ function usage {
     exit 1
 }
 
-if [[ "$1" == "help" ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
 	usage
 fi
 
@@ -40,10 +41,6 @@ shift $((OPTIND -1))
 COMMAND="$1"
 
 [[ -z "${COMMAND// }" ]] && echo -e "${RED}No input command specified!${RESET}" && usage
-
-RESET='\033[0m'      
-RED='\033[1;91m'
-GREEN='\033[1;92m'
 
 if command -v "$COMMAND" >/dev/null 2>&1; then
 	[[ "$QUIET" == "FALSE" ]] && echo -e "${GREEN}${COMMAND}: command exists${RESET}"

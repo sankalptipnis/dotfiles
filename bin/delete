@@ -8,7 +8,7 @@ import os
 import sys
 import subprocess
 
-YELLOW='\033[1;93m'
+YELLOW='\033[0;93m'
 RESET='\033[0m'
 
 def print_usage():

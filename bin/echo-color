@@ -78,19 +78,19 @@ On_IWhite='\033[0;107m'   # White
 function usage {
     echo
     echo "USAGE:"
-    echo -e "    ${BIYellow}${BIN_NAME}${COLOR_OFF} [-b] color text"
+    echo -e "    ${IYellow}${BIN_NAME}${COLOR_OFF} [-b] color text"
     echo "    Available colors: black, red, green, yellow, blue, purple, cyan, white"
     echo
     echo "DESCRIPTION:"
     echo "    Prints the input text in the specified color."
     echo
     echo "COMMAND LINE OPTIONS:"
-	echo -e "    ${BIYellow}-b${COLOR_OFF}"
+	echo -e "    ${IYellow}-b${COLOR_OFF}"
 	echo "        prints the input text in bold "
     exit 1
 }
 
-if [[ "$1" == "help" ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
 	usage
 fi
 

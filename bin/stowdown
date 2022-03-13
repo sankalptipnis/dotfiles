@@ -4,7 +4,7 @@ shopt -s nullglob
 
 BIN_NAME=$(basename "$0")
 GREEN='\033[0;92m'
-YELLOW='\033[1;93m'
+YELLOW='\033[0;93m'
 RESET='\033[0m'
 
 function usage {
@@ -33,7 +33,7 @@ function usage {
     exit 1
 }
 
-if [[ "$1" == "help" ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
 	usage
 fi
 
