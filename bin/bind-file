@@ -9,12 +9,11 @@ RESET='\033[0m'
 function usage {
     echo
     echo "USAGE:"
-    echo -e "    ${YELLOW}${BIN_NAME}${RESET} app file"
+    echo -e "    ${YELLOW}${BIN_NAME}${RESET} app file..."
     echo
     echo "DESCRIPTION:" 
     echo "    This utility sets the input app as the "
-    echo "    default app to open the input file."
-    exit 1
+    echo "    default app to open the input file(s)."
 }
 
 if [[ "$1" == "help" ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
@@ -22,13 +21,7 @@ if [[ "$1" == "help" ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
 fi
 
 APP="$1"
-[[ -z "${APP// }" ]] && echo -e "${RED}No app specified!${RESET}" && usage
-
-FILE="$2"
-FILE_ABS="$(abspath -l "$FILE")"
-
-[[ -z "${FILE_ABS// }" ]] && echo -e "${RED}No file specified!${RESET}" && usage
-[[ ! -f "$FILE_ABS" ]] && echo -e "${RED}${FILE_ABS}: No such file!${RESET}" && usage
+[[ -z "${APP// }" ]] && echo -e "${RED}No app specified!${RESET}" && usage && exit 1
 
 APP_ALIAS=$(osascript -e "path to app \"$APP\"")
 
@@ -38,20 +31,34 @@ if [[ "$RETURN_CODE" != "0" ]]; then
     exit "$RETURN_CODE"
 fi
 
-osascript <<EOF
-set theFile to "$FILE_ABS"
-log "File:"
-log theFile
-set myApp to (path to application "$APP" )
-log "App:"
-log myApp
-tell application "System Events" to set default application of file theFile to myApp
+shift
+
+function change_default_app() {
+    local FILE="$1"
+    local FILE_ABS="$(abspath -l "$FILE")"
+
+    [[ -z "${FILE_ABS// }" ]] && echo -e "${RED}No file specified!${RESET}" && usage && return 1
+    [[ ! -f "$FILE_ABS" ]] && echo -e "${RED}${FILE_ABS}: No such file!${RESET}" && usage && return 1
+
+    osascript <<EOF
+    set theFile to "$FILE_ABS"
+    log ""
+    log "File:"
+    log theFile
+    set myApp to (path to application "$APP" )
+    log "App:"
+    log myApp
+    tell application "System Events" to set default application of file theFile to myApp
 EOF
 
-RETURN_CODE=$?
-if [[ "$RETURN_CODE" != "0" ]]; then
-    echo -e "${RED}Failed to set \"${APP}\" as the default app to open \"${FILE}\"!${RESET}"
-    exit "$RETURN_CODE"
-else
-    echo -e "${GREEN}Successfully set \"${APP}\" as the default app to open \"${FILE}\".${RESET}"
-fi
+    RETURN_CODE=$?
+    if [[ "$RETURN_CODE" != "0" ]]; then
+        echo -e "${RED}Failed to set \"${APP}\" as the default app to open \"${FILE}\"!${RESET}"
+    else
+        echo -e "${GREEN}Successfully set \"${APP}\" as the default app to open \"${FILE}\".${RESET}"
+    fi
+}
+
+for FILE in "$@"; do
+  change_default_app "$FILE"
+done
