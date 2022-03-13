@@ -17,9 +17,12 @@ function usage {
     echo "    This utility sets the input app as the "
     echo "    default app to open the input file(s)."
     echo
+    echo "    For directory input, its sets the input app as"
+    echo "    the default app to open file(s) in the directory."
+    echo
 }
 
-if [[ "$1" == "help" ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
+if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
 	usage && exit 1
 fi
 
@@ -30,7 +33,7 @@ APP_ALIAS=$(osascript -e "path to app \"$APP\"")
 
 RETURN_CODE=$?
 if [[ "$RETURN_CODE" != "0" ]]; then
-    echo -e "${RED}App \"${APP}\" not found!${RESET}"
+    echo -e "${RED}App \"${APP}\" not found!${RESET}" && usage
     exit "$RETURN_CODE"
 fi
 
@@ -38,41 +41,62 @@ shift
 
 function change_default_app() {
     local FILE="$1"
-    local FILE_ABS="$(abspath -l "$FILE")"
+    echo "-------------------------------------------------------------------"
+    echo "File: $FILE"
 
-    [[ -z "${FILE_ABS// }" ]] && echo -e "${RED}No file specified!${RESET}" && usage && return 1
-    [[ ! -f "$FILE_ABS" ]] && echo -e "${RED}${FILE_ABS}: No such file!${RESET}" && usage && return 1
+    local FILE_ABS="$(abspath -l "$FILE")"
+    echo "File path: $FILE_ABS"
+
+    if [[ -z "${FILE_ABS// }" ]]; then
+        echo "-------------------------------------------------------------------"
+        echo -e "${RED}No file specified!${RESET}" && usage
+        echo -e "-------------------------------------------------------------------\n\n\n"
+        return 1
+    fi
+
+    if [[ ! -f "$FILE_ABS" ]]; then
+        echo "-------------------------------------------------------------------"
+        echo -e "${FILE_ABS}: ${RED}No such file!${RESET}" && usage
+        echo -e "-------------------------------------------------------------------\n\n\n"
+        return 1
+    fi
+
+    echo "App: $APP_ALIAS"
+    echo "-------------------------------------------------------------------"
 
     osascript <<EOF
     set theFile to "$FILE_ABS"
-    log ""
-    log "File:"
-    log theFile
     set myApp to (path to application "$APP" )
-    log "App:"
-    log myApp
     tell application "System Events" to set default application of file theFile to myApp
 EOF
 
     RETURN_CODE=$?
     if [[ "$RETURN_CODE" != "0" ]]; then
         echo -e "${RED}Failed to set \"${APP}\" as the default app to open \"${FILE}\"!${RESET}"
-        echo
+        echo -e "\n-------------------------------------------------------------------\n\n\n"
     else
         echo -e "${GREEN}Successfully set \"${APP}\" as the default app to open \"${FILE}\".${RESET}"
-        echo
+        echo -e "\n-------------------------------------------------------------------\n\n\n"
     fi
 }
 
 for ARG in "$@"; do
-    if [[ -f "$ARG" ]]; then
+    if [[ -f "$ARG" ]] || [[ -h "$ARG" ]]; then
         change_default_app "$ARG"
     elif [[ -d "$ARG" ]]; then
         OLDIFS="$IFS"
         IFS=$'\n'
         for FILE in "$ARG"/* "$ARG"/.[^.]*; do
-            [[ -f "$FILE" ]] && change_default_app "$FILE"
+            if [[ -f "$FILE" ]] || [[ -h "$FILE" ]]; then
+                change_default_app "$FILE"
+            fi
         done
         IFS="$OLDIFS"
+    else
+        echo "-------------------------------------------------------------------"
+        echo "File: $ARG"
+        echo "-------------------------------------------------------------------"
+        echo -e "${ARG}: ${RED}No such file or directory!${RESET}" && usage
+        echo -e "-------------------------------------------------------------------\n\n\n"
     fi
 done
