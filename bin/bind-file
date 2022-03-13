@@ -66,7 +66,7 @@ function change_default_app() {
 
     osascript <<EOF
     set theFile to "$FILE_ABS"
-    set myApp to (path to application "$APP" )
+    set myApp to (path to application "$APP")
     tell application "System Events" to set default application of file theFile to myApp
 EOF
 
