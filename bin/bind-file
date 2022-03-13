@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
+shopt -s nullglob
+
 BIN_NAME=$(basename "$0")
-RED='\033[1;91m'
-GREEN='\033[1;92m'
-YELLOW='\033[1;93m'
+RED='\033[0;91m'
+GREEN='\033[0;92m'
+YELLOW='\033[0;93m'
 RESET='\033[0m'
 
 function usage {
@@ -18,7 +20,7 @@ function usage {
 }
 
 if [[ "$1" == "help" ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
-	usage
+	usage && exit 1
 fi
 
 APP="$1"
@@ -62,6 +64,15 @@ EOF
     fi
 }
 
-for FILE in "$@"; do
-  change_default_app "$FILE"
+for ARG in "$@"; do
+    if [[ -f "$ARG" ]]; then
+        change_default_app "$ARG"
+    elif [[ -d "$ARG" ]]; then
+        OLDIFS="$IFS"
+        IFS=$'\n'
+        for FILE in "$ARG"/* "$ARG"/.[^.]*; do
+            [[ -f "$FILE" ]] && change_default_app "$FILE"
+        done
+        IFS="$OLDIFS"
+    fi
 done
