@@ -11,6 +11,8 @@ BIN := $(DOTFILES_DIR)/bin
 HOMEBREW_PREFIX := $(shell $(BIN)/is-evaluable $(BIN)/is-arm64 /opt/homebrew /usr/local)
 PATH := $(BIN):$(PATH)
 
+EDITOR_APP := "Sublime Text"
+
 CONFIG_DIR := $(HOME)/.config
 COMPLETED_DIR := $(HOME)/.completed
 
@@ -418,16 +420,27 @@ endif
 # Default apps 				      					 					      #
 ###############################################################################
 
-default-apps:
+default-apps: default-apps-files default-apps-extensions
+
+default-apps-extensions:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up default apps for various filetypes"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if $(BIN)/is-executable -q duti; then \
 		duti -v $(DOTFILES_DIR)/duti/Dutifile \
 		&& $(BIN)/echo-color yellow "  Success!" \
-		|| $(BIN)/echo-color red "  Failed to set default apps"; \
+		|| $(BIN)/echo-color red "  Failed to set default apps for extensions"; \
 	else \
 		$(BIN)/echo-color red "  duti is not installed"; \
 	fi
+endif
+	@echo
+
+default-apps-files:
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up default apps for various files"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	(cat $(DOTFILES_DIR)/macos/Editorfile | xargs $(BIN)/bind-file $(EDITOR_APP)) \
+	&& $(BIN)/echo-color yellow "  Success!" \
+	|| $(BIN)/echo-color red "  Failed to set default apps for files";
 endif
 	@echo
 
