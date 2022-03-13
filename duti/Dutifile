@@ -3,8 +3,8 @@
 #
 # Documentation at `man duti` or http://duti.org/documentation.html
 #
-# List of Uniform Type Identifiers in OS X:
-# https://developer.apple.com/library/mac/#documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html
+# List of Uniform Type Identifiers in macOS:
+# https://developer.apple.com/library/archive/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html
 #
 # Bundle ID      UTI/ext/MIME Type      Role
 #
