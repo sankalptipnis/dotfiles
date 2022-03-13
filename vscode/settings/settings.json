@@ -35,8 +35,10 @@
     },
     "git.confirmSync": false,
     "remote.SSH.serverInstallPath": {
+        "204": "/unix/atlastracking/stipnis",
         "211": "/unix/atlastracking/stipnis",
         "215": "/unix/atlastracking/stipnis",
+        "2042": "/unix/atlastracking/stipnis",
         "2112": "/unix/atlastracking/stipnis",
         "2152": "/unix/atlastracking/stipnis"
     },
