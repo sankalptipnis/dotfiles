@@ -33,7 +33,7 @@ EXTENSION="$2"
 BUNDLE_ID=$(osascript -e "id of app \"$APP\"")
 
 RETURN_CODE=$?
-if [[ "$RETURN_CODE" == "1" ]]; then
+if [[ "$RETURN_CODE" != "0" ]]; then
     echo -e "${RED}App \"${APP}\" not found!${RESET}"
     exit "$RETURN_CODE"
 fi
@@ -42,7 +42,7 @@ duti -sv "$BUNDLE_ID" "$EXTENSION" all
 
 RETURN_CODE=$?
 RETURN_CODE=$?
-if [[ "$RETURN_CODE" == "1" ]]; then
+if [[ "$RETURN_CODE" != "0" ]]; then
     echo -e "${RED}Failed to set \"${APP}\" as the default app to open \"${EXTENSION}\" files!${RESET}"
     exit "$RETURN_CODE"
 else

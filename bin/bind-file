@@ -28,12 +28,12 @@ FILE="$2"
 FILE_ABS="$(abspath -l "$FILE")"
 
 [[ -z "${FILE_ABS// }" ]] && echo -e "${RED}No file specified!${RESET}" && usage
-[[ ! -e "$FILE_ABS" ]] && echo -e "${RED}File ${FILE_ABS} does not exist!${RESET}" && usage
+[[ ! -f "$FILE_ABS" ]] && echo -e "${RED}${FILE_ABS}: No such file!${RESET}" && usage
 
 APP_ALIAS=$(osascript -e "path to app \"$APP\"")
 
 RETURN_CODE=$?
-if [[ "$RETURN_CODE" == "1" ]]; then
+if [[ "$RETURN_CODE" != "0" ]]; then
     echo -e "${RED}App \"${APP}\" not found!${RESET}"
     exit "$RETURN_CODE"
 fi
@@ -49,7 +49,7 @@ tell application "System Events" to set default application of file theFile to m
 EOF
 
 RETURN_CODE=$?
-if [[ "$RETURN_CODE" == "1" ]]; then
+if [[ "$RETURN_CODE" != "0" ]]; then
     echo -e "${RED}Failed to set \"${APP}\" as the default app to open \"${FILE}\"!${RESET}"
     exit "$RETURN_CODE"
 else
