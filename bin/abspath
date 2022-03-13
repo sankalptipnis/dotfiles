@@ -15,7 +15,7 @@ def print_usage():
 	sys.stdout.write('DESCRIPTION:\n')
 	sys.stdout.write('    This utility converts a path to an absolute path and prints it out.\n\n')
 	sys.stdout.write('    The utility exits with a success status code (0) if the path/file actually exists.\n')
-	sys.stdout.write('    Otherwise, the utility exits with a failure status code (5).\n')
+	sys.stdout.write('    Otherwise, the utility exits with a failure status code (150).\n')
 	sys.stdout.write('\n')
 	sys.stdout.write('COMMAND LINE ARGUMENTS:\n')
 	sys.stdout.write('    %s-l%s\n' % (YELLOW, RESET))
@@ -44,4 +44,4 @@ if follow_links:
 print(abs_path)
 
 if not os.path.exists(abs_path) and not os.path.islink(abs_path):
-    sys.exit(5)
+    sys.exit(150)
