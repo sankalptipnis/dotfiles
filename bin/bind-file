@@ -14,6 +14,7 @@ function usage {
     echo "DESCRIPTION:" 
     echo "    This utility sets the input app as the "
     echo "    default app to open the input file(s)."
+    echo
 }
 
 if [[ "$1" == "help" ]] || [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then
@@ -54,8 +55,10 @@ EOF
     RETURN_CODE=$?
     if [[ "$RETURN_CODE" != "0" ]]; then
         echo -e "${RED}Failed to set \"${APP}\" as the default app to open \"${FILE}\"!${RESET}"
+        echo
     else
         echo -e "${GREEN}Successfully set \"${APP}\" as the default app to open \"${FILE}\".${RESET}"
+        echo
     fi
 }
 
