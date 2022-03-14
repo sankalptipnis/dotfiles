@@ -23,7 +23,7 @@
     branch = brightgreen bold
     remoteBranch=brightred bold
 [color "diff"]
-	meta = brightyellow
+	meta = brightwhite bold
 	frag = brightmagenta bold
 	commit = brightyellow bold
 	func = brightblue bold
