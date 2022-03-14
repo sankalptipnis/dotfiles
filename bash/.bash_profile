@@ -57,17 +57,20 @@ done
 _conda_script="$HOMEBREW_PREFIX/Caskroom/miniforge/base/etc/profile.d/conda.sh"
 [[ -r "$_conda_script" ]] && source "$_conda_script"
 
+# Set CONDA_BUILD_SYSROOT so that conda installed ROOT works
+export CONDA_BUILD_SYSROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/
+
 # Add global ROOT to PYTHONPATH so it is accessible from conda envs
-prefix=".."
-suffix="/bin/root"
-ROOT_LIB_DIR=$(readlink $(which root))
-ROOT_LIB_DIR=${ROOT_LIB_DIR#"$prefix"}
-ROOT_LIB_DIR=${ROOT_LIB_DIR%"$suffix"}
-ROOT_LIB_DIR="${HOMEBREW_PREFIX}${ROOT_LIB_DIR}/lib/root"
-PYTHONPATH="$ROOT_LIB_DIR:$PYTHONPATH"
-PYTHONPATH=${PYTHONPATH%":"}
-PYTHONPATH=$(echo -n $PYTHONPATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}')
-[[ -d "$ROOT_LIB_DIR" ]] && export PYTHONPATH
+# prefix=".."
+# suffix="/bin/root"
+# ROOT_LIB_DIR=$(readlink $(which root))
+# ROOT_LIB_DIR=${ROOT_LIB_DIR#"$prefix"}
+# ROOT_LIB_DIR=${ROOT_LIB_DIR%"$suffix"}
+# ROOT_LIB_DIR="${HOMEBREW_PREFIX}${ROOT_LIB_DIR}/lib/root"
+# PYTHONPATH="$ROOT_LIB_DIR:$PYTHONPATH"
+# PYTHONPATH=${PYTHONPATH%":"}
+# PYTHONPATH=$(echo -n $PYTHONPATH | awk -v RS=: '{ if (!arr[$0]++) {printf("%s%s",!ln++?"":":",$0)}}')
+# [[ -d "$ROOT_LIB_DIR" ]] && export PYTHONPATH
 
 # Initilize fzf-obc
 _fzf_script="$DOTFILES_DIR/submodules/fzf-obc/bin/fzf-obc.bash"
