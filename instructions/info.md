@@ -13,7 +13,7 @@
       - [Kerberos Access to LXPLUS](#kerberos-access-to-lxplus)
   - [Sublime Text](#sublime-text)
   - [Disk Usage Apps](#disk-usage-apps)
-    - [Command Line Tools Path](#command-line-tools-path)
+  - [Command Line Tools Path](#command-line-tools-path)
 
 ## Shell
 - Get current shell:
