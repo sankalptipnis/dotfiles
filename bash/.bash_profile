@@ -1,31 +1,16 @@
 #!/usr/bin/env bash
 
-# Get Homebrew prefix
-if [[ "$(uname -m)" == "arm64" ]]; then 
-	HOMEBREW_PREFIX=/opt/homebrew
-else
-	HOMEBREW_PREFIX=/usr/local
-fi
-
 # Define dotfiles directory
 export DOTFILES_DIR="$HOME/dotfiles"
+
+# Initialize shell
+[[ -r "$DOTFILES_DIR/shell/.init.sh" ]] && source "$DOTFILES_DIR/shell/.init.sh"
 
 # Load the prompt
 [[ -r "$DOTFILES_DIR/bash/.bash_prompt.bash" ]] && source "$DOTFILES_DIR/bash/.bash_prompt.bash"
 
 # Load history settings
 [[ -r "$DOTFILES_DIR/bash/.bash_hist.bash" ]] && source "$DOTFILES_DIR/bash/.bash_hist.bash"
-
-# Load exports, aliases, functions, and PATH
-for file in "$DOTFILES_DIR"/shell/.{exports,aliases,functions,path}.sh; do
-	[[ -r "$file" ]] && source "$file"
-done
-unset file
-
-# Load LS_COLORS
-if is-executable -q dircolors; then
-	[[ -r "$DOTFILES_DIR/shell/.dircolors.sh" ]] && eval "$(dircolors $DOTFILES_DIR/shell/.dircolors.sh)"
-fi
 
 # Add tab completion for Bash commands
 [[ -r "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh" ]] && source "$HOMEBREW_PREFIX/etc/profile.d/bash_completion.sh"
@@ -53,13 +38,9 @@ for option in autocd globstar; do
 	shopt -s "$option" 2> /dev/null
 done
 
-# Initialize conda
-_conda_script="$HOMEBREW_PREFIX/Caskroom/miniforge/base/etc/profile.d/conda.sh"
-[[ -r "$_conda_script" ]] && source "$_conda_script"
+# Initialize Zoxide 
+eval "$(zoxide init bash)"
 
-# Set CONDA_BUILD_SYSROOT so that conda installed ROOT works
-export CONDA_BUILD_SYSROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/
-
-# Initilize fzf-obc
+# Initialize fzf-obc 
 _fzf_script="$DOTFILES_DIR/submodules/fzf-obc/bin/fzf-obc.bash"
 [[ -r "$_fzf_script" ]] && source "$_fzf_script"
