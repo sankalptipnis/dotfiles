@@ -4,3 +4,6 @@
 [submodule "submodules/zsh-autocomplete"]
 	path = submodules/zsh-autocomplete
 	url = git@github.com:sankalptipnis/zsh-autocomplete.git
+[submodule "submodules/conda-zsh-completion"]
+	path = submodules/conda-zsh-completion
+	url = https://github.com/sankalptipnis/conda-zsh-completion.git
