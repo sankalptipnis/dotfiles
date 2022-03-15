@@ -45,7 +45,7 @@ fi
 # Use LS_COLORS for auto complete
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
-# Conda competion
+# Conda completion
 fpath+=$DOTFILES_DIR/submodules/conda-zsh-completion
 
 # SSH completion
