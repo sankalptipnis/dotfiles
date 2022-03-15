@@ -18,6 +18,9 @@ export DOTFILES_DIR="$HOME/dotfiles"
 # Add tab completion for SSH hostnames based on ~/.ssh/config, ignoring wildcards
 [[ -r "$HOME/.ssh/config" ]] && complete -o "default" -o "nospace" -W "$(grep "^Host" ~/.ssh/config | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')" scp sftp ssh
 
+# Add tab completion for ca (conda activate alias)
+[[ -r "$HOME/.conda/environments.txt" ]] && complete -o "default" -o "nospace" -W "$(cat ~/.conda/environments.txt | sed -n 's/^\(.*\/\)*\(.*\)/\2/p' | tr ' ' '\n')" ca
+
 # Case-insensitive globbing (used in pathname expansion)
 shopt -s nocaseglob
 

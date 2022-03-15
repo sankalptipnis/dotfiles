@@ -41,6 +41,13 @@ if [[ -r "$_auto_complete_script" ]]; then
 	zstyle ':autocomplete:*' widget-style menu-complete
 fi
 
+# Conda competion
+fpath+=$DOTFILES_DIR/submodules/conda-zsh-completion
+
+# SSH completion
+h=("${(@f)$(cat ~/.ssh/config | grep "^Host" | grep -v "[?*]" | cut -d " " -f2- | tr ' ' '\n')}")
+zstyle ':completion:*:(ssh|scp|rsync):*' hosts $h
+
 # Initialize powerlevel10k
 _powerline_script="$HOMEBREW_PREFIX/opt/powerlevel10k/powerlevel10k.zsh-theme"
 [[ -r "$_powerline_script" ]] && source "$_powerline_script"
