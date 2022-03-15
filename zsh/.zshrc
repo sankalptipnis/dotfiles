@@ -28,6 +28,10 @@ setopt CORRECT_ALL
 # Initialize Zoxide 
 eval "$(zoxide init zsh)"
 
+# Initialze fzf
+_fzf_script="$DOTFILES_DIR/fzf/.fzf.zsh"
+[[ -r "$_fzf_script" ]] && source "$_fzf_script"
+
 # Initialize auto completion
 _auto_complete_script="$DOTFILES_DIR/submodules/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
 if [[ -r "$_auto_complete_script" ]]; then
@@ -57,4 +61,5 @@ _auto_syntax_highlight_script="$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zs
 [[ -r "$_auto_syntax_highlight_script" ]] && source "$_auto_syntax_highlight_script"
 
 # Initialize prompt 
-[[ ! -f "$DOTFILES_DIR/p10k/.p10k.zsh" ]] || source "$DOTFILES_DIR/p10k/.p10k.zsh"
+_p10k_script="$DOTFILES_DIR/p10k/.p10k.zsh"
+[[ ! -f "$_p10k_script" ]] || source "$_p10k_script"

@@ -41,6 +41,10 @@ done
 # Initialize Zoxide 
 eval "$(zoxide init bash)"
 
-# Initialize fzf-obc 
-_fzf_script="$DOTFILES_DIR/submodules/fzf-obc/bin/fzf-obc.bash"
+# Initialze fzf
+_fzf_script="$DOTFILES_DIR/fzf/.fzf.bash"
 [[ -r "$_fzf_script" ]] && source "$_fzf_script"
+
+# Initialize fzf-obc 
+_fzf_obc_script="$DOTFILES_DIR/submodules/fzf-obc/bin/fzf-obc.bash"
+[[ -r "$_fzf_obc_script" ]] && source "$_fzf_obc_script"
