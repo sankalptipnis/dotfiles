@@ -32,6 +32,7 @@ eval "$(zoxide init zsh)"
 _fzf_script="$DOTFILES_DIR/fzf/.fzf.zsh"
 [[ -r "$_fzf_script" ]] && source "$_fzf_script"
 
+
 # Initialize auto completion
 _auto_complete_script="$DOTFILES_DIR/submodules/zsh-autocomplete/zsh-autocomplete.plugin.zsh"
 if [[ -r "$_auto_complete_script" ]]; then
@@ -40,6 +41,9 @@ if [[ -r "$_auto_complete_script" ]]; then
 	zstyle ':autocomplete:*' insert-unambiguous yes
 	zstyle ':autocomplete:*' widget-style menu-complete
 fi
+
+# Use LS_COLORS for auto complete
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # Conda competion
 fpath+=$DOTFILES_DIR/submodules/conda-zsh-completion
