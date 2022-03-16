@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-tput sgr0; # reset colors
 bold=$(tput bold)
 reset=$(tput sgr0)
 
