@@ -466,3 +466,16 @@ ifndef DEBUG
 	fi
 endif
 	@echo
+
+###############################################################################
+# Installation of Command Line Tools				 					      #
+###############################################################################
+
+clt:
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Command Line Tools"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	xcode-select --install \
+	&& echo-color yellow "  Success!" \
+	|| echo-color red "  Failed to install Command Line Tools";
+endif
+	@echo
