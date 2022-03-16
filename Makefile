@@ -424,7 +424,7 @@ endif
 # Default apps 				      					 					      #
 ###############################################################################
 
-default-apps: default-apps-files default-apps-extensions
+default-apps: default-apps-extensions default-apps-files
 
 default-apps-extensions:
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Setting up default apps for various filetypes"$(GREEN_ECHO_SUFFIX)
