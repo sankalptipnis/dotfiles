@@ -340,6 +340,8 @@ ifndef DEBUG
 endif
 	@echo
 
+mamba-pkgs: CONDA_BIN := $(HOMEBREW_PREFIX)/Caskroom/miniforge/base/condabin
+mamba-pkgs: PATH := $(CONDA_BIN):$(PATH)
 mamba-pkgs: mamba-install
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Creating mamba/conda environemnts"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
