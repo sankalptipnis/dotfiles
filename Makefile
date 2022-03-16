@@ -301,7 +301,7 @@ endif
 gdu: brew-apps
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing gdu"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if ! [[ -d $(HOMEBREW_PREFIX)/Cellar/gdu ]]; then \
+	if ! [ -d $(HOMEBREW_PREFIX)/Cellar/gdu ]; then \
 		brew install -f gdu &&  brew link --overwrite gdu \
 		&& echo-color yellow "  Success!" \
 		|| echo-color red "  Failed to install gdu"; \
