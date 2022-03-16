@@ -513,17 +513,17 @@ _brightwhite="%15F"
       # Otherwise show the first 12 … the last 12.
       # Tip: To always show tag name in full without truncation, delete the next line.
       (( $#tag > 32 )) && tag[13,-13]="…"  # <-- this line
-      res+="${_brightmagenta}#${_brightmagenta}${tag//\%/%%}"
+      branch="${_brightwhite}on ${_bold}${_brightmagenta}#${tag//\%/%%}${_reset_bold}"
     fi
 
     # Display the current Git commit if there is no branch and no tag.
     # Tip: To always display the current Git commit, delete the next line.
     [[ -z $VCS_STATUS_LOCAL_BRANCH && -z $VCS_STATUS_TAG ]] &&  # <-- this line
-      res+="${_brightmagenta}@${_brightmagenta}${VCS_STATUS_COMMIT[1,8]}"
+      branch="${_brightwhite}on ${_bold}${_brightmagenta}@${VCS_STATUS_COMMIT[1,8]}${_reset_bold}"
 
     # Show tracking branch name if it differs from local branch.
     if [[ -n ${VCS_STATUS_REMOTE_BRANCH:#$VCS_STATUS_LOCAL_BRANCH} ]]; then
-      res+="${_brightmagenta}:${_brightmagenta}${(V)VCS_STATUS_REMOTE_BRANCH//\%/%%}"
+      res+="${_brightwhite}on ${_bold}${_brightmagenta}:${(V)VCS_STATUS_REMOTE_BRANCH//\%/%%}${_reset_bold}"
     fi
 
     (( VCS_STATUS_HAS_STAGED    )) && res+="${_brightcyan}+"
