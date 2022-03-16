@@ -212,11 +212,10 @@ brew: brew-install brew-path
 brew-install: sudo
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
-	if is-executable -q brew; then \
+	if ! is-executable -q brew; then \
 		(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh | bash) \
 		&& echo-color yellow "  Success!" \
 		|| (echo-color red "  Failed to install Homebrew" && exit 1); \
-		is-executable -q brew && echo-color red "  Failed to locate Homebrew in PATH" && exit 1; \
 	else \
 		echo-color yellow "  Homebrew is already installed"; \
 	fi
