@@ -385,6 +385,19 @@ ifndef DEBUG
 endif
 	@echo
 
+dockutil:
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing dockutil"$(GREEN_ECHO_SUFFIX)
+ifndef DEBUG
+	if ! is-executable -q dockutil; then \
+		$(DOTFILES_DIR)/scripts/dockutil_install.sh \
+		&& echo-color yellow "  Success!" \
+		|| echo-color red "  Failed to install dockutil"; \
+	else \
+		echo-color yellow "  dockutil is already installed"; \
+	fi
+endif
+	@echo
+
 ###############################################################################
 # Removing quarantine from quicklook directory 							      #
 ###############################################################################
