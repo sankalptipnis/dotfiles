@@ -81,6 +81,7 @@ make -s all
 1. Finder
    1. Set column view to default
    2. Configure side bar: Finder (menubar) -> Preferences -> ...
+   3. Customise Toolbar
 2. Battery
    1. Enable battery percentage in menu bar\
       System Preferences -> Dock & Menu Bar -> Battery -> Enable `Show in Menu Bar`
@@ -108,8 +109,6 @@ Set keyboard shortcuts:
 5. Bartender (Command + Option + Control + .)
 6. 1Password Mini (Command + Option + P)
 
-
-
 ## Chrome and Gmail
 1.  Sign into Chrome
 2.  Set the Gmail website to be the default email app, if required:
@@ -133,7 +132,6 @@ Alternatively you can use the [Makefile](../Makefile) to create the keytab:
 cd $DOTFILES_DIR
 make keytab
 ```
-
 ## Shpotify
 shpotify needs to connect to Spotify’s API in order to find music by
 name. It is very likely you want this feature!
@@ -147,8 +145,8 @@ Be sure to quote your values and don’t add any extra spaces. When
 done, it should look like the following (but with your own values):
 
 ```bash
-CLIENT_ID="abc01de2fghijk345lmnop"
-CLIENT_SECRET="qr6stu789vwxyz"
+CLIENT_ID="abcde12345"
+CLIENT_SECRET="12345abcde"
 ```
 
 ## Remaining Apps Installation
