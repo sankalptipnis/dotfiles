@@ -3,13 +3,16 @@
 
 ## Table of contents:
   - [Trackpad](#trackpad)
+  - [Keyboard](#keyboard)
   - [Security](#security)
   - [Xcode](#xcode)
+  - [Command Line Tools](#command-line-tools)
+  - [SSH](#ssh)
   - [Automated Installation](#automated-installation)
   - [System](#system)
+  - [Sublime Text](#sublime-text)
   - [Better Touch Tool](#better-touch-tool)
   - [Keyboard Shortcuts](#keyboard-shortcuts)
-  - [SSH](#ssh)
   - [Chrome and Gmail](#chrome-and-gmail)
   - [Kerberos Access to LXPLUS](#kerberos-access-to-lxplus)
   - [Shpotify](#shpotify)
@@ -40,6 +43,9 @@
       *  Disable `Show Desktop`
 2. Enable three finger drag \
    System Preferences -> Accessibility -> Pointer Control -> Trackpad Options -> Enable `Enable Dragging: Three finger drag`
+
+## Keyboard
+Set keyboard `Input Source` to `British - UK`: System Preferences -> Keyboard -> Input Sources
  
 ## Security
 1. Require password immediately after screensaver starts:\
@@ -55,11 +61,22 @@
 3. Open XCode and accept the license agreement
 4. Open XCode and set the Command Line Tools to "Xcode xx.x.x": Preferences -> Locations -> Locations tab -> Command Line Tools
 
+## Command Line Tools
+Install Command Line Tools:
+```bash
+xcode-select --install
+```
+## SSH
+Copy the private key and the public key to `~/.ssh`.
+
 ## Automated Installation
-1. Run the full [automated installation](../README.md) using the [Makefile](../Makefile)   
-    ```bash
-    make all
-    ```
+Run the full [automated installation](../README.md) using the [Makefile](../Makefile):
+```bash
+cd ~
+git clone --recurse-submodules https://github.com/sankalptipnis/dotfiles.git
+cd dotfiles
+make -s all
+```
 ## System
 1. Finder
    1. Set column view to default
@@ -75,6 +92,10 @@
    4. Enable `Insall app updates from the App Store`
    5. Enable `Install system data files and security updates`
 
+## Sublime Text
+1. Install `Package Control` from the `Command Palette`
+2. `git restore` any changes in `~/Library/Application Support/Sublime Text/Packages/User`
+
 ## Better Touch Tool
 Import settings from this [file](../apps/btt/triggers/Default.bttpreset).
 
@@ -87,8 +108,7 @@ Set keyboard shortcuts:
 5. Bartender (Command + Option + Control + .)
 6. 1Password Mini (Command + Option + P)
 
-## SSH
-Copy the private key and the public key to `~/.ssh`.
+
 
 ## Chrome and Gmail
 1.  Sign into Chrome

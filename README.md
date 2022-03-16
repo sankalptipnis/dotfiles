@@ -31,9 +31,9 @@ My dotfiles for macOS. Feel free to use at your own risk. Your mileage may vary.
 The automated installation is managed by a GNU [Makefile](Makefile). To install everything, run:
 ```bash
 cd ~
-git clone --recursive https://github.com/sankalptipnis/dotfiles.git
+git clone --recurse-submodules https://github.com/sankalptipnis/dotfiles.git
 cd dotfiles
-make all
+make -s all
 ```
 ## What does a full installation actually do?
 1. Makes sudo passwordless
