@@ -111,8 +111,8 @@ function process_file() {
 			echo
 		else
 			# create a copy
-			echo "~~~ COMMAND: cp -rfv $SOURCE_FILE_ABS $TARGET_DIR_ABS"
-			[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$SOURCE_FILE_ABS" "$TARGET_DIR_ABS" 			
+			echo "~~~ COMMAND: cp -fRv $SOURCE_FILE_ABS $TARGET_DIR_ABS"
+			[[ "$DEBUG" == "FALSE" ]] && cp -fRv "$SOURCE_FILE_ABS" "$TARGET_DIR_ABS" 			
 			echo 
 		fi
 	# file with the same name as the source file DOES exist in the target directory
@@ -121,9 +121,9 @@ function process_file() {
 		if [[ "$TARGET_FILE_ABS" -ef "$SOURCE_FILE_ABS" ]]; then 								
 			
 			# create a temporary copy of the file
-			echo "~~~ COMMAND: cp -fLrv $TARGET_FILE_ABS{,.temp}"					
+			echo "~~~ COMMAND: cp -fLRv $TARGET_FILE_ABS{,.temp}"					
 			if [[ "$DEBUG" == "FALSE" ]]; then
-				cp -fLrv "$TARGET_FILE_ABS"{,.temp} || ( echo "Failed to create a backup!" && exit 1 )		
+				cp -fLRv "$TARGET_FILE_ABS"{,.temp} || ( echo "Failed to create a backup!" && exit 1 )		
 			fi
 			echo
 
@@ -149,8 +149,8 @@ function process_file() {
 				echo
 
 				# create a copy
-				echo "~~~ COMMAND: cp -rfv $SOURCE_FILE_ABS $TARGET_DIR_ABS"
-				[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$SOURCE_FILE_ABS" "$TARGET_DIR_ABS"
+				echo "~~~ COMMAND: cp -fRv $SOURCE_FILE_ABS $TARGET_DIR_ABS"
+				[[ "$DEBUG" == "FALSE" ]] && cp -fRv "$SOURCE_FILE_ABS" "$TARGET_DIR_ABS"
 				echo
 			fi
 			
@@ -170,9 +170,9 @@ function process_file() {
 			fi
 			
 			# back up current source file
-			echo "~~~ COMMAND: cp -fLv $TARGET_FILE_ABS{,.bak}"
+			echo "~~~ COMMAND: cp -fLRv $TARGET_FILE_ABS{,.bak}"
 			if [[ "$DEBUG" == "FALSE" ]]; then
-				cp -fLrv "$TARGET_FILE_ABS"{,.bak} || ( echo "Failed to create a backup!" && exit 1 )
+				cp -fLRv "$TARGET_FILE_ABS"{,.bak} || ( echo "Failed to create a backup!" && exit 1 )
 			fi
 			echo
 			
@@ -188,8 +188,8 @@ function process_file() {
 				echo
 			else
 				# create a copy
-				echo "~~~ COMMAND: cp -rfv $SOURCE_FILE_ABS $TARGET_DIR_ABS"
-				[[ "$DEBUG" == "FALSE" ]] && cp -rfv "$SOURCE_FILE_ABS" "$TARGET_DIR_ABS" 			
+				echo "~~~ COMMAND: cp -fRv $SOURCE_FILE_ABS $TARGET_DIR_ABS"
+				[[ "$DEBUG" == "FALSE" ]] && cp -fRv "$SOURCE_FILE_ABS" "$TARGET_DIR_ABS" 			
 				echo
 			fi
 		fi

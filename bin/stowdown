@@ -96,9 +96,9 @@ function process_file() {
 		if [[ "$TARGET_FILE_ABS" -ef "$SOURCE_FILE_ABS" ]]; then
 			
 			# make a copy of the contents of the file
-			echo "~~~ COMMAND: cp -fLrv $TARGET_FILE_ABS{,.temp}"					
+			echo "~~~ COMMAND: cp -fLRv $TARGET_FILE_ABS{,.temp}"					
 			if [[ "$DEBUG" == "FALSE" ]]; then
-				cp -fLrv "$TARGET_FILE_ABS"{,.temp} || ( echo "Failed to create a backup copy!" && exit 1 )		
+				cp -fLRv "$TARGET_FILE_ABS"{,.temp} || ( echo "Failed to create a backup copy!" && exit 1 )		
 			fi
 			echo
 			
