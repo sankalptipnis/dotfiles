@@ -9,7 +9,7 @@ SHELL := /bin/bash
 DOTFILES_DIR := $(strip $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST)))))
 BIN := $(DOTFILES_DIR)/bin
 HOMEBREW_PREFIX := $(shell $(BIN)/is-evaluable $(BIN)/is-arm64 /opt/homebrew /usr/local)
-PATH := $(BIN):$(PATH)
+PATH := $(HOMEBREW_PREFIX)/bin:$(BIN):$(PATH)
 
 EDITOR_APP := "Sublime Text"
 
