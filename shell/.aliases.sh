@@ -30,7 +30,7 @@ alias ca="conda activate"
 alias cda="conda deactivate"
 
 # Homebrew shortcuts
-alias buz="brew uninstall --zap"
+alias buz="brew uninstall --zap --cask"
 alias bout="brew update; brew outdated"
 alias bup="brew update; brew upgrade; brew cleanup"
 alias bst="brew bundle cleanup --file=$DOTFILES_DIR/homebrew/Brewfile; echo; \
