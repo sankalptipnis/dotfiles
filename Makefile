@@ -273,7 +273,7 @@ endif
 # Package and app installations	 				      					      #
 ###############################################################################
 
-packages: brew-apps gdu mas-apps mamba-pkgs vsc-extensions iterm-colors
+packages: brew-apps gdu mas-apps mamba-envs vsc-extensions iterm-colors
 
 brew-apps: brew svn
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew binaries and Cask apps"$(GREEN_ECHO_SUFFIX)
@@ -340,15 +340,16 @@ ifndef DEBUG
 endif
 	@echo
 
-mamba-pkgs: CONDA_BIN := $(HOMEBREW_PREFIX)/Caskroom/miniforge/base/condabin
-mamba-pkgs: PATH := $(CONDA_BIN):$(PATH)
-mamba-pkgs: mamba-install
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Creating mamba/conda environemnts"$(GREEN_ECHO_SUFFIX)
+mamba-envs: CONDA_BIN := $(HOMEBREW_PREFIX)/Caskroom/miniforge/base/condabin
+mamba-envs: PATH := $(CONDA_BIN):$(PATH)
+mamba-envs: mamba-install
+	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Creating the cern mamba/conda environemnt"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if is-executable -q mamba; then \
-		$(DOTFILES_DIR)/conda/scripts/conda-envs-create.sh $(DOTFILES_DIR)/conda/envs \
+		mamba create -y --name cern root numpy pandas matplotlib seaborn jupyter jupyterlab \
+		numba pytest pyyaml scikit-learn scipy \
 		&& echo-color yellow "  Success!" \
-		|| echo-color red "  Failed to create all the mamba/conda environemnts"; \
+		|| echo-color red "  Failed to create the cern mamba/conda environment"; \
 	else \
 		echo-color red "  mamba is not installed"; \
 	fi
