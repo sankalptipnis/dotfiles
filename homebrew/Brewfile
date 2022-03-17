@@ -110,6 +110,7 @@ brew 'tmux'
 brew 'tree'
 brew 'vim'
 brew 'watch'
+brew 'xplr'
 brew 'zoxide'
 
 # Optional binaries
