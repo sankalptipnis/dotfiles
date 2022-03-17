@@ -33,7 +33,9 @@ alias cda="conda deactivate"
 alias buz="brew uninstall --zap"
 alias bout="brew update; brew outdated"
 alias bup="brew update; brew upgrade; brew cleanup"
-alias brm="brew bundle cleanup --file=$DOTFILES_DIR/homebrew/Brewfile; brew autoremove --dry-run"
+alias bst="brew bundle cleanup --file=$DOTFILES_DIR/homebrew/Brewfile; echo; \
+brew autoremove --dry-run; echo; \
+brew bundle check --verbose --no-upgrade --file=$DOTFILES_DIR/homebrew/Brewfile"
 
 # Git shortcuts
 alias gst="git status"
