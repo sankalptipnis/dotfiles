@@ -130,6 +130,9 @@ alias cpwd="pwd | tr -d '\n'|pbcopy"
 # Get weather
 alias weather='curl wttr.in/London'
 
+# Print Command Line Tools version
+alias cltv='pkgutil --pkg-info=com.apple.pkg.CLTools_Executables | grep version'
+
 # List declared aliases
 alias aliases="alias | sed 's/=.*//'"
 
