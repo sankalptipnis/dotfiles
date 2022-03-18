@@ -273,7 +273,7 @@ endif
 # Package and app installations	 				      					      #
 ###############################################################################
 
-packages: brew-apps gdu mas-apps mamba-envs vsc-extensions iterm-colors
+packages: brew-apps gdu mas-apps mamba-envs vsc-extensions iterm-colors dockutil
 
 brew-apps: brew svn
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing Homebrew binaries and Cask apps"$(GREEN_ECHO_SUFFIX)
@@ -422,7 +422,7 @@ endif
 # Dock setup 				      					 					      #
 ###############################################################################
 
-dock:
+dock: dockutil
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Organising the dock"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 		if is-executable -q dockutil; then \
