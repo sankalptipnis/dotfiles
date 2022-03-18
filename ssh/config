@@ -36,13 +36,6 @@ Host 2152
 	User stipnis
 	ProxyJump hep2
 
-Host lxplus
-	HostName lxplus.cern.ch
-	User stipnis
-	GSSAPITrustDns yes
-	GSSAPIAuthentication yes
-	GSSAPIDelegateCredentials yes
-
 Host *
 	IdentityFile ~/.ssh/id_ed25519
 	IgnoreUnknown AddKeysToAgent,UseKeychain

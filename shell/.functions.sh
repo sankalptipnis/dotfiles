@@ -5,7 +5,10 @@ function lxplus() {
 	if ! /usr/bin/klist -s; then
 		/usr/bin/kinit -kt ~/.ssh/keytab stipnis@CERN.CH
 	fi
-	ssh lxplus
+	ssh stipnis@lxplus.cern.ch \
+	-o GSSAPITrustDns=yes \
+	-o GSSAPIAuthentication=yes \
+	-o GSSAPIDelegateCredentials=yes
 }
 
 # Usage: pfdmerge output-file input-file-1 ... input-file-n
