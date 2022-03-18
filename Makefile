@@ -102,7 +102,7 @@ endif
 # Linking of dotfiles							      					      #
 ###############################################################################
 
-link: link-bash link-git link-conda link-xquartz link-kerberos link-ssh link-hammerspoon \
+link: link-bash link-zsh link-git link-conda link-xquartz link-kerberos link-ssh link-hammerspoon \
 link-sublime-text link-vsc link-karabiner link-conda
 
 link-shell: cleanup
