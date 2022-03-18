@@ -39,10 +39,4 @@ Host 204 211 215 2042 2112 2152
 
 Host *
 	IdentityFile ~/.ssh/id_ed25519
-
-
-
-
-
-
-
+	
