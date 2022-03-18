@@ -67,13 +67,13 @@ Install Command Line Tools:
 xcode-select --install
 ```
 ## SSH
-Copy the private key and the public key to `~/.ssh`.
+Copy the private and the public SSH keys to `~/.ssh`. This is required to be able to clone the dotfiles repository using SSH in the next step.
 
 ## Automated Installation
 Run the full [automated installation](../README.md) using the [Makefile](../Makefile):
 ```bash
 cd ~
-git clone --recurse-submodules https://github.com/sankalptipnis/dotfiles.git
+git clone --recurse-submodules git@github.com:sankalptipnis/dotfiles.git
 cd dotfiles
 make -s all
 ```

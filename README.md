@@ -26,12 +26,13 @@ My dotfiles for macOS. Feel free to use at your own risk. Your mileage may vary.
    - Sign into App Store
    - Install XCode
    - Open XCode and accept the license agreement
+* Copy SSH keys to `$HOME/.ssh` to be able to clone this repository using SSH
    
 ## Installation
 The automated installation is managed by a GNU [Makefile](Makefile). To install everything, run:
 ```bash
 cd ~
-git clone --recurse-submodules https://github.com/sankalptipnis/dotfiles.git
+git clone --recurse-submodules git@github.com:sankalptipnis/dotfiles.git
 cd dotfiles
 make -s all
 ```
