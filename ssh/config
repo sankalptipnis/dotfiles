@@ -8,40 +8,41 @@ Host hep2
 
 Host 204
 	HostName pc204.hep.ucl.ac.uk
-	User stipnis
   	ProxyJump hep1
 	  
 Host 211
 	HostName pc211.hep.ucl.ac.uk
-	User stipnis
   	ProxyJump hep1
 
 Host 215
 	HostName pc215.hep.ucl.ac.uk
-	User stipnis
 	ProxyJump hep1
 
 Host 2042
 	HostName pc204.hep.ucl.ac.uk
-	User stipnis
   	ProxyJump hep2
 
 Host 2112
 	HostName pc211.hep.ucl.ac.uk
-	User stipnis
 	ProxyJump hep2
 
 Host 2152
 	HostName pc215.hep.ucl.ac.uk
-	User stipnis
 	ProxyJump hep2
 
-Host *
-	IdentityFile ~/.ssh/id_ed25519
-	IgnoreUnknown AddKeysToAgent,UseKeychain
-	AddKeysToAgent yes
-	UseKeychain yes
+Host 204 211 215 2042 2112 2152
+	User stipnis
 	ForwardX11 yes
 	ForwardX11Trusted yes
 	RemoteForward 52698 localhost:52698
 	LocalForward 8889 localhost:8889
+
+Host *
+	IdentityFile ~/.ssh/id_ed25519
+
+
+
+
+
+
+
