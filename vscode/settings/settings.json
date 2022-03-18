@@ -54,5 +54,6 @@
     "cmake.configureOnEdit": false,
     "gitlens.hovers.currentLine.over": "line",
     "gitlens.codeLens.enabled": false,
-    "vsicons.dontShowNewVersionMessage": true
+    "vsicons.dontShowNewVersionMessage": true,
+    "material-icon-theme.showWelcomeMessage": false
 }
