@@ -21,4 +21,3 @@ fi
 # Initialize conda
 _conda_script="$HOMEBREW_PREFIX/Caskroom/miniforge/base/etc/profile.d/conda.sh"
 [[ -r "$_conda_script" ]] && source "$_conda_script"
-
