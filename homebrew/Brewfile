@@ -120,9 +120,6 @@ brew 'watch'
 brew 'xplr'
 brew 'zoxide'
 
-# Optional binaries
-# brew 'dimentium/autoraise/autoraise', restart_service: true
-
 # Cask apps
 cask '1password'
 cask 'adguard'
@@ -166,18 +163,6 @@ cask 'vorta'
 cask 'xquartz'
 cask 'zoom'
 
-# Optional Cask apps
-# cask 'notable'
-# cask 'marvin'
-# cask 'notion'
-# cask 'steermouse'
-# cask 'transmission'
-# cask 'trezor-suite'
-# cask 'tor-browser'
-# cask 'unite'
-# cask 'yacreader'
-# cask 'zettlr'
-
 # Quicklook plugins
 cask 'syntax-highlight'
 cask 'qlmarkdown'
@@ -196,7 +181,3 @@ cask 'font-source-code-pro'
 cask 'font-source-sans-pro'
 cask "font-hasklig"
 cask "font-space-mono"
-
-
-
-
