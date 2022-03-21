@@ -24,7 +24,7 @@
     commit-style = raw
     file-style = brightwhite bold
 	file-decoration-style = brightwhite ol ul
-    hunk-header-decoration-style = brightwhite box
+    hunk-header-decoration-style = white box
     hunk-header-file-style = brightred bold
     hunk-header-line-number-style = brightred bold
     hunk-header-style = file line-number
