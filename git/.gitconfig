@@ -11,6 +11,17 @@
 	default = current
 [interactive]
 	diffFilter = delta --color-only --features=interactive
+[color]
+	ui = true
+[color "status"]
+	added = brightgreen bold
+	changed = brightred bold
+	untracked = brightmagenta bold
+	deleted = brightblue bold
+[color "decorate"]
+    head = brightcyan bold
+    branch = brightgreen bold
+    remoteBranch=brightred bold
 [delta]
     features = decorations
 	line-numbers = true
