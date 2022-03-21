@@ -4,34 +4,27 @@
 [core]
 	editor = subl -n -w
 	excludesfile = ~/.gitignore
-	pager = diff-so-fancy | less --tabs=4 -RFX
+	pager = delta
 [init]
 	defaultBranch = main
 [push]
 	default = current
 [interactive]
-	diffFilter = diff-so-fancy --patch
-[color]
-	ui = true
-[color "status"]
-	added = brightgreen bold
-	changed = brightred bold
-	untracked = brightmagenta bold
-	deleted = brightblue bold
-[color "decorate"]
-    head = brightcyan bold
-    branch = brightgreen bold
-    remoteBranch=brightred bold
-[color "diff"]
-	meta = brightwhite bold
-	frag = brightmagenta bold
-	commit = brightyellow bold
-	func = brightblue bold
-	old = brightred bold
-	new = brightgreen bold
-	whitespace = brightred reverse
-[color "diff-highlight"]
-	oldNormal = brightred bold
-	oldHighlight = brightred bold 52
-	newNormal = brightgreen bold
-	newHighlight = brightgreen bold 22
+	diffFilter = delta --color-only --features=interactive
+[delta]
+    features = decorations
+	line-numbers = true
+	side-by-side = true
+[delta "interactive"]
+    keep-plus-minus-markers = false
+[delta "decorations"]
+	line-numbers-left-style = brightblue
+    line-numbers-right-style = brightblue
+    commit-decoration-style = brightblue ol
+    commit-style = raw
+    file-style = brightwhite bold
+	file-decoration-style = brightwhite ol ul
+    hunk-header-decoration-style = brightwhite box
+    hunk-header-file-style = brightred bold
+    hunk-header-line-number-style = brightred bold
+    hunk-header-style = file line-number
