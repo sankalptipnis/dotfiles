@@ -29,8 +29,8 @@
 [delta "interactive"]
     keep-plus-minus-markers = false
 [delta "decorations"]
-	line-numbers-left-style = brightblue
-    line-numbers-right-style = brightblue
+	line-numbers-left-style = 245
+    line-numbers-right-style = 245
     commit-decoration-style = brightblue ol
     commit-style = raw
     file-style = brightwhite bold
