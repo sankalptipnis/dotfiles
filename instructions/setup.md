@@ -12,6 +12,7 @@
   - [System](#system)
   - [Sublime Text](#sublime-text)
   - [Better Touch Tool](#better-touch-tool)
+  - [macOS Shortcuts](#macos-shortcuts)
   - [Keyboard Shortcuts](#keyboard-shortcuts)
   - [Chrome and Gmail](#chrome-and-gmail)
   - [Kerberos Access to LXPLUS](#kerberos-access-to-lxplus)
@@ -99,6 +100,9 @@ make -s all
 
 ## Better Touch Tool
 Import settings from this [file](../apps/btt/triggers/Default.bttpreset).
+
+## macOS Shortcuts
+Enable "Allow Running Scripts" in the Shortcuts app preferences.
 
 ## Keyboard Shortcuts
 Set keyboard shortcuts:
