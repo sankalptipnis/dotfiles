@@ -280,7 +280,7 @@ hs.hotkey.bind(
 --------------------------------------------
 -- Start Screensaver
 --------------------------------------------
-hs.hotkey.bind(hyper, "l", function() hs.caffeinate.startScreensaver() end)
+hs.hotkey.bind(hyper, "l", function() hs.caffeinate.lockScreen() end)
 
 
 --------------------------------------------
