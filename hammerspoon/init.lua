@@ -14,6 +14,13 @@ local ultra  = {"⇧", "⌃", "⌥", "⌘"}
 
 
 --------------------------------------------
+-- Reload config
+--------------------------------------------
+hs.hotkey.bind(hyper, "0", function() hs.reload() end)
+hs.notify.new({title="Hammerspoon", informativeText="Config loaded"}):send()
+
+
+--------------------------------------------
 -- Window management
 --------------------------------------------
 -- grid parameters : 6 columns and 2 rows
@@ -171,7 +178,7 @@ end
 --------------------------------------------
 -- Snap to work layout
 --------------------------------------------
-local work_layout = {
+local workLayout = {
 	['Microsoft Outlook' ] = go_top_left_three_by_two,
 	['Google Chrome'     ] = go_top_middle_three_by_two,
 	['Finder'            ] = go_top_right_three_by_two,
@@ -210,8 +217,8 @@ function applyLayout(layout)
   	end
 end
 
-hs.hotkey.bind(hyper, 'F7', openApps(work_layout))
-hs.hotkey.bind(hyper, 'F8', applyLayout(work_layout))
+hs.hotkey.bind(hyper, 'F7', openApps(workLayout))
+hs.hotkey.bind(hyper, 'F8', applyLayout(workLayout))
 
 
 --------------------------------------------
@@ -238,42 +245,52 @@ quitModal:bind('', 'escape', function() quitModal:exit() end)
 -- Control Spotify
 --------------------------------------------
 
--- pause /resume
-hs.hotkey.bind(
-    ultra,
-    "F6",
-    function()
-        hs.execute("/opt/homebrew/bin/spotify pause")
+function spotifyNowPlaying()
+    local album = hs.spotify.getCurrentAlbum()
+    local artist = hs.spotify.getCurrentArtist()
+    local track = hs.spotify.getCurrentTrack()
+    local message = artist .. "\n" .. track .. " - " .. album
+    if hs.spotify.isPlaying() then
+        hs.notify.new({title=artist, informativeText=track .. " - " .. album, withdrawAfter=3 }):send()
     end
-)
+end
+
+function spotifyToggleShuffle()
+    oldStatus =
+    os.execute("/opt/homebrew/bin/spotify toggle shuffle")
+    hs.notify.new({title="Spotify", informativeText="Toggled Shuffle", withdrawAfter=1 }):send()
+
+end
+
+function spotifyNext()
+    hs.spotify.next()
+    hs.timer.doAfter(0.5, spotifyNowPlaying)
+end
+
+function spotifyPrevious()
+    hs.spotify.previous()
+    hs.timer.doAfter(0.5, spotifyNowPlaying)
+end
+
+function spotifyPlayPause()
+    hs.spotify.playpause()
+    hs.timer.doAfter(0.5, spotifyNowPlaying)
+end
+
+-- pause /resume
+hs.hotkey.bind( ultra, "F6", function() spotifyPlayPause() end)
+
+-- pause
+hs.hotkey.bind( ultra, "F7", function() hs.spotify.pause() end)
 
 -- next track
-hs.hotkey.bind(
-    ultra,
-    "F5",
-    function()
-        hs.execute("/opt/homebrew/bin/spotify prev")
-    end
-)
+hs.hotkey.bind( ultra, "F5", function() spotifyPrevious() end)
 
 -- previous track
-hs.hotkey.bind(
-    ultra,
-    "F8",
-    function()
-        hs.execute("/opt/homebrew/bin/spotify next")
-    end
-)
+hs.hotkey.bind( ultra, "F8", function() spotifyNext() end)
 
 -- toggle shuffle
-hs.hotkey.bind(
-    ultra,
-    "s",
-    function()
-        hs.execute("/opt/homebrew/bin/spotify toggle shuffle")
-    end
-)
-
+hs.hotkey.bind( ultra, "s", function() spotifyToggleShuffle() end)
 
 --------------------------------------------
 -- Lock screen + start screensaver
@@ -283,27 +300,20 @@ hs.hotkey.bind(ultra, "l", function() hs.caffeinate.startScreensaver() end)
 
 
 --------------------------------------------
--- Reload config
---------------------------------------------
-hs.hotkey.bind(hyper, "0", function() hs.reload() end)
-hs.notify.new({title="Hammerspoon", informativeText="Config loaded"}):send()
-
-
---------------------------------------------
 -- Caffeinate for Borg backup
 --------------------------------------------
 local backupTime = 0300
 
 local caffeinateForBackup = function(eventType)
-  if eventType == hs.caffeinate.watcher.screensDidWake then
-    local timeStr = os.date("%H%M")
-    local time = tonumber(timeStr) 
-    if time > backupTime - 1  and time < backupTime + 1 then
-      local timeStrFormatted = os.date("%d/%m/%Y %I:%M%p")
-      os.execute("caffeinate -dis &")
-      hs.notify.new({title="Caffeinate", informativeText=timeStrFormatted, withdrawAfter=0}):send()
+    if eventType == hs.caffeinate.watcher.systemDidWake then
+        local timeStr = os.date("%H%M")
+        local time = tonumber(timeStr) 
+        if time > backupTime - 1  and time < backupTime + 1 then
+            local timeStrFormatted = os.date("%d/%m/%Y %I:%M%p")
+            os.execute("caffeinate -dis &")
+            hs.notify.new({title="Caffeinate", informativeText=timeStrFormatted, withdrawAfter=0}):send()
+        end
     end
-  end
 end
 
 hs.caffeinate.watcher.new(caffeinateForBackup):start()
