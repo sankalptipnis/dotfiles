@@ -308,7 +308,7 @@ local caffeinateForBackup = function(eventType)
     if eventType == hs.caffeinate.watcher.systemDidWake then
         local timeStr = os.date("%H%M")
         local time = tonumber(timeStr) 
-        if time > backupTime - 1  and time < backupTime + 1 then
+        if time > backupTime - 3  and time < backupTime + 3 then
             local timeStrFormatted = os.date("%d/%m/%Y %I:%M%p")
             os.execute("caffeinate -dis &")
             hs.notify.new({title="Caffeinate", informativeText=timeStrFormatted, withdrawAfter=0}):send()
