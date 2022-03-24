@@ -5,8 +5,6 @@
 -- ⌥ / alt : Option  -> Alt
 -- ⇧ / shift : Shift -> Shift
 
-local application = require "hs.application"
-local appfinder = require "hs.appfinder"
 
 --------------------------------------------
 -- Hyper key definitions
@@ -198,7 +196,7 @@ function applyLayout(layout)
   	return function()
     	for appName, position in pairs(layout) do
 			
-			local app = appfinder.appFromName(appName)
+			local app = hs.appfinder.appFromName(appName)
 
     		if app then
 	    		for i, win in ipairs(app:allWindows()) do
@@ -278,9 +276,10 @@ hs.hotkey.bind(
 
 
 --------------------------------------------
--- Start Screensaver
+-- Lock screen + start screensaver
 --------------------------------------------
 hs.hotkey.bind(hyper, "l", function() hs.caffeinate.lockScreen() end)
+hs.hotkey.bind(ultra, "l", function() hs.caffeinate.startScreensaver() end)
 
 
 --------------------------------------------
@@ -289,4 +288,23 @@ hs.hotkey.bind(hyper, "l", function() hs.caffeinate.lockScreen() end)
 hs.hotkey.bind(hyper, "0", function() hs.reload() end)
 hs.notify.new({title="Hammerspoon", informativeText="Config loaded"}):send()
 
+
+--------------------------------------------
+-- Caffeinate for Borg backup
+--------------------------------------------
+local backupTime = 0300
+
+local caffeinateForBackup = function(eventType)
+  if eventType == hs.caffeinate.watcher.screensDidWake then
+    local timeStr = os.date("%H%M")
+    local time = tonumber(timeStr) 
+    if time > backupTime - 1  and time < backupTime + 1 then
+      local timeStrFormatted = os.date("%d/%m/%Y %I:%M%p")
+      os.execute("caffeinate -dis &")
+      hs.notify.new({title="Caffeinate", informativeText=timeStrFormatted, withdrawAfter=0}):send()
+    end
+  end
+end
+
+hs.caffeinate.watcher.new(caffeinateForBackup):start()
 
