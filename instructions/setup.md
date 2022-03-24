@@ -1,5 +1,5 @@
 # How to setup your new macOS system
-(instructions are valid as of macOS Monterey)
+(instructions are valid as of macOS Monterey 12.3)
 
 ## Table of contents:
   - [Trackpad](#trackpad)
@@ -9,7 +9,7 @@
   - [Command Line Tools](#command-line-tools)
   - [SSH](#ssh)
   - [Automated Installation](#automated-installation)
-  - [System](#system)
+  - [macOS Settings Initial](#macos-settings-initial)
   - [Sublime Text](#sublime-text)
   - [Better Touch Tool](#better-touch-tool)
   - [Keyboard Shortcuts](#keyboard-shortcuts)
@@ -18,6 +18,7 @@
   - [Shpotify](#shpotify)
   - [Remaining Apps Installation](#remaining-apps-installation)
   - [App Setup](#app-setup)
+  - [macOS Settings Final](#macos-settings-final)
 
 ## Trackpad
 1. Set trackpad settings:
@@ -77,21 +78,22 @@ git clone --recurse-submodules git@github.com:sankalptipnis/dotfiles.git
 cd dotfiles
 make -s all
 ```
-## System
-1. Finder
+## macOS Settings Initial
+Configure the following macOS settings:
+1. General
+2. iCloud
+3. Finder
    1. Set column view to default
-   2. Configure side bar: Finder (menubar) -> Preferences -> ...
+   2. Set preferences: Finder (menubar) -> Preferences -> ...
    3. Customise Toolbar
-2. Battery
+4. Battery
    1. Enable battery percentage in menu bar\
       System Preferences -> Dock & Menu Bar -> Battery -> Enable `Show in Menu Bar`
-   2. Set power settings
-3. Software Auto-update: System Preferences -> Software Update -> Advanced:
-   1. Enable `Check for updates`
-   2. Enable `Download new updates when available`
-   3. Disable `Insatall macOS updates`
-   4. Enable `Insall app updates from the App Store`
-   5. Enable `Install system data files and security updates`
+   2. Set battery settings
+5. Software auto-update
+6. Keyboard
+7. Shortcuts app
+8. Apple Pay & Wallet
 
 ## Sublime Text
 1. Install `Package Control` from the `Command Palette`
@@ -105,7 +107,7 @@ Set keyboard shortcuts:
 1. macOS keyboard shortcuts: System Preferences -> Keyboard -> Shortcuts
 2. AltTab app
 3. Raycast (Command + Space)
-4. Alfred (Option + Space)
+4. Alfred (Control + Space)
 5. Bartender (Command + Option + Control + .)
 6. 1Password Mini (Command + Option + P)
 
@@ -161,7 +163,13 @@ Install apps which cannot be installed using Homebrew or mas-cli manually:
     3. Mathematica
 
 ## App Setup
-Open (and sign into, if required) and configure remaining installed apps.
+Open and configure installed apps.
+
+## macOS Settings Final
+Configure the following macOS settings:
+1. Login items
+2. Notifications
+3. Privacy
 
 
 
