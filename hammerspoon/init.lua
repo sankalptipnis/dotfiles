@@ -14,10 +14,24 @@ local ultra  = {"⇧", "⌃", "⌥", "⌘"}
 
 
 --------------------------------------------
+-- Start sleep logger
+--------------------------------------------
+logger = hs.logger.new("Sleep Log")
+
+-- Log levels:
+-- 0 = nothing
+-- 1 = errror
+-- 2 = warning
+-- 3 = info
+-- 4 = debug
+-- 5 = verbose
+logger.setLogLevel(4)
+
+--------------------------------------------
 -- Reload config
 --------------------------------------------
 hs.hotkey.bind(hyper, "0", function() hs.reload() end)
-hs.notify.new({title="Hammerspoon", informativeText="Config loaded"}):send()
+hs.notify.new({title="Hammerspoon", informativeText="Config reloaded", withdrawAfter=1}):send()
 
 
 --------------------------------------------
@@ -251,15 +265,14 @@ function spotifyNowPlaying()
     local track = hs.spotify.getCurrentTrack()
     local message = artist .. "\n" .. track .. " - " .. album
     if hs.spotify.isPlaying() then
-        hs.notify.new({title=artist, informativeText=track .. " - " .. album, withdrawAfter=3 }):send()
+        hs.notify.new({title=artist, informativeText=track .. " - " .. album, withdrawAfter=3}):send()
     end
 end
 
 function spotifyToggleShuffle()
     oldStatus =
     os.execute("/opt/homebrew/bin/spotify toggle shuffle")
-    hs.notify.new({title="Spotify", informativeText="Toggled Shuffle", withdrawAfter=1 }):send()
-
+    hs.notify.new({title="Spotify", informativeText="Toggled Shuffle", withdrawAfter=1}):send()
 end
 
 function spotifyNext()
@@ -300,21 +313,50 @@ hs.hotkey.bind(ultra, "l", function() hs.caffeinate.startScreensaver() end)
 
 
 --------------------------------------------
+-- Kill caffeinate
+--------------------------------------------
+function killCaffeinate()
+    logger.d("Attempting to kill all instances of caffeinate\n")
+    s = os.execute("killall caffeinate")
+    if s == true then
+        logger.d("Successfully killed all instances of caffeinate \n")
+        hs.notify.new({title="killall caffeinate", informativeText="Succeeded", withdrawAfter=1}):send()
+    else
+        logger.e("Failed to kill all instances caffeinate\n")
+        hs.notify.new({title="killall caffeinate", informativeText="! FAILED !", withdrawAfter=0}):send()
+    end
+end
+
+hs.hotkey.bind(ultra, "k", function() killCaffeinate() end)
+
+--------------------------------------------
 -- Caffeinate for Borg backup
 --------------------------------------------
-local backupTime = 0300
+local backupTimeStr = "0300"
+
+local backupTime = tonumber(backupTimeStr)
+logger.d(string.format("Backup time set to %s", tostring(backupTimeStr)))
 
 local caffeinateForBackup = function(eventType)
     if eventType == hs.caffeinate.watcher.systemDidWake then
+        logger.d("The system woke from sleep\n")
         local timeStr = os.date("%H%M")
         local time = tonumber(timeStr) 
         if time > backupTime - 3  and time < backupTime + 3 then
             local timeStrFormatted = os.date("%d/%m/%Y %I:%M%p")
-            os.execute("caffeinate -dis &")
-            hs.notify.new({title="Caffeinate", informativeText=timeStrFormatted, withdrawAfter=0}):send()
+            logger.d("Attempting to caffeinate\n")
+            s = os.execute("caffeinate -dis &")
+            if s == true then
+                logger.d("Caffeinate succeeded\n")
+                hs.notify.new({title="Caffeinate", informativeText=timeStrFormatted, withdrawAfter=0}):send()
+            else
+                logger.e("Caffeinate failed\n")
+            end
         end
     end
 end
 
 hs.caffeinate.watcher.new(caffeinateForBackup):start()
+
+
 
