@@ -17,7 +17,7 @@ local ultra  = {"⇧", "⌃", "⌥", "⌘"}
 -- Reload config
 --------------------------------------------
 hs.hotkey.bind(hyper, "0", function() hs.reload() end)
-hs.notify.new({title="Hammerspoon", informativeText="Config reloaded", withdrawAfter=1}):send()
+hs.notify.new({title="Hammerspoon", informativeText="Config loaded", withdrawAfter=1}):send()
 
 
 --------------------------------------------
@@ -302,14 +302,19 @@ hs.hotkey.bind(ultra, "l", function() hs.caffeinate.startScreensaver() end)
 -- Kill caffeinate
 --------------------------------------------
 function killCaffeinate()
-    logger.d("Attempting to kill all instances of caffeinate\n")
-    s = os.execute("killall caffeinate")
-    if s == true then
-        logger.d("Successfully killed all instances of caffeinate \n")
-        hs.notify.new({title="killall caffeinate", informativeText="Succeeded", withdrawAfter=1}):send()
+    logger.d("Looking for any running instances of caffeinate\n")
+    if os.execute("pgrep caffeinate") then
+        logger.d("Attempting to kill all instances of caffeinate\n")
+        if os.execute("killall caffeinate") then
+            logger.d("Successfully killed all instances of caffeinate \n")
+            hs.notify.new({title="killall caffeinate", informativeText="Succeeded", withdrawAfter=2}):send()
+        else
+            logger.e("Failed to kill all instances caffeinate\n")
+            hs.notify.new({title="killall caffeinate", informativeText="FAILED", withdrawAfter=2}):send()
+        end
     else
-        logger.e("Failed to kill all instances caffeinate\n")
-        hs.notify.new({title="killall caffeinate", informativeText="! FAILED !", withdrawAfter=0}):send()
+        logger.d("No running instances of caffeinate\n")
+        hs.notify.new({title="killall caffeinate", informativeText="No running instances of caffeinate", withdrawAfter=2}):send()
     end
 end
 
