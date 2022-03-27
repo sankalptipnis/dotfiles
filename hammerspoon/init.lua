@@ -14,20 +14,6 @@ local ultra  = {"⇧", "⌃", "⌥", "⌘"}
 
 
 --------------------------------------------
--- Start sleep logger
---------------------------------------------
-logger = hs.logger.new("Sleep Log")
-
--- Log levels:
--- 0 = nothing
--- 1 = errror
--- 2 = warning
--- 3 = info
--- 4 = debug
--- 5 = verbose
-logger.setLogLevel(4)
-
---------------------------------------------
 -- Reload config
 --------------------------------------------
 hs.hotkey.bind(hyper, "0", function() hs.reload() end)
@@ -334,29 +320,65 @@ hs.hotkey.bind(ultra, "k", function() killCaffeinate() end)
 --------------------------------------------
 local backupTimeStr = "0300"
 
-local backupTime = tonumber(backupTimeStr)
-logger.d(string.format("Backup time set to %s", tostring(backupTimeStr)))
+logger = hs.logger.new("Backup Log")
+
+-- Log levels:
+-- 0 = nothing
+-- 1 = errror
+-- 2 = warning
+-- 3 = info
+-- 4 = debug
+-- 5 = verbose
+logger.setLogLevel(5)
+
+local backupHour = string.sub(backupTimeStr, 1, 2)
+local backupMinute = string.sub(backupTimeStr, 3, 4)
+logger.d(string.format("Backup time set to %s\n", backupTimeStr))
+logger.v(string.format("Backup hour set to: %s", backupHour))
+logger.v(string.format("Backup minute set to: %s\n", backupMinute))
 
 local caffeinateForBackup = function(eventType)
     if eventType == hs.caffeinate.watcher.systemDidWake then
         logger.d("The system woke from sleep\n")
-        local timeStr = os.date("%H%M")
-        local time = tonumber(timeStr) 
-        if time > backupTime - 3  and time < backupTime + 3 then
-            local timeStrFormatted = os.date("%d/%m/%Y %I:%M%p")
-            logger.d("Attempting to caffeinate\n")
-            s = os.execute("caffeinate -dis &")
-            if s == true then
+
+        local now = os.date("*t")
+        local now_SecondsSinceEpoch = os.time(now)
+        local nowFormatted = os.date("%d/%m/%Y %I:%M%p", now_SecondsSinceEpoch)
+
+        local backupTime_SecondsSinceEpoch = os.time(
+            {year=now.year, month=now.month, day=now.day, hour=tonumber(backupHour), min=tonumber(backupMinute)})
+
+        local backupDate = os.date("*t", backupTime_SecondsSinceEpoch)
+
+        logger.v(string.format("Backup date: %02d/%02d/%04d", backupDate.day, backupDate.month, backupDate.year))
+        logger.v(string.format("Backup time: %02d:%02d:%02d\n", backupDate.hour, backupDate.min, backupDate.sec))
+
+        logger.v(string.format("Now date: %02d/%02d/%04d", now.day, now.month, now.year))
+        logger.v(string.format("Now time: %02d:%02d:%02d\n", now.hour, now.min, now.sec))
+
+        logger.v(string.format("Number of seconds between now and the backup time: %s\n", 
+                math.abs(now_SecondsSinceEpoch - backupTime_SecondsSinceEpoch)))
+
+        if math.abs(now_SecondsSinceEpoch - backupTime_SecondsSinceEpoch) < 2.5 * 60  then
+            
+            logger.d("Attempting to caffeinate")
+            if os.execute("caffeinate -dis &") then
                 logger.d("Caffeinate succeeded\n")
-                hs.notify.new({title="Caffeinate", informativeText=timeStrFormatted, withdrawAfter=0}):send()
+                hs.notify.new({title="Caffeinate", informativeText=nowFormatted, withdrawAfter=0}):send()
             else
                 logger.e("Caffeinate failed\n")
             end
+
+            -- logger.d("Attempting to open Vorta\n")
+            -- if os.execute("/Applications/Vorta.app/Contents/MacOS/vorta-darwin") then
+            --     logger.d("Vorta opened successfully\n")
+            --     hs.notify.new({title="Vorta Open", informativeText=timeStrFormatted, withdrawAfter=0}):send()
+            -- else
+            --     logger.d("Failed to open Vorta\n")
+            -- end
+
         end
     end
 end
 
 hs.caffeinate.watcher.new(caffeinateForBackup):start()
-
-
-
