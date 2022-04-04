@@ -37,6 +37,10 @@ Host 204 211 215 2042 2112 2152
 	RemoteForward 52698 localhost:52698
 	LocalForward 8889 localhost:8889
 
+Host *.repo.borgbase.com
+	ServerAliveInterval 10
+	ServerAliveCountMax 30
+
 Host *
 	IdentityFile ~/.ssh/id_ed25519
 	
