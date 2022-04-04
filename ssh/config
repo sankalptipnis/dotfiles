@@ -40,6 +40,7 @@ Host 204 211 215 2042 2112 2152
 Host *.repo.borgbase.com
 	ServerAliveInterval 10
 	ServerAliveCountMax 30
+	StrictHostKeyChecking no
 
 Host *
 	IdentityFile ~/.ssh/id_ed25519
