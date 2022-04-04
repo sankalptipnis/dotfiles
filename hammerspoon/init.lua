@@ -323,7 +323,7 @@ hs.hotkey.bind(ultra, "k", function() killCaffeinate() end)
 --------------------------------------------
 -- Caffeinate for Borg backup
 --------------------------------------------
-local backupTimeStr = "0300"
+local backupTimeStr = "0200"
 
 logger = hs.logger.new("Backup Log")
 
@@ -366,8 +366,8 @@ local caffeinateForBackup = function(eventType)
 
         if math.abs(now_SecondsSinceEpoch - backupTime_SecondsSinceEpoch) < 2.5 * 60  then
             
-            logger.d("Attempting to caffeinate")
-            if os.execute("caffeinate -dis &") then
+            logger.d("Attempting to caffeinate for 4 hours")
+            if os.execute("caffeinate -dis -t 14400 &") then
                 logger.d("Caffeinate succeeded\n")
                 hs.notify.new({title="Caffeinate", informativeText=nowFormatted, withdrawAfter=0}):send()
             else
@@ -381,8 +381,10 @@ local caffeinateForBackup = function(eventType)
             -- else
             --     logger.d("Failed to open Vorta\n")
             -- end
-
         end
+
+    elseif eventType == hs.caffeinate.watcher.systemWillSleep then
+        logger.d("The system is preparing to sleep\n")
     end
 end
 
