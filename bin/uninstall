@@ -1,0 +1,128 @@
+#!/usr/bin/env bash
+
+BIN_NAME=$(basename "$0")
+RED='\033[1;91m'
+GREEN='\033[1;92m'
+YELLOW='\033[0;93m'
+RESET='\033[0m'
+
+function usage {
+    echo
+	echo "USAGE:"
+    echo -e "    ${YELLOW}${BIN_NAME}${RESET} /path/to/app"
+    echo
+    echo "DESCRIPTION:"
+	echo "    Utility to perform a deep uninstall of an app."
+	echo
+    exit 1
+}
+
+if [[ "$1" == "-h" ]] || [[ "$1" == "--help" ]]; then usage; fi
+
+APP="$1"
+[[ -z "${APP// }" ]] && echo -e "${RED}No app specified!${RESET}" && usage
+[[ ! -e "$APP" ]] && echo -e "${RED}${APP}: No such app${RESET}" && usage
+APP_NAME="$(basename "$APP" .app)"
+
+echo
+echo -e "App Name: $APP_NAME"
+echo -e "App Path: $APP"
+
+if ! BUNDLE_ID=$(osascript -e "id of app \"$APP_NAME\""); then
+    echo -e "${RED}Bundle ID of app \"${APP_NAME}\" not found!${RESET}"
+    exit 1
+fi
+
+echo -e "App Bundle ID: $BUNDLE_ID"
+echo
+
+IFS=$'\n'
+
+echo "Checking for running processes..."
+mapfile -t PROCESSES < <(pgrep -afil "$APP_NAME" | grep -v "$BIN_NAME")
+if [[ "${#PROCESSES[@]}" -gt 0 ]]; then
+    printf "%s\n" "${PROCESSES[@]}"
+    echo -e "\n${RED}Kill the above running processes (y or n)?${RESET}"
+    read -r ANSWER
+    if [[ "$ANSWER" == "y" ]]; then
+        echo "Killing the above running processes…"
+        for PROCESS in "${PROCESSES[@]}"; do
+            PID="$(echo "$PROCESS" | awk '{print $1}')"
+            if ps -p "$PID" > /dev/null; then
+                if sudo kill "$PID"; then
+                    echo -e "${GREEN}${PID}: Successfully killed process${RESET}"
+                else
+                    echo -e "${RED}${PID}: Failed to kill process${RESET}"   
+                fi
+            else
+                echo -e "${RED}${PID}: No such running process${RESET}"     
+            fi
+        done
+    fi
+fi
+
+echo
+echo "Finding app data..."
+
+LOCATIONS=(
+  "$HOME/Library"
+  "$HOME/Library/Application Scripts"
+  "$HOME/Library/Application Support"
+  "$HOME/Library/Application Support/CrashReporter"
+  "$HOME/Library/Containers"
+  "$HOME/Library/Caches"
+  "$HOME/Library/HTTPStorages"
+  "$HOME/Library/Group Containers"
+  "$HOME/Library/Internet Plug-Ins"
+  "$HOME/Library/LaunchAgents"
+  "$HOME/Library/Logs"
+  "$HOME/Library/Preferences"
+  "$HOME/Library/Preferences/ByHost"
+  "$HOME/Library/Saved Application State"
+  "$HOME/Library/WebKit"
+  "/Users/Shared"
+  "/Library"
+  "/Library/Application Support"
+  "/Library/Application Support/CrashReporter"
+  "/Library/Caches"
+  "/Library/Extensions"
+  "/Library/Internet Plug-Ins"
+  "/Library/LaunchAgents"
+  "/Library/LaunchDaemons"
+  "/Library/Logs"
+  "/Library/Preferences"
+  "/Library/PrivilegedHelperTools"
+  "/private/var/db/receipts"
+  "/usr/local/bin"
+  "/usr/local/etc"
+  "/usr/local/opt"
+  "/usr/local/sbin"
+  "/usr/local/share"
+  "/usr/local/var"
+  "$(getconf DARWIN_USER_CACHE_DIR | sed "s/\/$//")"
+  "$(getconf DARWIN_USER_TEMP_DIR | sed "s/\/$//")"
+)
+
+FILES_TO_TRASH=("$1")
+
+for LOCATION in "${LOCATIONS[@]}"; do
+    mapfile -t -O "${#FILES_TO_TRASH[@]}" FILES_TO_TRASH < \
+    <(find "$LOCATION" -maxdepth 1 -iname "*$APP_NAME*" -prune 2>&1 | grep -v "No such file or directory" | grep -v "Operation not permitted" | grep -v "Permission denied")
+    mapfile -t -O "${#FILES_TO_TRASH[@]}" FILES_TO_TRASH < \
+    <(find "$LOCATION" -maxdepth 1 -iname "*$BUNDLE_ID*" -prune 2>&1 | grep -v "No such file or directory" | grep -v "Operation not permitted" | grep -v "Permission denied")
+done
+
+mapfile -t FILES_TO_TRASH < <(printf "%s\n" "${FILES_TO_TRASH[@]}" | sort -u)
+printf "%s\n" "${FILES_TO_TRASH[@]}"
+echo -e "\n${RED}Move the above app data to trash (y or n)?${RESET}"
+read -r ANSWER
+if [[ "$ANSWER" == "y" ]]; then
+    echo "Moving the above app data to trash..."
+    POSIX_FILES=$(printf ", POSIX file \"%s\"" "${FILES_TO_TRASH[@]}" | awk '{print substr($0,3)}')
+    if ! osascript -e "tell application \"Finder\" to delete { $POSIX_FILES }" > /dev/null; then
+        echo -e "${RED}Failed to delete the above data for ${APP_NAME}${RESET}"
+        exit 1
+    else
+        echo -e "${GREEN}Successfully deleted the above ${APP_NAME} data${RESET}"    
+    fi
+fi
