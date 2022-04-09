@@ -29,12 +29,9 @@ fi
 APP="$1"
 [[ -z "${APP// }" ]] && echo -e "${RED}No app specified!${RESET}" && usage && exit 1
 
-APP_ALIAS=$(osascript -e "path to app \"$APP\"")
-
-RETURN_CODE=$?
-if [[ "$RETURN_CODE" != "0" ]]; then
+if ! APP_ALIAS=$(osascript -e "path to app \"$APP\""); then
     echo -e "${RED}App \"${APP}\" not found!${RESET}" && usage
-    exit "$RETURN_CODE"
+    exit 1
 fi
 
 shift
@@ -44,7 +41,8 @@ function change_default_app() {
     echo "-------------------------------------------------------------------"
     echo "File: $FILE"
 
-    local FILE_ABS="$(abspath -l "$FILE")"
+    local FILE_ABS
+    FILE_ABS="$(abspath -l "$FILE")"
     echo "File path: $FILE_ABS"
 
     if [[ -z "${FILE_ABS// }" ]]; then

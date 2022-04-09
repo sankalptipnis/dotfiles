@@ -48,6 +48,7 @@ while getopts ':Dxdr' flag; do
 	x) CLEAN="TRUE";;
 	d) DEBUG="TRUE";;
 	r) USE_RM="TRUE";;
+	*) usage
   esac
 done
 
@@ -67,7 +68,7 @@ TARGET_DIR_ABS="$(abspath "$TARGET_DIR")"
 
 [[ ! -d "$SOURCE_DIR_ABS" ]] && echo "The source directory does not exist!" && usage
 
-if [[ USE_RM == "TRUE" ]]; then
+if [[ "$USE_RM" == "TRUE" ]]; then
 	DEL_CMD="rm -rfv"
 else
 	DEL_CMD="delete"

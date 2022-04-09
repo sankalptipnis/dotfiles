@@ -30,23 +30,14 @@ EXTENSION="$2"
 [[ -z "${APP// }" ]] && echo -e "${RED}No app specified!${RESET}" && usage
 [[ -z "${EXTENSION// }" ]] && echo -e "${RED}No extension specified!${RESET}" && usage
 
-BUNDLE_ID=$(osascript -e "id of app \"$APP\"")
-
-RETURN_CODE=$?
-if [[ "$RETURN_CODE" != "0" ]]; then
+if ! BUNDLE_ID=$(osascript -e "id of app \"$APP\""); then
     echo -e "${RED}App \"${APP}\" not found!${RESET}"
-    exit "$RETURN_CODE"
+    exit 1
 fi
 
-duti -sv "$BUNDLE_ID" "$EXTENSION" all
-
-RETURN_CODE=$?
-RETURN_CODE=$?
-if [[ "$RETURN_CODE" != "0" ]]; then
-    echo -e "${RED}Failed to set \"${APP}\" as the default app to open \"${EXTENSION}\" files!${RESET}"
-    exit "$RETURN_CODE"
-else
+if duti -sv "$BUNDLE_ID" "$EXTENSION" all; then
     echo -e "${GREEN}Successfully set \"${APP}\" as the default app to open \"${EXTENSION}\" files.${RESET}"
+else
+    echo -e "${RED}Failed to set \"${APP}\" as the default app to open \"${EXTENSION}\" files!${RESET}"
+    exit 1
 fi
-
-

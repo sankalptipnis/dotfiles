@@ -33,6 +33,7 @@ QUIET="FALSE"
 while getopts ':q' flag; do
   case "${flag}" in
 	q) QUIET="TRUE";;
+	*) usage
   esac
 done
 
