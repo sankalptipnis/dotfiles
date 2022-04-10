@@ -44,7 +44,7 @@ function emptytrash() {
 	fi
 }
 
-# Colorized size of the contents of the current directory
+# Colorized size of (1) the contents of the current/given directory or (2) the given file
 function fs() {
 
 	local BOLD RED RESET IS_DIR LOC SIZES_ALL SIZE_TOTAL SIZES NAMES COMBINED  
