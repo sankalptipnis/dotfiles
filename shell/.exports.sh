@@ -10,7 +10,7 @@ export PYTHONIOENCODING='UTF-8'
 export MANPAGER='less -X'
 
 # Highlight section titles in manual pages.
-export LESS_TERMCAP_md="${bold}${brightyellow}"
+export LESS_TERMCAP_md="${BOLD}${BRIGHTYELLOW}"
 
 # Silence "default interactive shell is now zsh" warning
 export BASH_SILENCE_DEPRECATION_WARNING=1

@@ -144,7 +144,7 @@ function br {
 
 # Rename iTerm tab
 function renametab () {
-    echo -ne "\033]0;$@\007"
+    echo -ne "\033]0;$1\007"
 }
 
 # Use Git’s colored diff when available
@@ -157,14 +157,14 @@ fi
 # Get Bundle ID of an app (useful for duti)
 function bundleid () {
 	APP="$1"
-    echo $(osascript -e "id of app \"$APP\"")
+    osascript -e "id of app \"$APP\""
 }
 
 # Print configured shell colors
 function colors(){
 	OLD_IFS="$IFS"
 	IFS=:
-	for ls_color in ${LS_COLORS[@]}; do # For all colors
+	for ls_color in "${LS_COLORS[@]}"; do # For all colors
 	   	color=${ls_color##*=}
 	   	ext=${ls_color%%=*}
 	   	echo -en "\E[${color}m${ext}\E[0m " # echo color and extension
@@ -178,25 +178,25 @@ function colors(){
 function colors256(){
 	for bold in {0..1}; do
 		for color in {0..15}; do
-			printf "\e[$bold;38;5;%sm  %3s  \e[0m" $color $color
-			if [ $(($color % 8)) == 7 ]; then echo; fi
+			printf "\e[$bold;38;5;%sm  %3s  \e[0m" "$color" "$color"
+			if [ $((color % 8)) == 7 ]; then echo; fi
 		done
 		echo
 		for i in {0..5}; do for j in {16..33}; do
 			color=$((j + 36*i))
-			printf "\e[$bold;38;5;%sm  %3s  \e[0m" $color $color
-			if [ $(($color % 18)) == 15 ]; then echo; fi
+			printf "\e[$bold;38;5;%sm  %3s  \e[0m" "$color" "$color"
+			if [ $((color % 18)) == 15 ]; then echo; fi
 		done; done
 		echo
 		for i in {0..5}; do for j in {34..51}; do
 			color=$((j + 36*i))
-			printf "\e[$bold;38;5;%sm  %3s  \e[0m" $color $color
-			if [ $(($color % 18)) == 15 ]; then echo; fi
+			printf "\e[$bold;38;5;%sm  %3s  \e[0m" "$color" "$color"
+			if [ $((color % 18)) == 15 ]; then echo; fi
 		done; done
 		echo
 		for color in {232..255}; do
-		    printf "\e[$bold;38;5;%sm  %3s  \e[0m" $color $color
-		    if [ $(($color % 8)) == 7 ]; then echo; fi
+		    printf "\e[$bold;38;5;%sm  %3s  \e[0m" "$color" "$color"
+		    if [ $((color % 8)) == 7 ]; then echo; fi
 		done
 		echo
 	done
@@ -205,25 +205,25 @@ function colors256(){
 # Print all xterm 256 background colors
 function colors256b(){
 	for color in {0..15}; do
-		printf "\e[48;5;%sm  %3s  \e[0m" $color $color
-		if [ $(($color % 8)) == 7 ]; then echo; fi
+		printf "\e[48;5;%sm  %3s  \e[0m" "$color" "$color"
+		if [ $((color % 8)) == 7 ]; then echo; fi
 	done
 	echo
 	for i in {0..5}; do for j in {16..33}; do
 		color=$((j + 36*i))
-		printf "\e[48;5;%sm  %3s  \e[0m" $color $color
-		if [ $(($color % 18)) == 15 ]; then echo; fi
+		printf "\e[48;5;%sm  %3s  \e[0m" "$color" "$color"
+		if [ $((color % 18)) == 15 ]; then echo; fi
 	done; done
 	echo
 	for i in {0..5}; do for j in {34..51}; do
 		color=$((j + 36*i))
-		printf "\e[48;5;%sm  %3s  \e[0m" $color $color
-		if [ $(($color % 18)) == 15 ]; then echo; fi
+		printf "\e[48;5;%sm  %3s  \e[0m" "$color" "$color"
+		if [ $((color % 18)) == 15 ]; then echo; fi
 	done; done
 	echo
 	for color in {232..255}; do
-	    printf "\e[48;5;%sm  %3s  \e[0m" $color $color
-	    if [ $(($color % 8)) == 7 ]; then echo; fi
+	    printf "\e[48;5;%sm  %3s  \e[0m" "$color" "$color"
+	    if [ $((color % 8)) == 7 ]; then echo; fi
 	done
 }
 

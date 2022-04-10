@@ -15,7 +15,7 @@ unset file
 
 # Load LS_COLORS
 if is-executable -q dircolors; then
-	[[ -r "$DOTFILES_DIR/shell/.dircolors.sh" ]] && eval "$(dircolors $DOTFILES_DIR/shell/.dircolors.sh)"
+	[[ -r "$DOTFILES_DIR/shell/.dircolors.sh" ]] && eval "$(dircolors "$DOTFILES_DIR/shell/.dircolors.sh")"
 fi
 
 # Initialize conda

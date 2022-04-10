@@ -119,7 +119,7 @@ alias stfu="osascript -e 'set volume output muted true'"
 alias pumpitup="osascript -e 'set volume output volume 100'"
 
 # Reload the shell (i.e. invoke as a login shell)
-alias reload="unset PATH; exec -l "$SHELL"; clear"
+alias reload="unset PATH; exec -l $SHELL; clear"
 
 # Update macOS and Homebrew
 alias updateall="sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup"
