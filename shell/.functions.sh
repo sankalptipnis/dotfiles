@@ -22,17 +22,17 @@ function mergepdf() {
 
 # Create a new directory and enter it
 function mkd() {
-	mkdir -p "$@" && cd "$@"
+	mkdir -p "$1" && cd "$1"
 }
 
 # Show directory contents when moving into it
 function cdls() {
-    cd "$@" && la
+    cd "$1" && la
 }
 
 # Change working directory to the top-most Finder window location
 function cdf() { # short for `cdfinder`
-	cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')";
+	cd "$(osascript -e 'tell app "Finder" to POSIX path of (insertion location as alias)')"
 }
 
 # Empty the Trash
@@ -47,7 +47,7 @@ function emptytrash() {
 # Determine size of a file/directory
 function fsbw() {
 	if [[ $# -eq 0 ]]; then
-		du -shc .[!.]* * | sort -hr
+		du -shc -- .[!.]* * | sort -hr
 	else
 		du -shc -- "$@" | sort -hr	
 	fi
@@ -57,7 +57,7 @@ function fsbw() {
 function fs() {
 	if [[ $# -eq 0 ]]; then
 		paste \
-		<((du --summarize --human-readable .[!.]* * | sort -k2) | sed 's/\s.*//') \
+		<((du --summarize --human-readable -- .[!.]* * | sort -k2) | sed 's/\s.*//') \
 		<(ls --color=always -1 --almost-all) \
 		| sort --reverse --human-numeric-sort
 	else
@@ -156,8 +156,8 @@ fi
 
 # Get Bundle ID of an app (useful for duti)
 function bundleid () {
-	APP="$1"
-    osascript -e "id of app \"$APP\""
+	app="$1"
+    osascript -e "id of app \"$app\""
 }
 
 # Print configured shell colors
