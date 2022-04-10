@@ -168,7 +168,7 @@
     brew install duc
     ```
 
-### Command Line Tools Path
+## Command Line Tools Path
 - Set to standalone command line tools:
   ```bash
   xcode-select --switch "/Library/Developer/CommandLineTools"
