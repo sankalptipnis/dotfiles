@@ -60,13 +60,11 @@ function fs() {
 	fi
 
 	if [[ "$IS_DIR" == "TRUE" ]]; then
-		SIZES_ALL
 		mapfile -t SIZES_ALL < <(du --summarize --human-readable --total -- "$LOC"/.[!.]* "$LOC"/* 2> >(grep -v '.[!.]*'\'': No such file or directory' >&2))
 		SIZE_TOTAL=${SIZES_ALL[-1]}
 		SIZES=("${SIZES_ALL[@]::${#SIZES_ALL[@]}-1}")
 		mapfile -t SIZES < <(printf "%s\n" "${SIZES[@]}" | sed 's/\s.*//')
 	else
-		SIZES
 		mapfile -t SIZES < <(du --summarize --human-readable -- "$LOC" 2> >(grep -v '.[!.]*'\'': No such file or directory' >&2))
 		mapfile -t SIZES < <(printf "%s\n" "${SIZES[@]}" | sed 's/\s.*//')
 	fi
