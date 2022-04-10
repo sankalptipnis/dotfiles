@@ -47,8 +47,12 @@ function emptytrash() {
 # Colorized size of the contents of the current directory
 function fs() {
 
-	local IS_DIR LOC SIZES_ALL SIZE_TOTAL SIZES NAMES COMBINED BOLD RESET
+	local BOLD RED RESET IS_DIR LOC SIZES_ALL SIZE_TOTAL SIZES NAMES COMBINED  
 	
+	BOLD=$(tput bold)
+	RED=$(tput setaf 9)
+	RESET=$(tput sgr0)
+
 	IS_DIR="FALSE"
 
 	if [[ $# -eq 0 ]]; then
@@ -58,6 +62,8 @@ function fs() {
 		LOC="$1"
 		[[ -d "$LOC" ]] && IS_DIR="TRUE"
 	fi
+
+	[[ ! -e "$LOC" ]] && echo -e "${RED}${LOC}: No such file or directory${RESET}" && return
 
 	if [[ "$IS_DIR" == "TRUE" ]]; then
 		mapfile -t SIZES_ALL < <(du --summarize --human-readable --total -- "$LOC"/.[!.]* "$LOC"/* 2> >(grep -v '.[!.]*'\'': No such file or directory' >&2))
@@ -71,14 +77,11 @@ function fs() {
 
 	mapfile -t NAMES < <(ls --color=always -1 --almost-all "$LOC")
 
-	COMBINED=$(paste <(printf "%s\n" "${SIZES[@]}") <(printf "%s\n" "${NAMES[@]}"))
+	mapfile -t COMBINED < <(paste <(printf "%s\n" "${SIZES[@]}") <(printf "%s\n" "${NAMES[@]}"))
 
-	BOLD=$(tput bold)
-	RESET=$(tput sgr0)
 	printf "\n"
-	printf "%s\n" "${COMBINED[@]}" | sort --human-numeric-sort
+	[[ -n "${NAMES[*]}" ]] && printf "%s\n" "${COMBINED[@]}" | sort --human-numeric-sort
 	[[ "$IS_DIR" == "TRUE" ]] && printf "${BOLD}%s${RESET}\n" "${SIZE_TOTAL[@]}"
-
 }
 
 # `s` with no arguments opens the current directory in Sublime Text, otherwise
