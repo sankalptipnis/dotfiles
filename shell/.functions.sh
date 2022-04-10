@@ -44,30 +44,47 @@ function emptytrash() {
 	fi
 }
 
-# Determine size of a file/directory
-function fsbw() {
-	if [[ $# -eq 0 ]]; then
-		du -shc -- .[!.]* * | sort -hr
-	else
-		du -shc -- "$@" | sort -hr	
-	fi
-}
-
 # Colorized size of the contents of the current directory
 function fs() {
+
+	local IS_DIR LOC SIZES_ALL SIZE_TOTAL SIZES NAMES COMBINED BOLD RESET
+	
+	IS_DIR="FALSE"
+
 	if [[ $# -eq 0 ]]; then
-		paste \
-		<((du --summarize --human-readable -- .[!.]* * | sort -k2) | sed 's/\s.*//') \
-		<(ls --color=always -1 --almost-all) \
-		| sort --reverse --human-numeric-sort
+		LOC="$PWD"
+		IS_DIR="TRUE"
 	else
-		du --summarize --human-readable --total -- "$@" \
-		| sort --reverse --human-numeric-sort
+		LOC="$1"
+		[[ -d "$LOC" ]] && IS_DIR="TRUE"
 	fi
+
+	if [[ "$IS_DIR" == "TRUE" ]]; then
+		SIZES_ALL
+		mapfile -t SIZES_ALL < <(du --summarize --human-readable --total -- "$LOC"/.[!.]* "$LOC"/* 2> >(grep -v '.[!.]*'\'': No such file or directory' >&2))
+		SIZE_TOTAL=${SIZES_ALL[-1]}
+		SIZES=("${SIZES_ALL[@]::${#SIZES_ALL[@]}-1}")
+		mapfile -t SIZES < <(printf "%s\n" "${SIZES[@]}" | sed 's/\s.*//')
+	else
+		SIZES
+		mapfile -t SIZES < <(du --summarize --human-readable -- "$LOC" 2> >(grep -v '.[!.]*'\'': No such file or directory' >&2))
+		mapfile -t SIZES < <(printf "%s\n" "${SIZES[@]}" | sed 's/\s.*//')
+	fi
+
+	mapfile -t NAMES < <(ls --color=always -1 --almost-all "$LOC")
+
+	COMBINED=$(paste <(printf "%s\n" "${SIZES[@]}") <(printf "%s\n" "${NAMES[@]}"))
+
+	BOLD=$(tput bold)
+	RESET=$(tput sgr0)
+	printf "\n"
+	printf "%s\n" "${COMBINED[@]}" | sort --human-numeric-sort
+	[[ "$IS_DIR" == "TRUE" ]] && printf "${BOLD}%s${RESET}\n" "${SIZE_TOTAL[@]}"
+
 }
 
 # `s` with no arguments opens the current directory in Sublime Text, otherwise
-# opens the given location
+# opens the given location(s)
 function s() {
 	if [[ $# -eq 0 ]]; then
 		subl .
@@ -77,7 +94,7 @@ function s() {
 }
 
 # `v` with no arguments opens the current directory in VSCode, otherwise
-# opens the given location
+# opens the given location(s)
 function v() {
 	if [[ $# -eq 0 ]]; then
 		code .
@@ -87,7 +104,7 @@ function v() {
 }
 
 # `o` with no arguments opens the current directory, otherwise opens the given
-# location
+# location(s)
 function o() {
 	if [[ $# -eq 0 ]]; then
 		open .
@@ -156,8 +173,8 @@ fi
 
 # Get Bundle ID of an app (useful for duti)
 function bundleid () {
-	app="$1"
-    osascript -e "id of app \"$app\""
+	local APP="$1"
+    osascript -e "id of app \"$APP\""
 }
 
 # Print configured shell colors
@@ -176,6 +193,7 @@ function colors(){
 
 # Print all xterm 256 foreground colors
 function colors256(){
+	local bold, color, i, j
 	for bold in {0..1}; do
 		for color in {0..15}; do
 			printf "\e[$bold;38;5;%sm  %3s  \e[0m" "$color" "$color"
@@ -204,6 +222,7 @@ function colors256(){
 
 # Print all xterm 256 background colors
 function colors256b(){
+	local color, i, j
 	for color in {0..15}; do
 		printf "\e[48;5;%sm  %3s  \e[0m" "$color" "$color"
 		if [ $((color % 8)) == 7 ]; then echo; fi
@@ -229,6 +248,7 @@ function colors256b(){
 
 # Print all ANSI color combinations
 function allcolors(){
+	local color, background, bold
 	for colour in 3{0..7} 9{0..7}
 		do for background in 4{0..7} 10{0..7}
 			do for bold in 0 1 2
