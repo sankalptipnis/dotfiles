@@ -9,6 +9,8 @@
 	defaultBranch = main
 [push]
 	default = current
+[pull]
+	ff = only
 [interactive]
 	diffFilter = delta --color-only --features=interactive
 [color]
