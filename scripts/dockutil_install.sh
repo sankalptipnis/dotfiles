@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
-INSTALL_DIR="$HOME/Desktop"
-FILENAME="dockutil-3.0.2.pkg"
-delete "$INSTALL_DIR/$FILENAME"
-wget -P "$HOME/Desktop" "https://github.com/kcrawford/dockutil/releases/download/3.0.2/$FILENAME"
-sudo installer -pkg "$INSTALL_DIR/$FILENAME" -target /
-delete "$INSTALL_DIR/$FILENAME"
+DOWNLOAD_DIR="$HOME/Desktop"
+FILENAME="dockutil.pkg"
+delete "$DOWNLOAD_DIR/$FILENAME"
+URL=$(curl --silent "https://api.github.com/repos/kcrawford/dockutil/releases/latest" | jq -r .assets[].browser_download_url | grep pkg)
+curl -sL "$URL" -o "$DOWNLOAD_DIR/$FILENAME"
+sudo installer -pkg "$DOWNLOAD_DIR/$FILENAME" -target /
+delete "$DOWNLOAD_DIR/$FILENAME"
