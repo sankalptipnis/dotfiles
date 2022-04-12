@@ -1,0 +1,166 @@
+#!/usr/bin/env bash
+
+BIN_NAME=$(basename "$0")
+COMMAND_NAME="$1"
+
+if test -t 1; then
+    RED='\033[0;91m'
+    GREEN='\033[0;92m'
+    YELLOW='\033[0;93m'
+    RESET='\033[0m'
+fi
+
+function usage {
+    echo
+	echo "USAGE:"
+	echo -e "    ${YELLOW}${BIN_NAME}${RESET} command"
+    echo
+    echo "DESCRIPTION:"
+    echo "    Utility to create and manage Borg backups"
+	echo
+    echo "COMMANDS:"
+    echo -e "    ${YELLOW}help${RESET}             This help message"
+    echo -e "    ${YELLOW}list${RESET}             List all the archives in the backup repository"
+    echo -e "    ${YELLOW}create${RESET}           Create a new backup in the backup repository"
+	echo -e "    ${YELLOW}prune${RESET}            Prune archives in the backup repository"
+    echo -e "    ${YELLOW}check${RESET}            Verify the backup repository"
+    echo -e "    ${YELLOW}mount${RESET}            Mount the backup repository"
+    echo -e "    ${YELLOW}unmount${RESET}          Unmount the backup repository"
+    exit 1
+}
+
+if [[ -z "${COMMAND_NAME// }" ]] || [[ "$COMMAND_NAME" == "help" ]] || \
+   [[ "$COMMAND_NAME" == "-h" ]] || [[ "$COMMAND_NAME" == "--help" ]]; then
+    usage
+fi
+
+if [[ "$(uname -m)" == "arm64" ]]; then 
+	HOMEBREW_PREFIX=/opt/homebrew
+else
+	HOMEBREW_PREFIX=/usr/local
+fi
+
+BORG_PASSCOMMAND="security find-generic-password -a $USER -s borgbackup-repo -w"
+BORG_REPO="llr3r75s@llr3r75s.repo.borgbase.com:repo"
+BORG_BIN="$HOMEBREW_PREFIX/bin/borg"
+
+INPUT_DIRS=(
+    "$HOME/dotfiles"
+    "$HOME/Drive"
+)
+
+BORG_MOUNT_DIR="$HOME/Borg/Mount"
+mkdir -p "$BORG_MOUNT_DIR"
+
+LONG_DATE="`date +"%Y-%m-%d_%H-%M"`"
+BACKUP_PREFIX="ST-MBP-"
+BACKUP_NAME="${BACKUP_PREFIX}${LONG_DATE}"
+
+PRUNE_KEEP_HOURLY="0"
+PRUNE_KEEP_DAILY="7"
+PRUNE_KEEP_WEEKLY="4"
+PRUNE_KEEP_MONTHLY="6"
+PRUNE_KEEP_YEARLY="2"
+PRUNE_KEEP_WITHIN="10H"
+
+case "$COMMAND_NAME" in
+    list)
+        echo -e "${GREEN}Listing archives in the backup repository${RESET}"
+        BORG_PASSCOMMAND="$BORG_PASSCOMMAND" "$BORG_BIN" list --info "$BORG_REPO"
+        if [[ "$?" == "0" ]]; then
+            echo -e "${GREEN}Done${RESET}\n"
+            echo "------------------------------------------------------------------"
+        else
+            echo -e "${RED}Failed to list archives in the backup repository${RESET}"
+            echo "------------------------------------------------------------------"
+            open "$BORG_LOGS_DIR"
+            exit 1
+        fi
+        ;;
+    create)
+        echo -e "${GREEN}Creating a backup${RESET}"
+        BORG_PASSCOMMAND="$BORG_PASSCOMMAND" "$BORG_BIN" create \
+            --list \
+            --info \
+            --filter=AM \
+            -C lz4 \
+            "$BORG_REPO::$BACKUP_NAME" \
+            "${INPUT_DIRS[@]}"
+        if [[ "$?" == "0" ]]; then
+            echo -e "${GREEN}Done${RESET}"
+            echo "------------------------------------------------------------------"
+        else
+            echo -e "${RED}Failed to create a backup${RESET}"
+            echo "------------------------------------------------------------------"
+            open "$BORG_LOGS_DIR"
+            exit 1
+        fi
+        ;;
+    prune)
+        echo -e "${GREEN}Pruning archives${RESET}"
+        BORG_PASSCOMMAND="$BORG_PASSCOMMAND" "$BORG_BIN" prune \
+            --list \
+            --info \
+            --keep-hourly "$PRUNE_KEEP_HOURLY" \
+            --keep-daily "$PRUNE_KEEP_DAILY" \
+            --keep-weekly "$PRUNE_KEEP_WEEKLY" \
+            --keep-monthly "$PRUNE_KEEP_MONTHLY" \
+            --keep-yearly "$PRUNE_KEEP_YEARLY" \
+            --keep-within "$PRUNE_KEEP_WITHIN" \
+            --prefix "$BACKUP_PREFIX" \
+            "$BORG_REPO"
+        if [[ "$?" == "0" ]]; then
+            echo -e "${GREEN}Done${RESET}"
+            echo "------------------------------------------------------------------"
+        else
+            echo -e "${RED}Failed to prune archives${RESET}"
+            echo "------------------------------------------------------------------"
+            open "$BORG_LOGS_DIR"
+            exit 1
+        fi
+        ;;
+    check)
+        echo -e "${GREEN}Checking the backup repository and its archives for consistency${RESET}"
+        BORG_PASSCOMMAND="$BORG_PASSCOMMAND" "$BORG_BIN" check --info "$BORG_REPO"
+        if [[ "$?" == "0" ]]; then
+            echo -e "${GREEN}Done${RESET}"
+            echo "------------------------------------------------------------------"
+        else
+            echo -e "${RED}Failed to check the repository and its archives for consistency${RESET}"
+            echo "------------------------------------------------------------------"
+            open "$BORG_LOGS_DIR"
+            exit 1
+        fi
+        ;;
+    mount)
+        echo -e "${GREEN}Mounting the backup repository to ${BORG_MOUNT_DIR}${RESET}"
+        BORG_PASSCOMMAND="$BORG_PASSCOMMAND" "$BORG_BIN" umount "$BORG_MOUNT_DIR"
+        BORG_PASSCOMMAND="$BORG_PASSCOMMAND" "$BORG_BIN" mount "$BORG_REPO" "$BORG_MOUNT_DIR"
+        if [[ "$?" == "0" ]]; then
+            echo -e "${GREEN}Done${RESET}"
+            echo "------------------------------------------------------------------"
+            open "$BORG_MOUNT_DIR"
+        else
+            echo -e "${RED}Failed to mount the backup repository${RESET}"
+            echo "------------------------------------------------------------------"
+            open "$BORG_LOGS_DIR"
+            exit 1
+        fi
+        ;;
+    unmount)
+        echo -e "${GREEN}Unmounting the backup repository${RESET}"
+        BORG_PASSCOMMAND="$BORG_PASSCOMMAND" "$BORG_BIN" umount "$BORG_MOUNT_DIR"
+        if [[ "$?" == "0" ]]; then
+            echo -e "${GREEN}Done${RESET}"
+            echo "------------------------------------------------------------------"
+        else
+            echo -e "${RED}Failed to unmount the backup repository${RESET}"
+            echo "------------------------------------------------------------------"
+            open "$BORG_LOGS_DIR"
+            exit 1
+        fi
+        ;;
+    *)
+        usage
+        ;;
+esac
