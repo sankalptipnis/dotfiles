@@ -101,13 +101,20 @@ LOCATIONS=(
   "$(getconf DARWIN_USER_TEMP_DIR | sed "s/\/$//")"
 )
 
-FILES_TO_TRASH=("$1")
+FILES_TO_TRASH=("$APP")
 
 for LOCATION in "${LOCATIONS[@]}"; do
     mapfile -t -O "${#FILES_TO_TRASH[@]}" FILES_TO_TRASH < \
-    <(find "$LOCATION" -maxdepth 1 -iname "*$APP_NAME*" -prune 2>&1 | grep -v "No such file or directory" | grep -v "Operation not permitted" | grep -v "Permission denied")
+    <(find "$LOCATION" -maxdepth 1 -iname "*$APP_NAME*" -prune 2>&1 | \
+    grep -v "No such file or directory" | \
+    grep -v "Operation not permitted" | \
+    grep -v "Permission denied")
+    
     mapfile -t -O "${#FILES_TO_TRASH[@]}" FILES_TO_TRASH < \
-    <(find "$LOCATION" -maxdepth 1 -iname "*$BUNDLE_ID*" -prune 2>&1 | grep -v "No such file or directory" | grep -v "Operation not permitted" | grep -v "Permission denied")
+    <(find "$LOCATION" -maxdepth 1 -iname "*$BUNDLE_ID*" -prune 2>&1 | \
+    grep -v "No such file or directory" | \
+    grep -v "Operation not permitted" | \
+    grep -v "Permission denied")
 done
 
 mapfile -t FILES_TO_TRASH < <(printf "%s\n" "${FILES_TO_TRASH[@]}" | sort -u)
