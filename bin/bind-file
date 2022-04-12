@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-shopt -s nullglob
-
 BIN_NAME=$(basename "$0")
 RED='\033[0;91m'
 GREEN='\033[0;92m'
@@ -17,8 +15,9 @@ function usage {
     echo "    This utility sets the input app as the "
     echo "    default app to open the input file(s)."
     echo
-    echo "    For directory input, its sets the input app as"
-    echo "    the default app to open file(s) in the directory."
+    echo "    For directory input, its sets the input "
+    echo "    app as the default app to open all the "
+    echo "    file(s) in the directory."
     echo
 }
 
@@ -82,14 +81,12 @@ for ARG in "$@"; do
     if [[ -f "$ARG" ]] || [[ -h "$ARG" ]]; then
         change_default_app "$ARG"
     elif [[ -d "$ARG" ]]; then
-        OLDIFS="$IFS"
-        IFS=$'\n'
-        for FILE in "$ARG"/* "$ARG"/.[^.]*; do
+        mapfile -t FILES < <(find "$ARG" -maxdepth 1 -mindepth 1)
+        for FILE in "${FILES[@]}"; do
             if [[ -f "$FILE" ]] || [[ -h "$FILE" ]]; then
                 change_default_app "$FILE"
             fi
         done
-        IFS="$OLDIFS"
     else
         echo "-------------------------------------------------------------------"
         echo "File: $ARG"

@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-shopt -s nullglob
-
 BIN_NAME=$(basename "$0")
 GREEN='\033[0;92m'
 YELLOW='\033[0;93m'
@@ -131,9 +129,8 @@ if [[ -d "$TARGET_DIR_ABS" ]]; then
 	if [[ "$CLEAN" == "TRUE" ]]; then
 		echo
 		echo "TARGET DIRECTORY: $TARGET_DIR_ABS"
-		OLDIFS="$IFS"
-		IFS=$'\n'
-		for FILE in "$TARGET_DIR_ABS"/* "$TARGET_DIR_ABS"/.[^.]*; do
+		mapfile -t TARGET_FILES < <(find "$TARGET_DIR_ABS" -maxdepth 1 -mindepth 1)
+		for FILE in "${TARGET_FILES[@]}"; do
 			# source file is a broken link
 			if [[ ! -e "$FILE" && -h "$FILE" ]]; then 						
 				echo
@@ -146,7 +143,6 @@ if [[ -d "$TARGET_DIR_ABS" ]]; then
 				echo						 
 			fi
 		done
-		IFS="$OLDIFS"
 	fi
 	
 	echo
@@ -160,9 +156,8 @@ if [[ -d "$TARGET_DIR_ABS" ]]; then
 	echo
 
 	if [[ "$DIR" == "FALSE" ]]; then
-		OLDIFS="$IFS"
-		IFS=$'\n'
-		for FILE in "$SOURCE_DIR_ABS"/* "$SOURCE_DIR_ABS"/.[^.]*; do
+		mapfile -t SOURCE_FILES < <(find "$SOURCE_DIR_ABS" -maxdepth 1 -mindepth 1)
+		for FILE in "${SOURCE_FILES[@]}"; do
 			
 			echo "------------------------------------------------------"
 			echo "File: $FILE"
@@ -170,7 +165,6 @@ if [[ -d "$TARGET_DIR_ABS" ]]; then
 
 			process_file "$FILE" "$TARGET_DIR_ABS" "$DEBUG"
 		done
-		IFS="$OLDIFS"
 	else
 		process_file "$SOURCE_DIR_ABS" "$TARGET_DIR_ABS" "$DEBUG"
 	fi
