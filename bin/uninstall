@@ -36,8 +36,6 @@ fi
 echo -e "App Bundle ID: $BUNDLE_ID"
 echo
 
-IFS=$'\n'
-
 echo "Checking for running processes..."
 mapfile -t PROCESSES < <(pgrep -afil "$APP_NAME" | grep -v "$BIN_NAME")
 if [[ "${#PROCESSES[@]}" -gt 0 ]]; then

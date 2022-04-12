@@ -180,16 +180,15 @@ function bundleid () {
 
 # Print configured shell colors
 function colors(){
-	OLD_IFS="$IFS"
-	IFS=:
-	for ls_color in "${LS_COLORS[@]}"; do # For all colors
+	local LS_COLORS_ARRAY
+	IFS=: read -ra LS_COLORS_ARRAY <<< "$LS_COLORS"
+	for ls_color in "${LS_COLORS_ARRAY[@]}"; do # For all colors
 	   	color=${ls_color##*=}
 	   	ext=${ls_color%%=*}
 	   	echo -en "\E[${color}m${ext}\E[0m " # echo color and extension
 	 	echo	
 	done
 	echo
-	IFS="$OLD_IFS"
 }
 
 # Print all xterm 256 foreground colors
