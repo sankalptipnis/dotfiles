@@ -52,7 +52,7 @@ INPUT_DIRS=(
 BORG_MOUNT_DIR="$HOME/Borg/Mount"
 mkdir -p "$BORG_MOUNT_DIR"
 
-LONG_DATE="`date +"%Y-%m-%d_%H-%M"`"
+LONG_DATE="$(date +"%Y-%m-%d_%H-%M")"
 BACKUP_PREFIX="ST-MBP-"
 BACKUP_NAME="${BACKUP_PREFIX}${LONG_DATE}"
 
@@ -73,7 +73,6 @@ case "$COMMAND_NAME" in
         else
             echo -e "${RED}Failed to list archives in the backup repository${RESET}"
             echo "------------------------------------------------------------------"
-            open "$BORG_LOGS_DIR"
             exit 1
         fi
         ;;
@@ -92,7 +91,6 @@ case "$COMMAND_NAME" in
         else
             echo -e "${RED}Failed to create a backup${RESET}"
             echo "------------------------------------------------------------------"
-            open "$BORG_LOGS_DIR"
             exit 1
         fi
         ;;
@@ -115,7 +113,6 @@ case "$COMMAND_NAME" in
         else
             echo -e "${RED}Failed to prune archives${RESET}"
             echo "------------------------------------------------------------------"
-            open "$BORG_LOGS_DIR"
             exit 1
         fi
         ;;
@@ -128,7 +125,6 @@ case "$COMMAND_NAME" in
         else
             echo -e "${RED}Failed to check the repository and its archives for consistency${RESET}"
             echo "------------------------------------------------------------------"
-            open "$BORG_LOGS_DIR"
             exit 1
         fi
         ;;
@@ -143,7 +139,6 @@ case "$COMMAND_NAME" in
         else
             echo -e "${RED}Failed to mount the backup repository${RESET}"
             echo "------------------------------------------------------------------"
-            open "$BORG_LOGS_DIR"
             exit 1
         fi
         ;;
@@ -156,7 +151,6 @@ case "$COMMAND_NAME" in
         else
             echo -e "${RED}Failed to unmount the backup repository${RESET}"
             echo "------------------------------------------------------------------"
-            open "$BORG_LOGS_DIR"
             exit 1
         fi
         ;;
