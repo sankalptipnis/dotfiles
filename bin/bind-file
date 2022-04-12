@@ -81,7 +81,7 @@ for ARG in "$@"; do
     if [[ -f "$ARG" ]] || [[ -h "$ARG" ]]; then
         change_default_app "$ARG"
     elif [[ -d "$ARG" ]]; then
-        mapfile -t FILES < <(find "$ARG" -maxdepth 1 -mindepth 1)
+        mapfile -d '' -t FILES < <(find "$ARG" -maxdepth 1 -mindepth 1 -print0)
         for FILE in "${FILES[@]}"; do
             if [[ -f "$FILE" ]] || [[ -h "$FILE" ]]; then
                 change_default_app "$FILE"

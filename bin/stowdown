@@ -129,7 +129,7 @@ if [[ -d "$TARGET_DIR_ABS" ]]; then
 	if [[ "$CLEAN" == "TRUE" ]]; then
 		echo
 		echo "TARGET DIRECTORY: $TARGET_DIR_ABS"
-		mapfile -t TARGET_FILES < <(find "$TARGET_DIR_ABS" -maxdepth 1 -mindepth 1)
+		mapfile -d '' -t TARGET_FILES < <(find "$TARGET_DIR_ABS" -maxdepth 1 -mindepth 1 -print0)
 		for FILE in "${TARGET_FILES[@]}"; do
 			# source file is a broken link
 			if [[ ! -e "$FILE" && -h "$FILE" ]]; then 						
@@ -156,7 +156,7 @@ if [[ -d "$TARGET_DIR_ABS" ]]; then
 	echo
 
 	if [[ "$DIR" == "FALSE" ]]; then
-		mapfile -t SOURCE_FILES < <(find "$SOURCE_DIR_ABS" -maxdepth 1 -mindepth 1)
+		mapfile -d '' -t SOURCE_FILES < <(find "$SOURCE_DIR_ABS" -maxdepth 1 -mindepth 1 -print0)
 		for FILE in "${SOURCE_FILES[@]}"; do
 			
 			echo "------------------------------------------------------"
