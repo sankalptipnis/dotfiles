@@ -8,7 +8,7 @@ RESET='\033[0m'
 function usage {
     echo
 	echo "USAGE:"
-    echo -e "    ${YELLOW}${BIN_NAME}${RESET} [-Dxdr] source_dir target_dir"
+    echo -e "    ${YELLOW}${BIN_NAME}${RESET} [-Dxdr] SOURCE_DIR TARGET_DIR"
     echo
     echo "DESCRIPTION:"
 	echo "    This utility removes any symlinks from the target directory "

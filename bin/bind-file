@@ -9,7 +9,7 @@ RESET='\033[0m'
 function usage {
     echo
     echo "USAGE:"
-    echo -e "    ${YELLOW}${BIN_NAME}${RESET} app file..."
+    echo -e "    ${YELLOW}${BIN_NAME}${RESET} APP FILE..."
     echo
     echo "DESCRIPTION:" 
     echo "    This utility sets the input app as the "

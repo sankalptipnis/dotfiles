@@ -9,7 +9,7 @@ RESET='\033[0m'
 function usage {
     echo "USAGE:"
     echo
-    echo -e "    ${YELLOW}${BIN_NAME}${RESET} app extension"
+    echo -e "    ${YELLOW}${BIN_NAME}${RESET} APP EXTENSION"
     echo
     echo "EXAMPLE:"
     echo -e "    ${YELLOW}${BIN_NAME}${RESET} \"Sublime Text\" .md"

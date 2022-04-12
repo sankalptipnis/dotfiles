@@ -7,7 +7,7 @@ RESET='\033[0m'
 function usage {
     echo
 	echo "USAGE:"
-    echo -e "    ${YELLOW}${BIN_NAME}${RESET} expr [print_if_fail] [print_if_success]"
+    echo -e "    ${YELLOW}${BIN_NAME}${RESET} EXPRESSION [PRINT_IF_FAIL] [PRINT_IF_SUCCEED]"
     echo
 	echo "DESCRIPTION:"
     echo "    If one argument is provided, this utility succeeds if the"

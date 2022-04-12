@@ -10,7 +10,7 @@ RESET='\033[0m'
 def print_usage():
 	sys.stdout.write('\n')
 	sys.stdout.write('USAGE:\n')
-	sys.stdout.write('    %s%s%s [-l] path\n' % (YELLOW, os.path.basename(sys.argv[0]), RESET))
+	sys.stdout.write('    %s%s%s [-l] PATH\n' % (YELLOW, os.path.basename(sys.argv[0]), RESET))
 	sys.stdout.write('\n')
 	sys.stdout.write('DESCRIPTION:\n')
 	sys.stdout.write('    This utility converts a path to an absolute path and prints it out.\n\n')

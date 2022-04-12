@@ -9,7 +9,7 @@ RESET='\033[0m'
 function usage {
     echo
 	echo "USAGE:"
-    echo -e "    ${YELLOW}${BIN_NAME}${RESET} [-q] command"
+    echo -e "    ${YELLOW}${BIN_NAME}${RESET} [-q] COMMAND"
     echo
 	echo "DESCRIPTION:"
 	echo "    If the input command exists, this utility prints a green message confirming"

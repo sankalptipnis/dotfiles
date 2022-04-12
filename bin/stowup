@@ -8,7 +8,7 @@ RESET='\033[0m'
 function usage {
     echo
     echo "USAGE:"
-    echo -e "    ${YELLOW}${BIN_NAME}${RESET} [-cDxdr] source_dir target_dir"
+    echo -e "    ${YELLOW}${BIN_NAME}${RESET} [-cDxdr] SOURCE_DIR TARGET_DIR"
     echo
 	echo "DESCRIPTION:"
     echo "    This utility creates symlinks in the target directory"

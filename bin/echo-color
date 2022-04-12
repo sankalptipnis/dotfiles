@@ -28,7 +28,7 @@ BIWhite='\033[1;97m'      # White
 function usage {
     echo
     echo "USAGE:"
-    echo -e "    ${IYellow}${BIN_NAME}${COLOR_OFF} [-b] color text"
+    echo -e "    ${IYellow}${BIN_NAME}${COLOR_OFF} [-b] COLOR STRING"
     echo "    Available colors: black, red, green, yellow, blue, purple, cyan, white"
     echo
     echo "DESCRIPTION:"
