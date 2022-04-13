@@ -122,6 +122,7 @@ brew 'tree'
 brew 'vim'
 brew 'watch'
 brew 'xplr'
+brew 'yq'
 brew 'zoxide'
 
 # Cask apps
