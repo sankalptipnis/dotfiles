@@ -67,8 +67,13 @@ LOCATIONS=(
   "$HOME/Library/Application Scripts"
   "$HOME/Library/Application Support"
   "$HOME/Library/Application Support/CrashReporter"
+  "$HOME/Library/Application Support/CloudDocs/session/containers"
+  "$HOME/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments"
   "$HOME/Library/Containers"
   "$HOME/Library/Caches"
+  "$HOME/Library/Caches/com.apple.helpd/Generated"
+  "$HOME/Library/Caches/com.plausiblelabs.crashreporter.data"
+  "$HOME/Library/Caches/SentryCrash"
   "$HOME/Library/HTTPStorages"
   "$HOME/Library/Group Containers"
   "$HOME/Library/Internet Plug-Ins"
@@ -105,13 +110,13 @@ FILES_TO_TRASH=("$APP")
 
 for LOCATION in "${LOCATIONS[@]}"; do
     mapfile -t -O "${#FILES_TO_TRASH[@]}" FILES_TO_TRASH < \
-    <(find "$LOCATION" -maxdepth 1 -iname "*$APP_NAME*" -prune 2>&1 | \
+    <(find "$LOCATION" -maxdepth 5 -iname "*$APP_NAME*" -prune 2>&1 | \
     grep -v "No such file or directory" | \
     grep -v "Operation not permitted" | \
     grep -v "Permission denied")
     
     mapfile -t -O "${#FILES_TO_TRASH[@]}" FILES_TO_TRASH < \
-    <(find "$LOCATION" -maxdepth 1 -iname "*$BUNDLE_ID*" -prune 2>&1 | \
+    <(find "$LOCATION" -maxdepth 5 -iname "*$BUNDLE_ID*" -prune 2>&1 | \
     grep -v "No such file or directory" | \
     grep -v "Operation not permitted" | \
     grep -v "Permission denied")
