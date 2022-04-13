@@ -118,7 +118,7 @@ for LOCATION in "${LOCATIONS[@]}"; do
 done
 
 mapfile -t FILES_TO_TRASH < <(printf "%s\n" "${FILES_TO_TRASH[@]}" | sort -u)
-printf "%s\n" "${FILES_TO_TRASH[@]}"
+printf ''"'%s'"'\n' "${FILES_TO_TRASH[@]}"
 echo -e "\n${RED}Move the above app data to trash (y or n)?${RESET}"
 read -r ANSWER
 if [[ "$ANSWER" == "y" ]]; then
