@@ -104,13 +104,15 @@ function process_file() {
 	if [[ ! -e "$TARGET_FILE_ABS" ]]; then
 		if [[ "$COPY" == "FALSE" ]]; then
 			# create a symlink
-			echo "~~~ COMMAND: ln -sv $SOURCE_FILE_ABS $TARGET_FILE_ABS"
-			[[ "$DEBUG" == "FALSE" ]] && ln -sv "$SOURCE_FILE_ABS" "$TARGET_FILE_ABS" 			
+			CMD="ln -sv \"$SOURCE_FILE_ABS\" \"$TARGET_FILE_ABS\""
+			echo "~~~ COMMAND: $CMD"
+			[[ "$DEBUG" == "FALSE" ]] && eval "$CMD"			
 			echo
 		else
 			# create a copy
-			echo "~~~ COMMAND: cp -fRv $SOURCE_FILE_ABS $TARGET_DIR_ABS"
-			[[ "$DEBUG" == "FALSE" ]] && cp -fRv "$SOURCE_FILE_ABS" "$TARGET_DIR_ABS" 			
+			CMD="cp -fRv \"$SOURCE_FILE_ABS\" \"$TARGET_DIR_ABS\""
+			echo "~~~ COMMAND: $CMD"
+			[[ "$DEBUG" == "FALSE" ]] && eval "$CMD" 			
 			echo 
 		fi
 	# file with the same name as the source file DOES exist in the target directory
@@ -119,9 +121,10 @@ function process_file() {
 		if [[ "$TARGET_FILE_ABS" -ef "$SOURCE_FILE_ABS" ]]; then 								
 			
 			# create a temporary copy of the file
-			echo "~~~ COMMAND: cp -fLRv $TARGET_FILE_ABS{,.temp}"					
+			CMD="cp -fLRv \"$TARGET_FILE_ABS\"{,.temp}"
+			echo "~~~ COMMAND: $CMD"					
 			if [[ "$DEBUG" == "FALSE" ]]; then
-				cp -fLRv "$TARGET_FILE_ABS"{,.temp} || ( echo "Failed to create a backup!" && exit 1 )		
+				eval "$CMD"  || ( echo "Failed to create a backup!" && exit 1 )		
 			fi
 			echo
 
@@ -129,32 +132,37 @@ function process_file() {
 			if [[ "$COPY" == "FALSE" && ! -h "$TARGET_FILE_ABS" ]]; then 						
 				
 				# remove the copy
-				echo "~~~ COMMAND: $DEL_CMD $TARGET_FILE_ABS"
-				[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$TARGET_FILE_ABS\""	
+				CMD="eval \"$DEL_CMD '$TARGET_FILE_ABS'\""
+				echo "~~~ COMMAND: $CMD"
+				[[ "$DEBUG" == "FALSE" ]] && eval "$CMD"	
 				echo
 				
 				# create a symlink
-				echo "~~~ COMMAND: ln -sv $SOURCE_FILE_ABS $TARGET_FILE_ABS"
-				[[ "$DEBUG" == "FALSE" ]] && ln -sv "$SOURCE_FILE_ABS" "$TARGET_FILE_ABS"
+				CMD="ln -sv \"$SOURCE_FILE_ABS\" \"$TARGET_FILE_ABS\""
+				echo "~~~ COMMAND: $CMD"
+				[[ "$DEBUG" == "FALSE" ]] && eval "$CMD"
 				echo
 			
 			# target needs to be a copy but it is a symlink
 			elif [[ "$COPY" == "TRUE" && -h "$TARGET_FILE_ABS" ]]; then 							
 				
 				# remove the symlink
-				echo "~~~ COMMAND: $DEL_CMD $TARGET_FILE_ABS"
-				[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$TARGET_FILE_ABS\""
+				CMD="eval \"$DEL_CMD '$TARGET_FILE_ABS'\""
+				echo "~~~ COMMAND: $CMD"
+				[[ "$DEBUG" == "FALSE" ]] && eval "$CMD"
 				echo
 
 				# create a copy
-				echo "~~~ COMMAND: cp -fRv $SOURCE_FILE_ABS $TARGET_DIR_ABS"
-				[[ "$DEBUG" == "FALSE" ]] && cp -fRv "$SOURCE_FILE_ABS" "$TARGET_DIR_ABS"
+				CMD="cp -fRv \"$SOURCE_FILE_ABS\" \"$TARGET_DIR_ABS\""
+				echo "~~~ COMMAND: $CMD"
+				[[ "$DEBUG" == "FALSE" ]] && eval "$CMD"
 				echo
 			fi
 			
 			# remove the temporary copy of the file
-			echo "~~~ COMMAND: $DEL_CMD $TARGET_FILE_ABS.temp"
-			[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$TARGET_FILE_ABS.temp\""
+			CMD="eval \"$DEL_CMD '$TARGET_FILE_ABS.temp'\""
+			echo "~~~ COMMAND: $CMD"
+			[[ "$DEBUG" == "FALSE" ]] && eval "$CMD"
 			echo
 
 		# target file and source file are different
@@ -162,32 +170,37 @@ function process_file() {
 			# old backup exists
 			if [[ -e "$TARGET_FILE_ABS.bak" ]]; then
 				# remove old backup
-				echo "~~~ COMMAND: $DEL_CMD $TARGET_FILE_ABS.bak"
-				[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$TARGET_FILE_ABS.bak\""
+				CMD="eval \"$DEL_CMD '$TARGET_FILE_ABS.bak'\""
+				echo "~~~ COMMAND: $CMD"
+				[[ "$DEBUG" == "FALSE" ]] && eval "$CMD"
 				echo
 			fi
 			
 			# back up current source file
-			echo "~~~ COMMAND: cp -fLRv $TARGET_FILE_ABS{,.bak}"
+			CMD="cp -fLRv \"$TARGET_FILE_ABS\"{,.bak}"
+			echo "~~~ COMMAND: $CMD"
 			if [[ "$DEBUG" == "FALSE" ]]; then
-				cp -fLRv "$TARGET_FILE_ABS"{,.bak} || ( echo "Failed to create a backup!" && exit 1 )
+				eval "$CMD" || ( echo "Failed to create a backup!" && exit 1 )
 			fi
 			echo
 			
 			# remove current source file
-			echo "~~~ COMMAND: $DEL_CMD $TARGET_FILE_ABS"
-			[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$TARGET_FILE_ABS\"" 								
+			CMD="eval \"$DEL_CMD '$TARGET_FILE_ABS'\""
+			echo "~~~ COMMAND: $CMD"
+			[[ "$DEBUG" == "FALSE" ]] && eval "$CMD" 								
 			echo
 								
 			if [[ "$COPY" == "FALSE" ]]; then
 				# create a symlink
-				echo "~~~ COMMAND: ln -sv $SOURCE_FILE_ABS $TARGET_FILE_ABS"
-				[[ "$DEBUG" == "FALSE" ]] && ln -sv "$SOURCE_FILE_ABS" "$TARGET_FILE_ABS" 		
+				CMD="ln -sv \"$SOURCE_FILE_ABS\" \"$TARGET_FILE_ABS\""
+				echo "~~~ COMMAND: $CMD"
+				[[ "$DEBUG" == "FALSE" ]] && eval "$CMD" 		
 				echo
 			else
 				# create a copy
-				echo "~~~ COMMAND: cp -fRv $SOURCE_FILE_ABS $TARGET_DIR_ABS"
-				[[ "$DEBUG" == "FALSE" ]] && cp -fRv "$SOURCE_FILE_ABS" "$TARGET_DIR_ABS" 			
+				CMD="cp -fRv \"$SOURCE_FILE_ABS\" \"$TARGET_DIR_ABS\""
+				echo "~~~ COMMAND: $CMD"
+				[[ "$DEBUG" == "FALSE" ]] && eval "$CMD" 			
 				echo
 			fi
 		fi
@@ -201,18 +214,19 @@ echo "##############################"
 
 if [[ "$CLEAN" == "TRUE" ]]; then
 	echo
-	echo "TARGET DIRECTORY: $TARGET_DIR_ABS"
+	echo "TARGET DIRECTORY: '$TARGET_DIR_ABS'"
 	mapfile -d '' -t TARGET_FILES < <(find "$TARGET_DIR_ABS" -maxdepth 1 -mindepth 1 -print0)
 	for FILE in "${TARGET_FILES[@]}"; do
 		# source file is a broken link
 		if [[ ! -e "$FILE" && -h "$FILE" ]]; then 						
 			echo
 			echo "------------------------------------------------------"
-			echo "File: $FILE"
+			echo "File: '$FILE'"
 			echo "------------------------------------------------------"
 			# remove broken link
-			echo "~~~ COMMAND: $DEL_CMD $FILE"
-			[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$FILE\""		
+			CMD="eval \"$DEL_CMD '$FILE'\""
+			echo "~~~ COMMAND: $CMD"
+			[[ "$DEBUG" == "FALSE" ]] && eval "$CMD"		
 			echo						 
 		fi
 	done
@@ -224,8 +238,8 @@ echo "#     Linking / Copying      #"
 echo "##############################"
 
 echo
-echo "SOURCE DIRECTORY: $SOURCE_DIR_ABS"
-echo "TARGET DIRECTORY: $TARGET_DIR_ABS"
+echo "SOURCE DIRECTORY: '$SOURCE_DIR_ABS'"
+echo "TARGET DIRECTORY: '$TARGET_DIR_ABS'"
 echo
 
 # linking to / copying files in the source directory
@@ -234,7 +248,7 @@ if [[ "$DIR" == "FALSE" ]]; then
 	for FILE in "${SOURCE_FILES[@]}"; do
 		
 		echo "-------------------------------------------------------------------"
-		echo "File: $FILE"
+		echo "File: '$FILE'"
 		echo "-------------------------------------------------------------------"
 
 		process_file "$FILE" "$TARGET_DIR_ABS" "$COPY" "$DEBUG"

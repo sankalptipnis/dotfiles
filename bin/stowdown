@@ -95,25 +95,29 @@ function process_file() {
 		if [[ "$TARGET_FILE_ABS" -ef "$SOURCE_FILE_ABS" ]]; then
 			
 			# make a copy of the contents of the file
-			echo "~~~ COMMAND: cp -fLRv $TARGET_FILE_ABS{,.temp}"					
+			CMD="cp -fLRv \"$TARGET_FILE_ABS\"{,.temp}"
+			echo "~~~ COMMAND: $CMD"					
 			if [[ "$DEBUG" == "FALSE" ]]; then
-				cp -fLRv "$TARGET_FILE_ABS"{,.temp} || ( echo "Failed to create a backup copy!" && exit 1 )		
+				eval "$CMD" || ( echo "Failed to create a backup copy!" && exit 1 )		
 			fi
 			echo
 			
 			# remove the symlink
-			echo "~~~ COMMAND: $DEL_CMD $TARGET_FILE_ABS"
-			[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$TARGET_FILE_ABS\""
+			CMD="eval \"$DEL_CMD '$TARGET_FILE_ABS'\""
+			echo "~~~ COMMAND: $CMD"
+			[[ "$DEBUG" == "FALSE" ]] && eval "$CMD"
 			echo
 			
 			# remove any potential backups of the file
-			echo "~~~ COMMAND: $DEL_CMD $TARGET_FILE_ABS.bak"
-			[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$TARGET_FILE_ABS.bak\""
+			CMD="eval \"$DEL_CMD '$TARGET_FILE_ABS.bak'\""
+			echo "~~~ COMMAND: $CMD"
+			[[ "$DEBUG" == "FALSE" ]] && eval "$CMD"
 			echo
 			
 			# rename the copy from to the original name of the file
-			echo "~~~ COMMAND: mv -v $TARGET_FILE_ABS.temp $TARGET_FILE_ABS"
-			[[ "$DEBUG" == "FALSE" ]] && mv -v "$TARGET_FILE_ABS".temp "$TARGET_FILE_ABS"
+			CMD="mv -v \"$TARGET_FILE_ABS\".temp \"$TARGET_FILE_ABS\""
+			echo "~~~ COMMAND: $CMD"
+			[[ "$DEBUG" == "FALSE" ]] && eval "$CMD"
 			echo
 		fi
 	fi
@@ -128,18 +132,19 @@ if [[ -d "$TARGET_DIR_ABS" ]]; then
 
 	if [[ "$CLEAN" == "TRUE" ]]; then
 		echo
-		echo "TARGET DIRECTORY: $TARGET_DIR_ABS"
+		echo "TARGET DIRECTORY: '$TARGET_DIR_ABS'"
 		mapfile -d '' -t TARGET_FILES < <(find "$TARGET_DIR_ABS" -maxdepth 1 -mindepth 1 -print0)
 		for FILE in "${TARGET_FILES[@]}"; do
 			# source file is a broken link
 			if [[ ! -e "$FILE" && -h "$FILE" ]]; then 						
 				echo
 				echo "------------------------------------------------------"
-				echo "File: $FILE"
+				echo "File: '$FILE'"
 				echo "------------------------------------------------------"
 				# remove broken link
-				echo "~~~ COMMAND: $DEL_CMD $FILE"
-				[[ "$DEBUG" == "FALSE" ]] && eval "$DEL_CMD \"$FILE\""		
+				CMD="eval \"$DEL_CMD '$FILE'\""
+				echo "~~~ COMMAND: $CMD"
+				[[ "$DEBUG" == "FALSE" ]] && eval "$CMD"		
 				echo						 
 			fi
 		done
@@ -151,8 +156,8 @@ if [[ -d "$TARGET_DIR_ABS" ]]; then
 	echo "##############################"
 
 	echo
-	echo "SOURCE DIRECTORY: $SOURCE_DIR_ABS"
-	echo "TARGET DIRECTORY: $TARGET_DIR_ABS"
+	echo "SOURCE DIRECTORY: '$SOURCE_DIR_ABS'"
+	echo "TARGET DIRECTORY: '$TARGET_DIR_ABS'"
 	echo
 
 	if [[ "$DIR" == "FALSE" ]]; then
@@ -160,7 +165,7 @@ if [[ -d "$TARGET_DIR_ABS" ]]; then
 		for FILE in "${SOURCE_FILES[@]}"; do
 			
 			echo "------------------------------------------------------"
-			echo "File: $FILE"
+			echo "File: '$FILE'"
 			echo "------------------------------------------------------"
 
 			process_file "$FILE" "$TARGET_DIR_ABS" "$DEBUG"
