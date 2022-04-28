@@ -369,18 +369,9 @@ local caffeinateForBackup = function(eventType)
             logger.d("Attempting to caffeinate for 4 hours")
             if os.execute("caffeinate -dis -t 14400 &") then
                 logger.d("Caffeinate succeeded\n")
-                hs.notify.new({title="Caffeinate", informativeText=nowFormatted, withdrawAfter=0}):send()
             else
                 logger.e("Caffeinate failed\n")
             end
-
-            -- logger.d("Attempting to open Vorta\n")
-            -- if os.execute("/Applications/Vorta.app/Contents/MacOS/vorta-darwin") then
-            --     logger.d("Vorta opened successfully\n")
-            --     hs.notify.new({title="Vorta Open", informativeText=timeStrFormatted, withdrawAfter=0}):send()
-            -- else
-            --     logger.d("Failed to open Vorta\n")
-            -- end
         end
 
     elseif eventType == hs.caffeinate.watcher.systemWillSleep then
