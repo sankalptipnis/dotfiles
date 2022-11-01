@@ -128,11 +128,25 @@ echo -e "\n${RED}Move the above app data to trash (y or n)?${RESET}"
 read -r ANSWER
 if [[ "$ANSWER" == "y" ]]; then
     echo "Moving the above app data to trash..."
-    POSIX_FILES=$(printf ", POSIX file \"%s\"" "${FILES_TO_TRASH[@]}" | awk '{print substr($0,3)}')
-    if ! osascript -e "tell application \"Finder\" to delete { $POSIX_FILES }" > /dev/null; then
-        echo -e "${RED}Failed to delete the above data for ${APP_NAME}${RESET}"
-        exit 1
-    else
-        echo -e "${GREEN}Successfully deleted the above ${APP_NAME} data${RESET}"    
-    fi
+    for FILE_TO_TRASH in "${FILES_TO_TRASH[@]}"; do
+        POSIX_FILE=$(printf "POSIX file \"%s\"" "${FILE_TO_TRASH}")
+        if ! osascript -e "tell application \"Finder\" to delete { ${POSIX_FILE} }" > /dev/null; then
+            echo -e "${RED}Failed to delete ${FILE_TO_TRASH}${RESET}"
+            exit 1
+        else
+            echo -e "${GREEN}Successfully deleted ${FILE_TO_TRASH}${RESET}"    
+        fi
+    done
+fi
+
+echo
+
+echo "Attempting to run the brew cask uninstall process..."
+echo -e "\n${RED}Homebrew Cask name?${RESET}"
+read -r CASK
+if ! brew uninstall --zap --cask --force "${CASK}"; then
+    echo -e "${RED}Failed run the brew uninstall process for cask ${CASK}${RESET}"
+    exit 1
+else
+    echo -e "${GREEN}Successfully ran the brew uninstall process for cask ${CASK}"    
 fi
