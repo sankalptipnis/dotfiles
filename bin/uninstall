@@ -141,10 +141,10 @@ fi
 
 echo
 
-echo "Run the homebrew uninstall process (y or n)?"
+echo -e "\n${RED}Run the homebrew uninstall process (y or n)?${RESET}"
 read -r ANSWER
 if [[ "$ANSWER" == "y" ]]; then
-    echo -e "\n${RED}Enter the Homebrew Cask name:${RESET}"
+    echo -e "\nEnter the Homebrew Cask name:"
     read -r CASK
     if ! brew uninstall --zap --cask "${CASK}"; then
         echo -e "${RED}Failed to run the brew uninstall process for cask ${CASK}${RESET}"
