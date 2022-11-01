@@ -23,3 +23,6 @@ Package Control.ca-certs/
 # Karabiner
 karabiner/*
 !karabiner/karabiner.json
+
+# VSCode
+.vscode
