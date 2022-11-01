@@ -146,7 +146,7 @@ read -r ANSWER
 if [[ "$ANSWER" == "y" ]]; then
     echo -e "\nEnter the Homebrew Cask name:"
     read -r CASK
-    if ! brew uninstall --zap --cask "${CASK}"; then
+    if ! brew uninstall --zap --cask --force "${CASK}"; then
         echo -e "${RED}Failed to run the brew uninstall process for cask ${CASK}${RESET}"
         exit 1
     else
