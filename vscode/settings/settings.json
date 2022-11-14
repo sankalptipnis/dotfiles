@@ -37,10 +37,8 @@
     "remote.SSH.serverInstallPath": {
         "204": "/unix/atlastracking/stipnis",
         "211": "/unix/atlastracking/stipnis",
-        "215": "/unix/atlastracking/stipnis",
         "2042": "/unix/atlastracking/stipnis",
-        "2112": "/unix/atlastracking/stipnis",
-        "2152": "/unix/atlastracking/stipnis"
+        "2112": "/unix/atlastracking/stipnis"
     },
     "markdown.extension.math.enabled": false,
     "markdown-preview-enhanced.mathRenderingOption": "MathJax",
@@ -54,6 +52,5 @@
     "cmake.configureOnEdit": false,
     "gitlens.hovers.currentLine.over": "line",
     "gitlens.codeLens.enabled": false,
-    "vsicons.dontShowNewVersionMessage": true,
-    "material-icon-theme.showWelcomeMessage": false
+    "vsicons.dontShowNewVersionMessage": true
 }

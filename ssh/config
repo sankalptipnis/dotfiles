@@ -14,10 +14,6 @@ Host 211
 	HostName pc211.hep.ucl.ac.uk
   	ProxyJump hep1
 
-Host 215
-	HostName pc215.hep.ucl.ac.uk
-	ProxyJump hep1
-
 Host 2042
 	HostName pc204.hep.ucl.ac.uk
   	ProxyJump hep2
@@ -26,11 +22,7 @@ Host 2112
 	HostName pc211.hep.ucl.ac.uk
 	ProxyJump hep2
 
-Host 2152
-	HostName pc215.hep.ucl.ac.uk
-	ProxyJump hep2
-
-Host 204 211 215 2042 2112 2152
+Host 204 211 2042 2112
 	User stipnis
 	ForwardX11 yes
 	ForwardX11Trusted yes
