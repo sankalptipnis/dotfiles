@@ -25,9 +25,13 @@ alias dot="cd $DOTFILES_DIR"
 alias vdot="code $DOTFILES_DIR"
 alias notes="cd ~/Drive/Notes"
 
-# Conda environment activation
+# Conda shortcuts
 alias ca="conda activate"
 alias cda="conda deactivate"
+alias cup="conda update --name base conda mamba && mamba update --name base --name cern --all"
+
+# tlmgr update shortcut
+alias lup="sudo tlmgr update --self --all --reinstall-forcibly-removed"
 
 # Homebrew shortcuts
 alias buz="brew uninstall --zap --cask"
@@ -39,11 +43,11 @@ brew bundle check --verbose --no-upgrade --file=$DOTFILES_DIR/homebrew/Brewfile"
 
 # Git shortcuts
 alias gst="git status"
-alias gm="git merge"
-alias gf="git fetch"
+alias gmerge="git merge"
+alias gfetch="git fetch"
 alias gpull="git pull"
 alias gpush="git push"
-alias ga="git add"
+alias gadd="git add"
 alias gbr="git branch"
 alias gc="git commit -m"
 alias gd="git diff"
@@ -52,15 +56,15 @@ alias gco="git checkout"
 alias grestore="git restore"
 alias gunstage="git restore --staged"
 
-alias gl1="git log --graph --abbrev-commit --decorate --format=format:'%C(bold brightblue)%h%C(reset) - %C(bold brightgreen)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'"
-alias gl2="git log --graph --abbrev-commit --decorate --format=format:'%C(bold brightblue)%h%C(reset) - %C(bold brightcyan)%aD%C(reset) %C(bold brightgreen)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'"
-alias gl3="git log --graph --abbrev-commit --decorate --format=format:'%C(bold brightblue)%h%C(reset) - %C(bold brightcyan)%aD%C(reset) %C(bold brightgreen)(%ar)%C(reset) %C(white)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'"
-alias gl="gl1 -10"
+alias glog1="git log --graph --abbrev-commit --decorate --format=format:'%C(bold brightblue)%h%C(reset) - %C(bold brightgreen)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'"
+alias glog2="git log --graph --abbrev-commit --decorate --format=format:'%C(bold brightblue)%h%C(reset) - %C(bold brightcyan)%aD%C(reset) %C(bold brightgreen)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'"
+alias glog3="git log --graph --abbrev-commit --decorate --format=format:'%C(bold brightblue)%h%C(reset) - %C(bold brightcyan)%aD%C(reset) %C(bold brightgreen)(%ar)%C(reset) %C(white)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'"
+alias glog="gl1 -10"
 
-alias gh1="gl1 --all"
-alias gh2="gl2 --all"
-alias gh3="gl3 --all"
-alias gh="gl1 -10"
+alias ghist1="gl1 --all"
+alias ghist2="gl2 --all"
+alias ghist3="gl3 --all"
+alias ghist="gl1 -10"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
