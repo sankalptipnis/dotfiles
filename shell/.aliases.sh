@@ -59,12 +59,12 @@ alias gunstage="git restore --staged"
 alias glog1="git log --graph --abbrev-commit --decorate --format=format:'%C(bold brightblue)%h%C(reset) - %C(bold brightgreen)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(auto)%d%C(reset)'"
 alias glog2="git log --graph --abbrev-commit --decorate --format=format:'%C(bold brightblue)%h%C(reset) - %C(bold brightcyan)%aD%C(reset) %C(bold brightgreen)(%ar)%C(reset)%C(auto)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'"
 alias glog3="git log --graph --abbrev-commit --decorate --format=format:'%C(bold brightblue)%h%C(reset) - %C(bold brightcyan)%aD%C(reset) %C(bold brightgreen)(%ar)%C(reset) %C(white)(committed: %cD)%C(reset) %C(auto)%d%C(reset)%n''          %C(white)%s%C(reset)%n''          %C(dim white)- %an <%ae> %C(reset) %C(dim white)(committer: %cn <%ce>)%C(reset)'"
-alias glog="gl1 -10"
+alias glog="glog1 -10"
 
-alias ghist1="gl1 --all"
-alias ghist2="gl2 --all"
-alias ghist3="gl3 --all"
-alias ghist="gl1 -10"
+alias ghist1="glog1 --all"
+alias ghist2="glog2 --all"
+alias ghist3="glog3 --all"
+alias ghist="ghist1 -10"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
