@@ -105,7 +105,7 @@ case "$COMMAND_NAME" in
             --keep-monthly "$PRUNE_KEEP_MONTHLY" \
             --keep-yearly "$PRUNE_KEEP_YEARLY" \
             --keep-within "$PRUNE_KEEP_WITHIN" \
-            --prefix "$BACKUP_PREFIX" \
+            --glob-archives "$BACKUP_PREFIX*" \
             "$BORG_REPO"
         if [[ "$?" == "0" ]]; then
             echo -e "${GREEN}Done${RESET}"
