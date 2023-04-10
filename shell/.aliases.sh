@@ -37,6 +37,8 @@ alias lup="sudo tlmgr update --self --all --reinstall-forcibly-removed"
 alias buz="brew uninstall --zap --cask"
 alias bout="brew update; brew outdated"
 alias bup="brew update; brew upgrade; brew cleanup"
+alias bdeps="brew deps --tree"
+alias buses="brew uses --installed"
 alias bst="brew bundle cleanup --file=$DOTFILES_DIR/homebrew/Brewfile; echo; \
 brew autoremove --dry-run; echo; \
 brew bundle check --verbose --no-upgrade --file=$DOTFILES_DIR/homebrew/Brewfile"
