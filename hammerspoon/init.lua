@@ -366,8 +366,8 @@ local caffeinateForBackup = function(eventType)
 
         if math.abs(now_SecondsSinceEpoch - backupTime_SecondsSinceEpoch) < 2.5 * 60  then
             
-            logger.d("Attempting to caffeinate for 4 hours")
-            if os.execute("caffeinate -dis -t 14400 &") then
+            logger.d("Attempting to caffeinate for 2 hours")
+            if os.execute("caffeinate -dis -t 7200 &") then
                 logger.d("Caffeinate succeeded\n")
             else
                 logger.e("Caffeinate failed\n")
