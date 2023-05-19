@@ -17,6 +17,3 @@ export BASH_SILENCE_DEPRECATION_WARNING=1
 
 # Highligh Grep matches in bold bright red
 export GREP_COLORS='ms=01;91'
-
-# Set CONDA_BUILD_SYSROOT so that conda installed ROOT works
-export CONDA_BUILD_SYSROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/
