@@ -346,8 +346,8 @@ mamba-envs: mamba-install
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Creating the cern mamba/conda environemnt"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if is-executable -q mamba; then \
-		mamba create -y --name cern root numpy pandas matplotlib seaborn jupyter jupyterlab \
-		numba pytest pyyaml scikit-learn scipy \
+		mamba create -y --name cern python root numpy pandas matplotlib seaborn jupyter \
+		jupyterlab pytest pyyaml scikit-learn scipy \
 		&& echo-color yellow "  Success!" \
 		|| echo-color red "  Failed to create the cern mamba/conda environment"; \
 	else \
