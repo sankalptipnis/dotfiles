@@ -28,7 +28,7 @@ alias notes="cd ~/Drive/Notes"
 # Conda shortcuts
 alias ca="conda activate"
 alias cda="conda deactivate"
-alias cup="conda update --name base conda mamba && mamba update --name base --name cern --all"
+alias cup="conda update --yes --name base conda mamba && mamba update --yes --name base --name cern --all"
 
 # tlmgr update shortcut
 alias lup="sudo tlmgr update --self --all --reinstall-forcibly-removed"
