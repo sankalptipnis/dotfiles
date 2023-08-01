@@ -1,5 +1,4 @@
 # Taps
-tap 'homebrew/cask'
 tap 'homebrew/services'
 tap 'homebrew/cask-fonts'
 
@@ -122,6 +121,7 @@ brew 'tree'
 brew 'vim'
 brew 'watch'
 brew 'xplr'
+brew 'yt-dlp'
 brew 'yq'
 brew 'zoxide'
 
