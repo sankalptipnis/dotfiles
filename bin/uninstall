@@ -59,6 +59,9 @@ if [[ "${#PROCESSES[@]}" -gt 0 ]]; then
     fi
 fi
 
+echo -e "\n${RED}Be case insensitive when searching for files (y or n)?${RESET}"
+read -r CASE
+
 echo
 echo "Finding app data..."
 
@@ -109,32 +112,47 @@ LOCATIONS=(
 FILES_TO_TRASH=("$APP")
 
 for LOCATION in "${LOCATIONS[@]}"; do
-    mapfile -t -O "${#FILES_TO_TRASH[@]}" FILES_TO_TRASH < \
-    <(find "$LOCATION" -maxdepth 5 -iname "*$APP_NAME*" -prune 2>&1 | \
-    grep -v "No such file or directory" | \
-    grep -v "Operation not permitted" | \
-    grep -v "Permission denied")
-    
-    mapfile -t -O "${#FILES_TO_TRASH[@]}" FILES_TO_TRASH < \
-    <(find "$LOCATION" -maxdepth 5 -iname "*$BUNDLE_ID*" -prune 2>&1 | \
-    grep -v "No such file or directory" | \
-    grep -v "Operation not permitted" | \
-    grep -v "Permission denied")
+    if [[ "$CASE" == "y" ]]; then
+        mapfile -t -O "${#FILES_TO_TRASH[@]}" FILES_TO_TRASH < \
+        <(find "$LOCATION" -maxdepth 5 -iname "*$APP_NAME*" -prune 2>&1 | \
+        grep -v "No such file or directory" | \
+        grep -v "Operation not permitted" | \
+        grep -v "Permission denied")
+        
+        mapfile -t -O "${#FILES_TO_TRASH[@]}" FILES_TO_TRASH < \
+        <(find "$LOCATION" -maxdepth 5 -iname "*$BUNDLE_ID*" -prune 2>&1 | \
+        grep -v "No such file or directory" | \
+        grep -v "Operation not permitted" | \
+        grep -v "Permission denied")
+    else
+        mapfile -t -O "${#FILES_TO_TRASH[@]}" FILES_TO_TRASH < \
+        <(find "$LOCATION" -maxdepth 5 -name "*$APP_NAME*" -prune 2>&1 | \
+        grep -v "No such file or directory" | \
+        grep -v "Operation not permitted" | \
+        grep -v "Permission denied")
+        
+        mapfile -t -O "${#FILES_TO_TRASH[@]}" FILES_TO_TRASH < \
+        <(find "$LOCATION" -maxdepth 5 -name "*$BUNDLE_ID*" -prune 2>&1 | \
+        grep -v "No such file or directory" | \
+        grep -v "Operation not permitted" | \
+        grep -v "Permission denied")
+    fi
 done
 
-mapfile -t FILES_TO_TRASH < <(printf "%s\n" "${FILES_TO_TRASH[@]}" | sort -u)
+mapfile -t FILES_TO_TRASH < <(printf "%s\n" "${FILES_TO_TRASH[@]}" | sort -ru)
 printf ''"'%s'"'\n' "${FILES_TO_TRASH[@]}"
 echo -e "\n${RED}Move the above app data to trash (y or n)?${RESET}"
 read -r ANSWER
 if [[ "$ANSWER" == "y" ]]; then
     echo "Moving the above app data to trash..."
     for FILE_TO_TRASH in "${FILES_TO_TRASH[@]}"; do
-        POSIX_FILE=$(printf "POSIX file \"%s\"" "${FILE_TO_TRASH}")
-        if ! osascript -e "tell application \"Finder\" to delete { ${POSIX_FILE} }" > /dev/null; then
-            echo -e "${RED}Failed to delete ${FILE_TO_TRASH}${RESET}"
-            exit 1
-        else
-            echo -e "${GREEN}Successfully deleted ${FILE_TO_TRASH}${RESET}"    
+        if [[ -e "${FILE_TO_TRASH}" ]]; then
+            POSIX_FILE=$(printf "POSIX file \"%s\"" "${FILE_TO_TRASH}")
+            if ! osascript -e "tell application \"Finder\" to delete { ${POSIX_FILE} }" > /dev/null; then
+                echo -e "${RED}Failed to delete ${FILE_TO_TRASH}${RESET}"
+            else
+                echo -e "${GREEN}Successfully deleted ${FILE_TO_TRASH}${RESET}"    
+            fi
         fi
     done
 fi
