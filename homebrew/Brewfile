@@ -170,7 +170,6 @@ cask 'the-unarchiver'
 cask 'transmission'
 cask 'visual-studio-code'
 cask 'vorta'
-cask 'warp'
 cask 'xquartz'
 cask 'zoom'
 
