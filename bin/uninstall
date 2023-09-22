@@ -38,13 +38,25 @@ echo
 
 echo "Checking for running processes..."
 mapfile -t PROCESSES < <(pgrep -afil "$APP_NAME" | grep -v "$BIN_NAME")
-if [[ "${#PROCESSES[@]}" -gt 0 ]]; then
-    printf "%s\n" "${PROCESSES[@]}"
+
+DIALOG_ARGS=()
+for item in "${PROCESSES[@]}"; do
+    DIALOG_ARGS+=("$item" "" "on")
+done
+
+PROCESSES_TO_KILL=$(dialog --keep-tite --separate-output --checklist "Choose processes to kill:" 50 150 10 "${DIALOG_ARGS[@]}" 3>&1 1>&2 2>&3)
+
+mapfile -t PROCESSES_TO_KILL <<< "$PROCESSES_TO_KILL"
+
+if [[ -z "${PROCESSES_TO_KILL}" ]]; then
+    echo -e "${RED}No processes selected for killing!${RESET}"
+else
+    printf "%s\n" "${PROCESSES_TO_KILL[@]}"
     echo -e "\n${RED}Kill the above running processes (y or n)?${RESET}"
     read -r ANSWER
     if [[ "$ANSWER" == "y" ]]; then
-        echo "Killing the above running processes…"
-        for PROCESS in "${PROCESSES[@]}"; do
+        echo -e "\nKilling the above running processes…"
+        for PROCESS in "${PROCESSES_TO_KILL[@]}"; do
             PID="$(echo "$PROCESS" | awk '{print $1}')"
             if ps -p "$PID" > /dev/null; then
                 if sudo kill "$PID"; then
@@ -59,8 +71,14 @@ if [[ "${#PROCESSES[@]}" -gt 0 ]]; then
     fi
 fi
 
-echo -e "\n${RED}Be case insensitive when searching for files (y or n)?${RESET}"
+echo -e "\n${RED}Be case sensitive when searching for files (y or n)?${RESET}"
 read -r CASE
+
+if [[ "$CASE" == "y" ]]; then
+    FIND_ARG=name
+elif
+    FIND_ARG=iname
+fi
 
 echo
 echo "Finding app data..."
@@ -109,42 +127,43 @@ LOCATIONS=(
   "$(getconf DARWIN_USER_TEMP_DIR | sed "s/\/$//")"
 )
 
-FILES_TO_TRASH=("$APP")
+FILES=("$APP")
 
 for LOCATION in "${LOCATIONS[@]}"; do
-    if [[ "$CASE" == "y" ]]; then
-        mapfile -t -O "${#FILES_TO_TRASH[@]}" FILES_TO_TRASH < \
-        <(find "$LOCATION" -maxdepth 5 -iname "*$APP_NAME*" -prune 2>&1 | \
-        grep -v "No such file or directory" | \
-        grep -v "Operation not permitted" | \
-        grep -v "Permission denied")
-        
-        mapfile -t -O "${#FILES_TO_TRASH[@]}" FILES_TO_TRASH < \
-        <(find "$LOCATION" -maxdepth 5 -iname "*$BUNDLE_ID*" -prune 2>&1 | \
-        grep -v "No such file or directory" | \
-        grep -v "Operation not permitted" | \
-        grep -v "Permission denied")
-    else
-        mapfile -t -O "${#FILES_TO_TRASH[@]}" FILES_TO_TRASH < \
-        <(find "$LOCATION" -maxdepth 5 -name "*$APP_NAME*" -prune 2>&1 | \
-        grep -v "No such file or directory" | \
-        grep -v "Operation not permitted" | \
-        grep -v "Permission denied")
-        
-        mapfile -t -O "${#FILES_TO_TRASH[@]}" FILES_TO_TRASH < \
-        <(find "$LOCATION" -maxdepth 5 -name "*$BUNDLE_ID*" -prune 2>&1 | \
-        grep -v "No such file or directory" | \
-        grep -v "Operation not permitted" | \
-        grep -v "Permission denied")
-    fi
+    mapfile -t -O "${#FILES[@]}" FILES < \
+    <(find "$LOCATION" -maxdepth 5 -"$FIND_ARG" "*$APP_NAME*" -prune 2>&1 | \
+    grep -v "No such file or directory" | \
+    grep -v "Operation not permitted" | \
+    grep -v "Interrupted system call" | \
+    grep -v "Permission denied")
+    
+    mapfile -t -O "${#FILES[@]}" FILES < \
+    <(find "$LOCATION" -maxdepth 5 -"$FIND_ARG" "*$BUNDLE_ID*" -prune 2>&1 | \
+    grep -v "No such file or directory" | \
+    grep -v "Operation not permitted" | \
+    grep -v "Interrupted system call" | \
+    grep -v "Permission denied")
 done
 
-mapfile -t FILES_TO_TRASH < <(printf "%s\n" "${FILES_TO_TRASH[@]}" | sort -ru)
+mapfile -t FILES < <(printf "%s\n" "${FILES[@]}" | sort -ru)
+
+DIALOG_ARGS=()
+for item in "${FILES[@]}"; do
+    DIALOG_ARGS+=("$item" "" "on")
+done
+
+FILES_TO_TRASH=$(dialog --keep-tite --separate-output --checklist "Choose files to delete:" 50 150 10 "${DIALOG_ARGS[@]}" 3>&1 1>&2 2>&3)
+
+[[ -z "${FILES_TO_TRASH}" ]] && echo -e "${RED}No files selected for deletion!${RESET}" && exit 1
+
+mapfile -t FILES_TO_TRASH <<< "$FILES_TO_TRASH"
+
 printf ''"'%s'"'\n' "${FILES_TO_TRASH[@]}"
+
 echo -e "\n${RED}Move the above app data to trash (y or n)?${RESET}"
 read -r ANSWER
 if [[ "$ANSWER" == "y" ]]; then
-    echo "Moving the above app data to trash..."
+    echo -e "\nMoving the above app data to trash..."
     for FILE_TO_TRASH in "${FILES_TO_TRASH[@]}"; do
         if [[ -e "${FILE_TO_TRASH}" ]]; then
             POSIX_FILE=$(printf "POSIX file \"%s\"" "${FILE_TO_TRASH}")
