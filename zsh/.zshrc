@@ -53,7 +53,7 @@ h=("${(@f)$(cat ~/.ssh/config | grep "^Host" | grep -v "[?*]" | cut -d " " -f2- 
 zstyle ':completion:*:(ssh|scp|rsync):*' hosts $h
 
 # Initialize powerlevel10k
-_powerline_script="$HOMEBREW_PREFIX/opt/powerlevel10k/powerlevel10k.zsh-theme"
+_powerline_script="$HOMEBREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme"
 [[ -r "$_powerline_script" ]] && source "$_powerline_script"
 
 # Initialize auto suggestions
