@@ -76,7 +76,7 @@ read -r CASE
 
 if [[ "$CASE" == "y" ]]; then
     FIND_ARG=name
-elif
+else
     FIND_ARG=iname
 fi
 
