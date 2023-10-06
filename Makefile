@@ -323,26 +323,8 @@ ifndef DEBUG
 endif
 	@echo
 
-mamba-install:
-	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Installing mamba in the base conda environment"$(GREEN_ECHO_SUFFIX)
-ifndef DEBUG
-	if is-executable -q conda; then \
-		if ! conda list | grep -q ^mamba; then \
-			conda install -y mamba -n base -c conda-forge \
-			&& echo-color yellow "  Success!" \
-			|| echo-color red "  Failed to install mamba"; \
-		else \
-			echo-color yellow "  mamba is already installed"; \
-		fi; \
-	else \
-		echo-color red "  miniforge is not installed"; \
-	fi
-endif
-	@echo
-
 mamba-envs: CONDA_BIN := $(HOMEBREW_PREFIX)/Caskroom/miniforge/base/condabin
 mamba-envs: PATH := $(CONDA_BIN):$(PATH)
-mamba-envs: mamba-install
 	@echo -e $(GREEN_ECHO_PREFIX)"\[._.]/ Creating the cern mamba/conda environemnt"$(GREEN_ECHO_SUFFIX)
 ifndef DEBUG
 	if is-executable -q mamba; then \
