@@ -1,18 +1,26 @@
 #!/usr/bin/env bash
 
 # Activate cern conda environment and get kerberos ticket for lxplus access
+# function lxplus() {
+# 	if ! /usr/bin/klist -s; then
+# 		/usr/bin/kinit -kt ~/.ssh/keytab stipnis@CERN.CH
+# 	fi
+# 	ssh stipnis@lxplus.cern.ch \
+# 	-R 52698:localhost:52698 \
+# 	-L 8889:localhost:8889 \
+# 	-o ForwardX11Trusted=yes \
+# 	-o ForwardX11=yes \
+# 	-o GSSAPITrustDns=yes \
+# 	-o GSSAPIAuthentication=yes \
+# 	-o GSSAPIDelegateCredentials=yes
+# }
+
 function lxplus() {
-	if ! /usr/bin/klist -s; then
-		/usr/bin/kinit -kt ~/.ssh/keytab stipnis@CERN.CH
-	fi
 	ssh stipnis@lxplus.cern.ch \
 	-R 52698:localhost:52698 \
 	-L 8889:localhost:8889 \
 	-o ForwardX11Trusted=yes \
-	-o ForwardX11=yes \
-	-o GSSAPITrustDns=yes \
-	-o GSSAPIAuthentication=yes \
-	-o GSSAPIDelegateCredentials=yes
+	-o ForwardX11=yes
 }
 
 # Usage: pfdmerge output-file input-file-1 ... input-file-n
