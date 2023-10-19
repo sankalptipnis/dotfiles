@@ -16,7 +16,7 @@
 # }
 
 function lxplus() {
-	ssh stipnis@lxplus.cern.ch \
+	ssh stipnis@lxplus-gpu.cern.ch \
 	-R 52698:localhost:52698 \
 	-L 8889:localhost:8889 \
 	-o ForwardX11Trusted=yes \
