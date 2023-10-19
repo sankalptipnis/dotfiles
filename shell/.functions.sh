@@ -127,7 +127,11 @@ function o() {
 # `less` with options to preserve color and line numbers, unless the output is
 # small enough for one screen.
 function tre() {
-	tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX
+	if [[ "$1" == "-d" ]]; then
+		tree -aC -I '.git|node_modules|bower_components' -L "$2" --dirsfirst "${@:3}" | less -FRNX
+	else
+		tree -aC -I '.git|node_modules|bower_components' --dirsfirst "$@" | less -FRNX
+	fi
 }
 
 # Prepend dirictory (if it exists) to the PATH variable
