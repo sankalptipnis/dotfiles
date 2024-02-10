@@ -7,4 +7,5 @@
 	"color_scheme": "Packages/Monokai Extended/Monokai Extended.tmTheme",
 	"font_size": 15,
 	"update_check": true,
+	"index_files": true,
 }
