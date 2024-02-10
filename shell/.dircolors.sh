@@ -64,7 +64,8 @@ BLK 01;97;44 					# bd: block device driver
 CHR 01;97;44 					# cd: character device driver
 
 ORPHAN 01;97;41 				# or: symlink to nonexistent file, or non-stat'able file
-MISSING 01;97;41				# mi: non-existent file pointed to by a symbolic link
+# MISSING 01;97;41				# mi: non-existent file pointed to by a symbolic link
+MISSING 01;91			    	# mi: non-existent file pointed to by a symbolic link (also used in autocomplete for brew commands!)
 
 EXEC 01;92 						# ex: executable
 
