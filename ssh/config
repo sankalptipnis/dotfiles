@@ -6,6 +6,10 @@ Host hep2
 	HostName plus2.hep.ucl.ac.uk
 	User stipnis
 
+Host hyp1
+	HostName Hypatia-login.hpc.phys.ucl.ac.uk
+  	ProxyJump hep1
+
 Host 204
 	HostName pc204.hep.ucl.ac.uk
   	ProxyJump hep1
@@ -13,6 +17,10 @@ Host 204
 Host 211
 	HostName pc211.hep.ucl.ac.uk
   	ProxyJump hep1
+
+Host hyp2
+	HostName Hypatia-login.hpc.phys.ucl.ac.uk
+  	ProxyJump hep2
 
 Host 2042
 	HostName pc204.hep.ucl.ac.uk
@@ -22,7 +30,7 @@ Host 2112
 	HostName pc211.hep.ucl.ac.uk
 	ProxyJump hep2
 
-Host 204 211 2042 2112
+Host 204 211 2042 2112 hyp1 hyp2
 	User stipnis
 	ForwardX11 yes
 	ForwardX11Trusted yes
