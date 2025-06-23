@@ -14,6 +14,9 @@ alias rr="rm -rf"
 # Shortcut for colorful echo
 alias ec="echo-color"
 
+# Shortcut for gdu-go
+alias gfs="gdu-go"
+
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
 
