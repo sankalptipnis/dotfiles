@@ -323,6 +323,9 @@ hs.hotkey.bind(ultra, "k", function() killCaffeinate() end)
 --------------------------------------------
 -- Caffeinate for Borg backup
 --------------------------------------------
+
+-- this the the time the mac wakes up because of a pmset command
+-- the backup time set on vorta is usually 30 minutes after this
 local backupTimeStr = "0200"
 
 logger = hs.logger.new("Backup Log")

@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# set up borg according to the following guide to use this application:
+# https://github.com/sunknudsen/privacy-guides/blob/master/how-to-configure-borg-client-on-macos-using-command-line/README.md
+
+# in particular create a password (with name "borgbackup-repo") in macOS Keychain:
+# security add-generic-password -D secret -U -a $USER -s borgbackup-repo -w $(openssl rand -base64 24)
+
 BIN_NAME=$(basename "$0")
 COMMAND_NAME="$1"
 
