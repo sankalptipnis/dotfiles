@@ -1,4 +1,5 @@
 {
+    "global": { "check_for_updates_on_startup": false },
     "profiles": [
         {
             "complex_modifications": {
@@ -149,19 +150,6 @@
                         {
                             "from": { "key_code": "right_option" },
                             "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
-                        }
-                    ]
-                },
-                {
-                    "identifiers": {
-                        "is_keyboard": true,
-                        "product_id": 50490,
-                        "vendor_id": 1133
-                    },
-                    "simple_modifications": [
-                        {
-                            "from": { "pointing_button": "button4" },
-                            "to": [{ "key_code": "a" }]
                         }
                     ]
                 },
